@@ -5,7 +5,7 @@ dilp_processing <- function(specimen_data) {
   specimen_data$`Leaf area` <- specimen_data$`Blade area` + specimen_data$`Petiole area` # if petiole area was measured but there is a NA for blade area, this addition will appropriately return a NA for leaf area
 
   # Feret Diameter Ratio
-  specimen_data$`Feret diameter` <- 2 * sqrt(specimen_data$`Leaf area` / pi)
+  specimen_data$`Feret diameter` <- 2*sqrt(specimen_data$`Leaf area`/pi)
   specimen_data$FDR <- specimen_data$`Feret diameter` / specimen_data$Feret
 
   # Corrected perimeters
@@ -144,13 +144,13 @@ dilp_outliers <- function(specimen_data) {
 #'
 #' @description
 #' `dilp()`  processes raw leaf physiognomic data, checks for common
-#' errors/outliers, and then returns the processed data, and the DiLP
+#' errors/outliers, and then returns the processed data along wiht the DiLP
 #' paleoclimate reconstructions.
 #'
 #' @param specimen_data A data frame containing specimen level leaf physiognomic
-#' data. See \code{\link[data]{McAbeeExample}}
+#' data.
 #' @param params A list of parameters used for DiLP calculation.  Defaults to
-#' dilp_parameters, the parameters used in Peppe et al. 20
+#' dilp_parameters, the parameters used in Peppe et al. 2011
 #'
 #' @return A list of tables that includes all pertinent DiLP
 #' information:
@@ -165,11 +165,15 @@ dilp_outliers <- function(specimen_data) {
 #' * outliers: flags outliers in variables used for DiLP analysis that may
 #' represent incorrect data
 #' * results: climate reconstructions of MAT and MAP
+#'
+#' @seealso \code{\link[data]{McAbeeExample}} to see how the specimen_data should be
+#' ideally formatted.
+#'
 #' @export
 #'
 #' @examples
 #' results <- dilp(McAbeeExample)
-#' View(results$results)
+
 dilp <- function(specimen_data, params = dilp_parameters) {
   processed_specimen_data <- dilp_processing(specimen_data)
   errors <- dilp_errors(processed_specimen_data)

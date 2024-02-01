@@ -11,8 +11,16 @@ A data frame with 92 rows and 12 columns:
 \describe{
 \item{Site}{Locality name}
 \item{Leaf.area}{Average leaf area at site}
-\item{FDR}{Average Feret Diameter Ratio}
-\item{Perimeter.ratio}{Average ratio between toothed and untoothed perimeter}
+\item{FDR}{Feret diameter:Feret length. Describes leaf linearity compared to a circle}
+\item{Perimeter.ratio}{Ratio - Raw blade perimeter:Internal raw blade perimeter}
+\item{TC.P}{Ratio - Tooth count:Perimeter}
+\item{TC.IP}{Ratio - Tooth count:Internal perimeter}
+\item{Avg.TA}{Average area of a primary tooth}
+\item{TA.BA}{Ratio - Tooth area:Blade area}
+\item{TA.P}{Ratio - Tooth area:Perimeter}
+\item{TA.IP}{Ratio - Tooth area:Internal perimeter}
+\item{TC.BA}{Ratio - Tooth count:Blade area}
+\item{Margin}{Percentage of untoothed species at the site}
 }
 }
 }

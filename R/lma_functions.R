@@ -1,3 +1,55 @@
+#' Generate leaf mass per area results
+#'
+#' @description
+#' `calc_lma()` will typically only be called internally by [lma()]. It provides
+#' the flexibility to use custom regression parameters to calculate leaf mass
+#' per area (LMA).
+#'
+#' @param data Must include "petiole metric" or some combination of columns to
+#' calculate petiole metric such as "Blade Area", "Petiole Area", and "Petiole Width",
+#' or "Leaf Area" and "Petiole Width".  If calculating morphospecies-mean LMA
+#' must include "Site" and "Morphotype" columns. If calculating species-mean LMA
+#' must include a "Site' column.
+#' @param params A list of regression parameters. Must contain "stat",
+#' "regression_slope", "y_intercept", "unexplained_mean_square", "sample_size_calibration"
+#' "mean_log_petiole_metric_calibration", "sum_of_squares_calibration", and "critical_value".
+#'
+#' royer_species_mean_ma, royer_site_mean_ma, lowe_site_mean_ma, and
+#' lowe_site_variance_ma are pre-loaded lists of parameters.
+#'
+#' @param resolution Either "species" or "site".  Informs whether the function
+#' should calculate morphospecies-mean LMA values ("species") or site-mean/site-
+#' variance LMA values ("site").  If resolution = "site", data must already be
+#' in the form of species-mean LMA.
+#'
+#' @return A table with LMA results
+#' @export
+#'
+#' @examples
+#' #Calculate morphospecies-mean LMA values with the parameters from Royer et al. (2007)
+#' results <-  calc_lma(McAbeeExample,
+#'                      params = list(stat = "mean",
+#'                                    regression_slope = 0.382,
+#'                                    y_intercept = 3.070,
+#'                                    unexplained_mean_square = 0.032237,
+#'                                    sample_size_calibration = 667,
+#'                                    mean_log_petiole_metric_calibration = -3.011,
+#'                                    sum_of_squares_calibration = 182.1,
+#'                                    critical_value = 1.964),
+#'                       resolution = "species")
+#'
+#' #Calculate site-mean LMA values with the parameters from Lowe et al. (2024)
+#' site_results <- calc_lma(results,
+#'                          params = list(stat = "mean",
+#'                                        regression_slope = 0.345,
+#'                                        y_intercept = 2.954,
+#'                                        unexplained_mean_square = 0.01212861,
+#'                                        sample_size_calibration = 70,
+#'                                        mean_log_petiole_metric_calibration = -2.902972,
+#'                                        sum_of_squares_calibration = 1.154691,
+#'                                        critical_value = 1.995469),
+#'                          resolution = "site")
+#'
 calc_lma <- function(data, params, resolution = "species") {
   if ("petiole metric" %in% colnames(data)) {
     data <- dplyr::filter(data, data$`petiole metric` > 0)
@@ -76,6 +128,32 @@ calc_lma <- function(data, params, resolution = "species") {
   }
 }
 
+#' Generate a suite of leaf mass per area results
+#'
+#' @description
+#' `lma()` takes either raw or processed leaf physiognomic data and returns
+#' leaf mass per area (LMA) reconstructions of species-mean, site-mean, and site-
+#' variance.
+#'
+#' `lma()` essentially calls [calc_lma()] multiple times with different sets of
+#' parameters.  See [calc_lma()] for more control over LMA reconstructions.
+#'
+#' @param specimen_data A table that must include "Site", "Morphotype", and
+#' either "Petiole Metric", or "Blade Area", "Petiole Area", and "Petiole Width".
+#'
+#' @return A list of tables containing leaf mass per area reconstructions.
+#' * species_mean_lma contains the average LMA for each morphospecies-site pair.
+#' Values calculated using the regression from Royer et al. (2007).
+#' * royer_site_mean_lma contains the average LMA for each site. Values calculated
+#' using the regression from Royer et al. (2007)
+#' * lowe_site_lma contains the average LMA for each site. Values calculated using
+#' the regression from Lowe et al. (2024)
+#' * lowe_variance contains the variance in LMA for each site. Values calculated
+#' using the regression from Lowe et al. (2024)
+#' @export
+#'
+#' @examples
+#' results <- lma(McAbeeExample)
 lma <- function(specimen_data) {
   species_lma <- calc_lma(specimen_data, params = royer_species_mean_ma, resolution = "species")
   royer_site_lma <- calc_lma(species_lma, params = royer_site_mean_ma, resolution = "site")

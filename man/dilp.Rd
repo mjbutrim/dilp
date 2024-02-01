@@ -8,10 +8,10 @@ dilp(specimen_data, params = dilp_parameters)
 }
 \arguments{
 \item{specimen_data}{A data frame containing specimen level leaf physiognomic
-data. See \code{\link[data]{McAbeeExample}}}
+data.}
 
 \item{params}{A list of parameters used for DiLP calculation.  Defaults to
-dilp_parameters, the parameters used in Peppe et al. 20}
+dilp_parameters, the parameters used in Peppe et al. 2011}
 }
 \value{
 A list of tables that includes all pertinent DiLP
@@ -31,10 +31,13 @@ represent incorrect data
 }
 \description{
 \code{dilp()}  processes raw leaf physiognomic data, checks for common
-errors/outliers, and then returns the processed data, and the DiLP
+errors/outliers, and then returns the processed data along wiht the DiLP
 paleoclimate reconstructions.
 }
 \examples{
 results <- dilp(McAbeeExample)
-View(results$results)
+}
+\seealso{
+\code{\link[data]{McAbeeExample}} to see how the specimen_data should be
+ideally formatted.
 }

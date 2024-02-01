@@ -1,11 +1,13 @@
 # Make it so that you can have either raw data or a `dilp()` results table for the dilp_table parameter?
-#' Plot site physiognomy over the physiognomic range covered by the calibration data
+#' Test if site leaf physiognomy falls within the physiognomic space of the DiLP calibration dataset
 #'
-#' `dilp_cca` plots a canonical correspondence ordination of the leaf physiognomic
-#' data used in the calibration dataset of Peppe et al. (2011).  Fossil sites
-#' are superimposed on the cca.
+#' `dilp_cca` plots a canonical correspondence analysis (CCA) ordination of the leaf
+#' physiognomic space represented in the calibration dataset of Peppe et al. (2011).
+#' The fossil sites being tested are placed along the CCA axes.  If a fossil site
+#' falls outside of the plotted calibration space, paleoclimate reconstructions
+#' for that fossil site should be treated with caution.
 #'
-#' @param dilp_table The results of a call to `dilp()`
+#' @param dilp_table The results of a call to [dilp()]
 #' @param physiognomy_calibration A physiognomic calibration dataset. Defaults to
 #' \code{\link[data]{physiognomyCalibration}}, the calibration dataset used by Peppe
 #' et al. (2011)

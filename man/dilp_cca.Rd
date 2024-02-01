@@ -2,7 +2,7 @@
 % Please edit documentation in R/dilp_cca.R
 \name{dilp_cca}
 \alias{dilp_cca}
-\title{Plot site physiognomy over the physiognomic range covered by the calibration data}
+\title{Test if site leaf physiognomy falls within the physiognomic space of the DiLP calibration dataset}
 \usage{
 dilp_cca(
   dilp_table,
@@ -11,7 +11,7 @@ dilp_cca(
 )
 }
 \arguments{
-\item{dilp_table}{The results of a call to \code{dilp()}}
+\item{dilp_table}{The results of a call to \code{\link[=dilp]{dilp()}}}
 
 \item{physiognomy_calibration}{A physiognomic calibration dataset. Defaults to
 \code{\link[data]{physiognomyCalibration}}, the calibration dataset used by Peppe
@@ -25,9 +25,11 @@ et al. (2011)}
 A ggplot2 plot
 }
 \description{
-\code{dilp_cca} plots a canonical correspondence ordination of the leaf physiognomic
-data used in the calibration dataset of Peppe et al. (2011).  Fossil sites
-are superimposed on the cca.
+\code{dilp_cca} plots a canonical correspondence analysis (CCA) ordination of the leaf
+physiognomic space represented in the calibration dataset of Peppe et al. (2011).
+The fossil sites being tested are placed along the CCA axes.  If a fossil site
+falls outside of the plotted calibration space, paleoclimate reconstructions
+for that fossil site should be treated with caution.
 }
 \examples{
 results <- dilp(McAbeeExample)

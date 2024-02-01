@@ -1,17 +1,30 @@
 #' McAbee Example Data
 #'
 #' Leaf physiognomic data taken from specimens collected at the McAbee
-#' locality in Canada somewhere by Alex at some point
+#' locality in Canada somewhere by Alex at some point.  See Lowe et al. (2024)
+#' for a description of how to collect this data.
 #'
 #' @format ## `McAbeeExample`
 #' A data frame with 192 rows and 18 columns:
 #' \describe{
-#'   \item{Site}{Stratigraphic layer}
-#'   \item{Specimen Number}{Repository number for individual fossils}
+#'   \item{Site}{Stratigraphic layer or locality}
+#'   \item{Specimen Number}{Repository number for individual specimen}
 #'   \item{Morphotype}{Morphotype the specimen belongs to}
-#'   \item{Measurer comments}{Any comments about the specimen}
-#'   \item{Margin}{Whether the margin is toothed}
-#'   \item{Petiole Width}{The width of the petiole at the basalmost point of insertion (cm)}
+#'   \item{Measurer comments}{Any additional notes about the specimen or its measurements}
+#'   \item{Margin}{Whether the margin is toothed (0) or entire (1)}
+#'   \item{Petiole Width}{The width of the petiole at the basalmost point of insertion into the leaf lamina (cm)}
+#'   \item{Blade area}{The reconstructed area of the leaf lamina, not including the petiole}
+#'   \item{Blade perimeter}{The length of the perimeter of the leaf lamina, not including the petiole}
+#'   \item{Feret}{The diameter of a circle with the same area as the leaf lamina, not including the petiole}
+#'   \item{Minimum Feret}{The longest line that can be drawn between two points on the perimeter of a selection that is perpendicular to Feret length.  Approximates blade width.}
+#'   \item{Raw blade area}{The area of a leaf prepared for tooth measurements that still has its teeth.}
+#'   \item{Raw blade perimeter}{The perimeter of a leaf prepared for tooth measurements that still has its teeth.}
+#'   \item{Internal raw blade area}{The area of a leaf prepared for tooth measurements with teeth digitally removed.}
+#'   \item{Internal raw blade perimeter}{The perimeter of a leaf prepared for tooth measurements with teeth digitally removed.}
+#'   \item{Length of cut perimeter}{The total length of all segments of leaf removed from the leaf blade while removing damage during preparation of the leaf.}
+#'   \item{no. of primary teeth}{The number of primary teeth along the undamaged perimeter}
+#'   \item{no. of secondary teeth}{The number of secondary teeth along the undamaged perimeter}
+#'
 #' }
 #' @source Lowe et al. 2018
 "McAbeeExample"
@@ -39,13 +52,22 @@
 #' \describe{
 #'   \item{Site}{Locality name}
 #'   \item{Leaf.area}{Average leaf area at site}
-#'   \item{FDR}{Average Feret Diameter Ratio}
-#'   \item{Perimeter.ratio}{Average ratio between toothed and untoothed perimeter}
+#'   \item{FDR}{Feret diameter:Feret length. Describes leaf linearity compared to a circle}
+#'   \item{Perimeter.ratio}{Ratio - Raw blade perimeter:Internal raw blade perimeter}
+#'   \item{TC.P}{Ratio - Tooth count:Perimeter}
+#'   \item{TC.IP}{Ratio - Tooth count:Internal perimeter}
+#'   \item{Avg.TA}{Average area of a primary tooth}
+#'   \item{TA.BA}{Ratio - Tooth area:Blade area}
+#'   \item{TA.P}{Ratio - Tooth area:Perimeter}
+#'   \item{TA.IP}{Ratio - Tooth area:Internal perimeter}
+#'   \item{TC.BA}{Ratio - Tooth count:Blade area}
+#'   \item{Margin}{Percentage of untoothed species at the site}
 #' }
 #' @source Peppe et al. 2011
 "physiognomyCalibration"
 
 # Different sets of parameters for leaf mass per area reconstruction , used in lma_functions
+
 royer_species_mean_ma <- list(
   stat = "mean",
   regression_slope = 0.382,
@@ -56,6 +78,8 @@ royer_species_mean_ma <- list(
   sum_of_squares_calibration = 182.1,
   critical_value = 1.964
 )
+
+#' Site-mean (Royer) LMA parameters
 
 royer_site_mean_ma <- list(
   stat = "mean",
@@ -78,6 +102,7 @@ lowe_site_mean_ma <- list(
   sum_of_squares_calibration = 1.154691,
   critical_value = 1.995469
 )
+
 
 lowe_site_variance_ma <- list(
   stat = "variance",
