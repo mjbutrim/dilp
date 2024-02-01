@@ -2,31 +2,32 @@ Package: dilp
 Title: Reconstruct Paleoclimate and Paleoecology With Leaf Physiognomy
 Version: 0.0.0.9000
 Authors@R: c(
-    person("Matthew", "Butrim", email = "mbutrim@uwyo.edu", role = c("aut", "cre"), 
-    comment = c(ORCID = "0000-0002-7869-380X")),
+    person("Matthew", "Butrim", , "mbutrim@uwyo.edu", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-7869-380X")),
     person("Alexander", "Lowe", role = "aut"),
     person("Andrew", "Flynn", role = "aut"),
     person("Aly", "Baumgartner", role = "aut"),
     person("Daniel", "Peppe", role = "aut"),
     person("Dana", "Royer", role = "aut")
-    )
+  )
 Description: Use leaf physiognomic methods to reconstruct mean annual
     temperature (MAT), mean annual precipitation (MAP), and leaf dry mass
     per area (Ma).
 License: MIT + file LICENSE
-Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
-Depends: 
-    R (>= 2.10)
-LazyData: true
 URL: https://github.com/mjbutrim/dilp
 BugReports: https://github.com/mjbutrim/dilp/issues
+Depends: 
+    R (>= 2.10)
 Imports: 
     dplyr,
     ggplot2,
     ggrepel,
     grDevices,
     magrittr,
+    stats,
     tidyr,
     vegan
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
