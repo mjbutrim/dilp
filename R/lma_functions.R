@@ -7,15 +7,15 @@
 #'
 #' @param data Must include "petiole metric" or some combination of columns to
 #' calculate petiole metric such as "Blade Area", "Petiole Area", and "Petiole Width",
-#' or "Leaf Area" and "Petiole Width".  If calculating morphospecies-mean LMA
-#' must include "Site" and "Morphotype" columns. If calculating species-mean LMA
+#' or "Leaf Area" and "Petiole Width".  If calculating morphospecies-mean LMA,
+#' must include "Site" and "Morphotype" columns. If calculating species-mean LMA,
 #' must include a "Site' column.
 #' @param params A list of regression parameters. Must contain "stat",
 #' "regression_slope", "y_intercept", "unexplained_mean_square", "sample_size_calibration"
 #' "mean_log_petiole_metric_calibration", "sum_of_squares_calibration", and "critical_value".
 #'
-#' royer_species_mean_ma, royer_site_mean_ma, lowe_site_mean_ma, and
-#' lowe_site_variance_ma are pre-loaded lists of parameters.
+#' [royer_species_mean_ma], [royer_site_mean_ma], [lowe_site_mean_ma], and
+#' [lowe_site_variance_ma] are pre-loaded lists of parameters.
 #'
 #' @param resolution Either "species" or "site".  Informs whether the function
 #' should calculate morphospecies-mean LMA values ("species") or site-mean/site-
@@ -53,11 +53,18 @@
 calc_lma <- function(data, params, resolution = "species") {
   if ("petiole metric" %in% colnames(data)) {
     data <- dplyr::filter(data, data$`petiole metric` > 0)
-  } else {
+    data$Site <- data$Site
+    data$Morphotype <- data$Morphotype
+  } else if("Leaf area" %in% colnames(data) & "Petiole width" %in% colnames(data)){
+    data$`petiole metric` <- (data$`Petiole width`^2) / data$`Leaf area`
+    data <- dplyr::filter(data, data$`petiole metric` > 0)
+  } else if("Blade area" %in% colnames(data) & "Petiole width" %in% colnames(data)) {
     data$`Petiole area` <- ifelse(data$`Blade area` > 0 & is.na(data$`Petiole area`), 0, data$`Petiole area`)
     data$`Leaf area` <- data$`Blade area` + data$`Petiole area`
     data$`petiole metric` <- (data$`Petiole width`^2) / data$`Leaf area`
     data <- dplyr::filter(data, data$`petiole metric` > 0)
+  } else{
+    stop('Parameters for calculating LMA not present: Requires either "petiole metric", "Leaf area" and "Petiole width", or "Blade area", "Petiole area" and "Petiole width".' )
   }
 
   if (params$stat == "mean") {
@@ -69,13 +76,13 @@ calc_lma <- function(data, params, resolution = "species") {
       return(stats::var(x))
     }
   } else {
-    stop("Params$stat is invalid")
+    stop('Params$stat is invalid. Must be either "variance" or "mean"')
   }
 
   if (resolution == "species") {
     species_site_combos <- data %>%
-      dplyr::group_by(Site) %>%
-      dplyr::distinct(Morphotype) %>%
+      dplyr::group_by(.data$Site) %>%
+      dplyr::distinct(.data$Morphotype) %>%
       dplyr::ungroup() %>%
       cbind("n" = NA, "petiole metric" = NA, "lower" = NA, "value" = NA, "upper" = NA)
 
@@ -102,7 +109,7 @@ calc_lma <- function(data, params, resolution = "species") {
     return(species_site_combos)
   } else if (resolution == "site") {
     sites <- data %>%
-      dplyr::distinct(Site) %>%
+      dplyr::distinct(.data$Site) %>%
       cbind("n" = NA, "lower" = NA, "value" = NA, "upper" = NA)
 
     for (i in 1:nrow(sites)) {
@@ -150,10 +157,15 @@ calc_lma <- function(data, params, resolution = "species") {
 #' the regression from Lowe et al. (2024)
 #' * lowe_variance contains the variance in LMA for each site. Values calculated
 #' using the regression from Lowe et al. (2024)
+#' @references
+#' * Royer, D. L., L. Sack, P. Wilf, C. H. Lusk, G. J. Jordan, Ulo Niinemets, I. J. Wright, et al. 2007. Fossil Leaf Economics Quantified: Calibration, Eocene Case Study, and Implications. Paleobiology 33: 574–589
+#' * Lowe, A. J., D. L. Royer, D. J. Wieczynski, M. J. Butrim, T. Reichgelt, L. Azevedo-Schmidt, D. J. Peppe, et al. 2024. Global patterns in community-scale leaf mass per area distributions of woody non-monocot angiosperms and their utility in the fossil record. In review.
+#'
 #' @export
 #'
 #' @examples
 #' results <- lma(McAbeeExample)
+#' results
 lma <- function(specimen_data) {
   species_lma <- calc_lma(specimen_data, params = royer_species_mean_ma, resolution = "species")
   royer_site_lma <- calc_lma(species_lma, params = royer_site_mean_ma, resolution = "site")

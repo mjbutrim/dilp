@@ -33,4 +33,11 @@ parameters.  See \code{\link[=calc_lma]{calc_lma()}} for more control over LMA r
 }
 \examples{
 results <- lma(McAbeeExample)
+results
+}
+\references{
+\itemize{
+\item Royer, D. L., L. Sack, P. Wilf, C. H. Lusk, G. J. Jordan, Ulo Niinemets, I. J. Wright, et al. 2007. Fossil Leaf Economics Quantified: Calibration, Eocene Case Study, and Implications. Paleobiology 33: 574–589
+\item Lowe, A. J., D. L. Royer, D. J. Wieczynski, M. J. Butrim, T. Reichgelt, L. Azevedo-Schmidt, D. J. Peppe, et al. 2024. Global patterns in community-scale leaf mass per area distributions of woody non-monocot angiosperms and their utility in the fossil record. In review.
+}
 }

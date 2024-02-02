@@ -1,3 +1,39 @@
+#' Process raw leaf physiognomic data
+#'
+#' @description
+#' `dilp_processing()` will typically only be called internally by `dilp()`.
+#' However, it can be used on its own to generate and view a processed DiLP
+#' dataset that includes raw and derived physiognomic values useful for DiLP and
+#' other physiognomic analyses.  Returns a data frame.
+#'
+#' @param specimen_data A data frame containing specimen level leaf physiognomic
+#' data. For example: \code{\link{McAbeeExample}}
+#' @return A data frame containing cleaned and processed specimen level leaf
+#' physiognomic data.  New variables calculated are:
+#' * Leaf area
+#' * Feret diameter
+#' * Feret diameter ratio (FDR)
+#' * Raw blade perimeter corrected (Raw blade perimeter - length of cut perimeter)
+#' * Internal raw blade perimeter corrected (Internal raw blade perimeter - length of cut perimeter)
+#' * Total tooth count
+#' * Total tooth count : internal perimeter (TC:IP)
+#' * Perimeter ratio
+#' * Petiole metric
+#' * Aspect ratio
+#' * Shape factor
+#' * Compactnes
+#' * Tooth area
+#' * Tooth area : perimeter (TA:P)
+#' * Tooth area: internal perimeter (TA:IP)
+#' * Tooth area : blade area (TA:BA)
+#' * Average primary tooth area (Avg TA)
+#' * Tooth count : blade area (TC:BA)
+#' * Tooth count : perimeter (TC:P)
+#' @export
+#'
+#' @examples
+#' dilp_dataset <- dilp_processing(McAbeeExample)
+#' dilp_dataset
 dilp_processing <- function(specimen_data) {
   ## For specimens where blade area was measured, but there is an NA for petiole area, convert NA to 0 to permit the subsequent addition
   specimen_data$`Petiole area` <- ifelse(specimen_data$`Blade area` > 0 & is.na(specimen_data$`Petiole area`), 0, specimen_data$`Petiole area`)
@@ -54,13 +90,34 @@ dilp_processing <- function(specimen_data) {
   return(specimen_data)
 }
 
+#' Check for common errors in DiLP measurements
+#'
+#' @description
+#' `dilp_errors()` will typically only be called internally by [dilp()].
+#' However, it can be used on its own to evaluate errors that commonly occur
+#' during the data collection and processing steps.  A `dilp_errors()` call
+#' will nearly always follow a [dilp_processing()] call.  Returns a data frame.
+#'
+#' @param specimen_data Processed specimen level leaf physiognomic data.  The
+#' structure should match the structure of the output from [dilp_processing()]
+#'
+#' @return A 7 x 3 data frame.  Each row shows a common error, and if/where it
+#' can be found in the input dataset.
+#' @export
+#'
+#' @examples
+#' #Check for errors in the provided \code{\link{McAbeeExample}} dataset.
+#' dilp_dataset <- dilp_processing(McAbeeExample)
+#' dilp_errors <- dilp_errors(dilp_dataset)
+#' dilp_errors
 dilp_errors <- function(specimen_data) {
   ### This data frame will be filled with the results of the following error checks
   errors <- data.frame()
 
   # 1. Check that untoothed leaves have NA for toothed variables, rather than 0 (excluding no. of secondary teeth, which is purposely set to 0)
 
-  dilp.check.1 <- subset(specimen_data, Margin == 1) # Inspect values visually
+  dilp.check.1 <- specimen_data %>%
+    dplyr::filter(.data$Margin == 1)
 
   if (length(which(dilp.check.1$`Total tooth count` > -1)) == 0) {
     e1 <- "none"
@@ -83,7 +140,7 @@ dilp_errors <- function(specimen_data) {
 
   # 2. Check that FDR is greater is between 0 and 1 for all leaves
 
-  dilp.check.2 <- tidyr::drop_na(specimen_data, FDR)
+  dilp.check.2 <- tidyr::drop_na(specimen_data, "FDR")
   if (length(which(dilp.check.2$FDR < 0 | dilp.check.2$FDR > 1)) == 0) {
     e4 <- "none"
   } else {
@@ -120,6 +177,30 @@ dilp_errors <- function(specimen_data) {
   return(errors)
 }
 
+#' Identify outlier specimens
+#'
+#' @description
+#' `dilp_outliers()` will typically only be called internally by [dilp()].
+#' However, it can be used on its own to locate specimens that may have been
+#' misreported or measured incorrectly.  `dilp_outliers()` returns a data frame
+#' listing specimens that have unusually high or low values for the four key
+#' parameters used in DiLP analyses.  It may be worth taking a look at the
+#' raw measurements and evaluating if the specimen should be used.
+#'
+#'
+#' @param specimen_data Processed specimen level leaf physiognomic data.  The
+#' structure should match the structure of the output from [dilp_processing()]
+#'
+#' @return A 4 x 5 data frame. Each row represents one of the DiLP parameters,
+#' and the row numbers of outlier specimens.
+#' @export
+#'
+#' @examples
+#' #Check for outliers in the provided \code{\link{McAbeeExample}} dataset. Each
+#' #of these outliers has been manually re-examined and was found acceptable.
+#' dilp_dataset <- dilp_processing(McAbeeExample)
+#' dilp_outliers <- dilp_outliers(dilp_dataset)
+#' dilp_outliers
 dilp_outliers <- function(specimen_data) {
   vars <- c("FDR", "TC IP", "Leaf area", "Perimeter ratio") # DiLP variables
   outliers <- data.frame()
@@ -143,36 +224,41 @@ dilp_outliers <- function(specimen_data) {
 #' Generate DiLP results
 #'
 #' @description
-#' `dilp()`  processes raw leaf physiognomic data, checks for common
-#' errors/outliers, and then returns the processed data along wiht the DiLP
-#' paleoclimate reconstructions.
+#' `dilp()` processes raw leaf physiognomic data, checks for common
+#' errors/outliers, and returns the processed data, keys to find any revealed
+#' errors or outliers, and paleoclimate reconstructions.
 #'
 #' @param specimen_data A data frame containing specimen level leaf physiognomic
-#' data.
+#' data.For example: \code{\link{McAbeeExample}}
 #' @param params A list of parameters used for DiLP calculation.  Defaults to
-#' dilp_parameters, the parameters used in Peppe et al. 2011
+#' \code{\link{dilp_parameters}}.
 #'
 #' @return A list of tables that includes all pertinent DiLP
 #' information:
 #'
 #' * processed_leaf_data: the full set of cleaned and newly calculated leaf
-#' physiognomic data that is necessary for DiLP analysis.
+#' physiognomic data that is necessary for DiLP analysis. See [dilp_processing()]
+#' for more information.
 #' * processed_morphotype_data: morphospecies-site pair means for all leaf
-#' physiognomic data
-#' * processed_site_data: site means for all leaf physiognomic data
+#' physiognomic data.
+#' * processed_site_data: site means for all leaf physiognomic data.
 #' * errors: lists any specimens that may be causing common errors in DiLP
-#' calculations
+#' calculations. See [dilp_errors()] for more information.
 #' * outliers: flags outliers in variables used for DiLP analysis that may
-#' represent incorrect data
-#' * results: climate reconstructions of MAT and MAP
-#'
-#' @seealso \code{\link[data]{McAbeeExample}} to see how the specimen_data should be
-#' ideally formatted.
+#' represent incorrect data.  See [dilp_outliers()] for more information.
+#' * results: climate reconstructions of MAT and MAP using single and multi-linear
+#' regressions.
 #'
 #' @export
 #'
 #' @examples
-#' results <- dilp(McAbeeExample)
+#' dilp_results <- dilp(McAbeeExample)
+#' dilp_results$processed_leaf_data
+#' dilp_results$processed_morphotype_data
+#' dilp_results$processed_site_data
+#' dilp_results$errors
+#' dilp_results$outliers
+#' dilp_results$results
 
 dilp <- function(specimen_data, params = dilp_parameters) {
   processed_specimen_data <- dilp_processing(specimen_data)
@@ -182,7 +268,7 @@ dilp <- function(specimen_data, params = dilp_parameters) {
   ####### Morphotype average by site
   dilp_morphotype <- processed_specimen_data %>%
     dplyr::select(-c("Specimen Number", "Measurer comments")) %>%
-    dplyr::group_by(Site, Morphotype) %>%
+    dplyr::group_by(.data$Site, .data$Morphotype) %>%
     dplyr::summarise_all(mean, na.rm = TRUE)
 
   ##### Morphotypes that have variable leaf margin states require a margin state of 0.5
@@ -197,7 +283,7 @@ dilp <- function(specimen_data, params = dilp_parameters) {
 
   ####### Site average
   dilp_site <- dilp_morphotype %>%
-    dplyr::group_by(Site) %>%
+    dplyr::group_by(.data$Site) %>%
     dplyr::select(-"Morphotype") %>%
     dplyr::summarise_all(mean, na.rm = TRUE)
 

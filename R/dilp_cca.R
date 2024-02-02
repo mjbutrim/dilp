@@ -8,11 +8,10 @@
 #' for that fossil site should be treated with caution.
 #'
 #' @param dilp_table The results of a call to [dilp()]
-#' @param physiognomy_calibration A physiognomic calibration dataset. Defaults to
-#' \code{\link[data]{physiognomyCalibration}}, the calibration dataset used by Peppe
-#' et al. (2011)
-#' @param climate_calibration A climate calibration dataset. Defaults to
-#' \code{\link[data]{climateCalibration}}, the calibration dataset used by Peppe
+#' @param physiognomy_calibration A physiognomic calibration dataset. Defaults to an internal version of
+#' \code{\link{physiognomy_calibration_data}}.
+#' @param climate_calibration A climate calibration dataset. Defaults to an internal version of
+#' \code{\link{climate_calibration_data}}.
 #' et al. (2011)
 #'
 #' @return A ggplot2 plot
@@ -23,18 +22,21 @@
 #' dilp_cca(results)
 #'
 dilp_cca <- function(dilp_table, physiognomy_calibration = physiognomyCalibration, climate_calibration = climateCalibration) {
+
   # sort by alphabetical order, to ensure sites line up between this and the climate dataframe
   physiognomy_calibration <- physiognomy_calibration[order(physiognomy_calibration$Site), ]
   colnames(physiognomy_calibration) <- gsub("\\.", " ", colnames(physiognomy_calibration))
 
   # remove the site column
-  cca_leaf <- subset(physiognomy_calibration, select = -c(Site))
+  cca_leaf <- physiognomy_calibration %>%
+    dplyr::select(-"Site")
 
   # sort by alphabetical order, to ensure sites line up between this and the leaf trait dataframe
   climate_calibration <- climate_calibration[order(climate_calibration$Site), ]
 
   # remove the site column
-  cca_climate <- subset(climate_calibration, select = -c(Site))
+  cca_climate <- climate_calibration %>%
+    dplyr::select(-"Site")
 
   ###### Preform the CCA, excluding the fossil site(s)
   cca_analysis <- vegan::cca(X = cca_leaf, Y = cca_climate, scale = "TRUE")
@@ -43,7 +45,8 @@ dilp_cca <- function(dilp_table, physiognomy_calibration = physiognomyCalibratio
   #### Create new data frame that has the fossil site(s)
   coln <- colnames(physiognomy_calibration)
   cca_fossil_site <- subset(dilp_table$processed_site_data, select = coln)
-  cca_fossil <- subset(cca_fossil_site, select = -c(Site))
+  cca_fossil <- cca_fossil_site %>%
+    dplyr::select(-"Site")
 
   ## Predict CCA1 and CCA2 scores from the existing model
   cca_analysis_fossil <- stats::predict(cca_analysis, type = "wa", newdata = cca_fossil)
@@ -55,7 +58,7 @@ dilp_cca <- function(dilp_table, physiognomy_calibration = physiognomyCalibratio
   # designate as calibration data
   cca_df$data <- "calibration"
   # bring the site column back
-  cca_df <- cbind(cca_df, subset(climate_calibration, select = ("Site")))
+  cca_df <- cbind(cca_df, dplyr::select(climate_calibration, "Site"))
 
   #### Merge fossil data
   # Convert CCA predictions to dataframe
@@ -63,17 +66,17 @@ dilp_cca <- function(dilp_table, physiognomy_calibration = physiognomyCalibratio
   # designate as fossil data
   cca_df_fossil$data <- "fossil"
   # bring the site column back
-  cca_df_fossil <- cbind(cca_df_fossil, subset(dilp_table$processed_site_data, select = ("Site")))
+  cca_df_fossil <- cbind(cca_df_fossil, dplyr::select(dilp_table$processed_site_data, "Site"))
   # merge the fossil and calibration CCA data
   cca_df_all <- rbind(cca_df, cca_df_fossil)
 
   #### Create the plot
   # Create the convex hull
-  hull_data <- cca_df %>% dplyr::slice(grDevices::chull(CCA1, CCA2))
+  hull_data <- cca_df %>% dplyr::slice(grDevices::chull(.data$CCA1, .data$CCA2))
 
   # Plot
-  cca_plot <- ggplot2::ggplot(data = cca_df_all, ggplot2::aes(x = CCA1, y = CCA2)) +
-    ggplot2::geom_point(ggplot2::aes(color = data, shape = data), size = 4) +
+  cca_plot <- ggplot2::ggplot(data = cca_df_all, ggplot2::aes(x = .data$CCA1, y = .data$CCA2)) +
+    ggplot2::geom_point(ggplot2::aes(color = .data$data, shape = .data$data), size = 4) +
     ggplot2::theme_classic() +
     ggplot2::geom_polygon(
       data = hull_data,
@@ -82,7 +85,7 @@ dilp_cca <- function(dilp_table, physiognomy_calibration = physiognomyCalibratio
       show.legend = FALSE
     ) +
     ggrepel::geom_label_repel(
-      data = cca_df_fossil, ggplot2::aes(label = Site),
+      data = cca_df_fossil, ggplot2::aes(label = .data$Site),
       box.padding = 0.35, point.padding = 0.5, segment.color = "grey50", max.overlaps = 50
     )
   return(cca_plot)

@@ -13,12 +13,11 @@ dilp_cca(
 \arguments{
 \item{dilp_table}{The results of a call to \code{\link[=dilp]{dilp()}}}
 
-\item{physiognomy_calibration}{A physiognomic calibration dataset. Defaults to
-\code{\link[data]{physiognomyCalibration}}, the calibration dataset used by Peppe
-et al. (2011)}
+\item{physiognomy_calibration}{A physiognomic calibration dataset. Defaults to an internal version of
+\code{\link{physiognomy_calibration_data}}.}
 
-\item{climate_calibration}{A climate calibration dataset. Defaults to
-\code{\link[data]{climateCalibration}}, the calibration dataset used by Peppe
+\item{climate_calibration}{A climate calibration dataset. Defaults to an internal version of
+\code{\link{climate_calibration_data}}.
 et al. (2011)}
 }
 \value{

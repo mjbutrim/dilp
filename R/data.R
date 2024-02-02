@@ -1,8 +1,7 @@
 #' McAbee Example Data
 #'
-#' Leaf physiognomic data taken from specimens collected at the McAbee
-#' locality in Canada somewhere by Alex at some point.  See Lowe et al. (2024)
-#' for a description of how to collect this data.
+#' Leaf physiognomic data of specimens collected from the McAbee Fossil Beds
+#' in British Columbia, Canada (Lowe et al. 2018).
 #'
 #' @format ## `McAbeeExample`
 #' A data frame with 192 rows and 18 columns:
@@ -26,6 +25,8 @@
 #'   \item{no. of secondary teeth}{The number of secondary teeth along the undamaged perimeter}
 #'
 #' }
+#' @references
+#' * Lowe, A. J., D. R. Greenwood, C. K. West, J. M. Galloway, M. Sudermann, and T. Reichgelt. 2018. Plant community ecology and climate on an upland volcanic landscape during the Early Eocene Climatic Optimum: McAbee Fossil Beds, British Columbia, Canada. Palaeogeography, Palaeoclimatology, Palaeoecology 511: 433–448.
 #' @source Lowe et al. 2018
 "McAbeeExample"
 
@@ -33,21 +34,23 @@
 #'
 #' Temperature and precipitation data for modern localities used to calibrate the DiLP model
 #'
-#' @format ## `climateCalibration`
+#' @format ## `climate_calibration_data`
 #' A data frame with 92 rows and 3 columns:
 #' \describe{
 #'   \item{Site}{Locality name}
 #'   \item{MAT}{Mean Annual Temperature (celsius)}
 #'   \item{MAP}{Mean Annual Precipitation (mm)}
 #' }
-#' @source Peppe et al. 2011
-"climateCalibration"
+#' @source Lowe et al. 2024
+#' @references
+#' * Lowe, A. J., A. G. Flynn, M. J. Butrim, A. Baumgartner, D. J. Peppe, and D. L. Royer. 2024. Reconstructing terrestrial paleoclimate and paleoecology using Digital Leaf Physiognomy (DiLP) and Leaf Mass per Area. JoVE. In Review.
+"climate_calibration_data"
 
 #' Physiognomy Calibration Data
 #'
 #' Leaf physiognomic data taken from modern localities used to calibrate the DiLP model
 #'
-#' @format ## `physiognomyCalibration`
+#' @format ## `physiognomy_calibration_data`
 #' A data frame with 92 rows and 12 columns:
 #' \describe{
 #'   \item{Site}{Locality name}
@@ -63,11 +66,61 @@
 #'   \item{TC.BA}{Ratio - Tooth count:Blade area}
 #'   \item{Margin}{Percentage of untoothed species at the site}
 #' }
-#' @source Peppe et al. 2011
-"physiognomyCalibration"
+#' @source Lowe et al. 2024
+#' @references
+#' * Lowe, A. J., A. G. Flynn, M. J. Butrim, A. Baumgartner, D. J. Peppe, and D. L. Royer. 2024. Reconstructing terrestrial paleoclimate and paleoecology using Digital Leaf Physiognomy (DiLP) and Leaf Mass per Area. JoVE. In Review.
+"physiognomy_calibration_data"
 
-# Different sets of parameters for leaf mass per area reconstruction , used in lma_functions
-
+#' LMA reconstruction parameters
+#'
+#' @description
+#' Different sets of parameters used for morphospecies and site-level LMA reconstructions.
+#' @format
+#' \describe{
+#'  \item{royer_species_mean_ma:}{
+#'    * stat = "mean",
+#'    * regression_slope = 0.382,
+#'    * y_intercept = 3.070,
+#'    * unexplained_mean_square = 0.032237,
+#'    * sample_size_calibration = 667,
+#'    * mean_log_petiole_metric_calibration = -3.011,
+#'    * sum_of_squares_calibration = 182.1,
+#'    * critical_value = 1.964}
+#'
+#'  \item{royer_site_mean_ma:}{
+#'    * stat = "mean",
+#'    * regression_slope = 0.429,
+#'    * y_intercept = 3.214,
+#'    * unexplained_mean_square = 0.005285,
+#'    * sample_size_calibration = 25,
+#'    * mean_log_petiole_metric_calibration = -2.857,
+#'    * sum_of_squares_calibration = 5.331,
+#'    * critical_value = 2.069}
+#'
+#'  \item{lowe_site_mean_ma:}{
+#'    * stat = "mean",
+#'    * regression_slope = 0.345,
+#'    * y_intercept = 2.954,
+#'    * unexplained_mean_square = 0.01212861,
+#'    * sample_size_calibration = 70,
+#'    * mean_log_petiole_metric_calibration = -2.902972,
+#'    * sum_of_squares_calibration = 1.154691,
+#'    * critical_value = 1.995469}
+#'
+#'  \item{lowe_site_variance_ma:}{
+#'    * stat = "variance",
+#'    * regression_slope = 0.302,
+#'    * y_intercept = 5.028,
+#'    * unexplained_mean_square = 0.1713672,
+#'    * sample_size_calibration = 70,
+#'    * mean_log_petiole_metric_calibration = -5.97104,
+#'    * sum_of_squares_calibration = 5.085184,
+#'    * critical_value = 1.995469}
+#' }
+#' @references
+#' * Royer, D. L., L. Sack, P. Wilf, C. H. Lusk, G. J. Jordan, Ulo Niinemets, I. J. Wright, et al. 2007. Fossil Leaf Economics Quantified: Calibration, Eocene Case Study, and Implications. Paleobiology 33: 574–589
+#' * Lowe, A. J., D. L. Royer, D. J. Wieczynski, M. J. Butrim, T. Reichgelt, L. Azevedo-Schmidt, D. J. Peppe, et al. 2024. Global patterns in community-scale leaf mass per area distributions of woody non-monocot angiosperms and their utility in the fossil record. In review.
+#'
 royer_species_mean_ma <- list(
   stat = "mean",
   regression_slope = 0.382,
@@ -79,8 +132,7 @@ royer_species_mean_ma <- list(
   critical_value = 1.964
 )
 
-#' Site-mean (Royer) LMA parameters
-
+#' @rdname royer_species_mean_ma
 royer_site_mean_ma <- list(
   stat = "mean",
   regression_slope = 0.429,
@@ -92,6 +144,7 @@ royer_site_mean_ma <- list(
   critical_value = 2.069
 )
 
+#' @rdname royer_species_mean_ma
 lowe_site_mean_ma <- list(
   stat = "mean",
   regression_slope = 0.345,
@@ -103,7 +156,7 @@ lowe_site_mean_ma <- list(
   critical_value = 1.995469
 )
 
-
+#' @rdname royer_species_mean_ma
 lowe_site_variance_ma <- list(
   stat = "variance",
   regression_slope = 0.302,
@@ -115,6 +168,34 @@ lowe_site_variance_ma <- list(
   critical_value = 1.995469
 )
 
+#' DiLP parameters
+#'
+#' @description
+#' Parameters used in multi-linear and single linear regressions for mean annual
+#' temperature (MAT) and mean annual precipitation (MAP) reconstructions.
+#' @format
+#' \describe{
+#'  \item{dilp_parameters:}{
+#'    * MAT.MLR.M = 0.21,
+#'    * MAT.MLR.FDR = 42.296,
+#'    * MAT.MLR.TC.IP = -2.609,
+#'    * MAT.MLR.constant = -16.004,
+#'    * MAT.MLR.error = 4,
+#'    * MAT.SLR.M = 0.204,
+#'    * MAT.SLR.constant = 4.6,
+#'    * MAT.SLR.error = 4.9,
+#'    * MAP.MLR.LA = 0.298,
+#'    * MAP.MLR.TC.IP = 0.279,
+#'    * MAP.MLR.PR = -2.717,
+#'    * MAP.MLR.constant = 3.033,
+#'    * MAP.MLR.SE = 0.6,
+#'    * MAP.SLR.LA = 0.283,
+#'    * MAP.SLR.constant = 2.92,
+#'    * MAP.SLR.SE = 0.61}
+#' }
+#'
+#' @references
+#' * ??
 dilp_parameters <- list(
   MAT.MLR.M = 0.21,
   MAT.MLR.FDR = 42.296,

@@ -1,0 +1,66 @@
+---
+title: "Typical DiLP walkthrough"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Typical DiLP walkthrough}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(dilp)
+```
+
+This will be a quick and dirty walkthrough of how to get DiLP results out of a raw leaf physiognomic dataset.
+To begin, a data frame of leaf physiognomic data is needed.  In this vignette we'll use the included `McAbeeExample` dataset.
+
+```{r}
+head(McAbeeExample)
+```
+If the dataset is correctly formatted, all that needs to be done now is to pass it through the `dilp()` function.  `dilp()` will 
+process the data, using `dilp_processing()`, identify possible errors and outlier measurements using `dilp_errors()` and `dilp_outliers`
+, and finally calculate Mean Annual Temperature (MAT) and Mean Annual Precipitation. All this information will be saved within a list.
+
+```{r}
+dilp_results <- dilp(McAbeeExample)
+print(paste0("dilp_results$", names(dilp_results)))
+```
+After generating dilp results, make sure to check whether any common errors were discovered within the dataset.  There are no errors in the `McAbeeExample` dataset, but if there were, this table would identify the row in the original dataset that the error occurs in.
+
+```{r}
+dilp_results$errors
+```
+
+Similarly, check if there are any outlier datapoints.  These aren't necessarily errors, but it may be worth double checking the 
+original measurements.  In the `McAbeeExample` dataset, the specimens on row 142, 176, and 187 are outliers in Leaf area. In this case,
+each of these were re-examined and found to be acceptable outliers.
+
+```{r}
+dilp_results$outliers
+```
+
+Finally, let's take a look at the results.  Paleoclimate reconstructions will be generated for each unique site found within the
+dataset.  Margin, FDR, TC.IP, Ln.leaf.area, Ln.TC.IP, and Ln.PR simply report the site-level values for the parameters used in DiLP
+calculations.
+
+```{r}
+dilp_results$results
+```
+
+
+
+
+
+
+
+
+
+
+

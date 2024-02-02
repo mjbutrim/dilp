@@ -37,8 +37,12 @@ Lowe et al. 2018
 McAbeeExample
 }
 \description{
-Leaf physiognomic data taken from specimens collected at the McAbee
-locality in Canada somewhere by Alex at some point.  See Lowe et al. (2024)
-for a description of how to collect this data.
+Leaf physiognomic data of specimens collected from the McAbee Fossil Beds
+in British Columbia, Canada (Lowe et al. 2018).
+}
+\references{
+\itemize{
+\item Lowe, A. J., D. R. Greenwood, C. K. West, J. M. Galloway, M. Sudermann, and T. Reichgelt. 2018. Plant community ecology and climate on an upland volcanic landscape during the Early Eocene Climatic Optimum: McAbee Fossil Beds, British Columbia, Canada. Palaeogeography, Palaeoclimatology, Palaeoecology 511: 433–448.
+}
 }
 \keyword{datasets}

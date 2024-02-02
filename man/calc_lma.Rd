@@ -9,16 +9,16 @@ calc_lma(data, params, resolution = "species")
 \arguments{
 \item{data}{Must include "petiole metric" or some combination of columns to
 calculate petiole metric such as "Blade Area", "Petiole Area", and "Petiole Width",
-or "Leaf Area" and "Petiole Width".  If calculating morphospecies-mean LMA
-must include "Site" and "Morphotype" columns. If calculating species-mean LMA
+or "Leaf Area" and "Petiole Width".  If calculating morphospecies-mean LMA,
+must include "Site" and "Morphotype" columns. If calculating species-mean LMA,
 must include a "Site' column.}
 
 \item{params}{A list of regression parameters. Must contain "stat",
 "regression_slope", "y_intercept", "unexplained_mean_square", "sample_size_calibration"
 "mean_log_petiole_metric_calibration", "sum_of_squares_calibration", and "critical_value".
 
-royer_species_mean_ma, royer_site_mean_ma, lowe_site_mean_ma, and
-lowe_site_variance_ma are pre-loaded lists of parameters.}
+\link{royer_species_mean_ma}, \link{royer_site_mean_ma}, \link{lowe_site_mean_ma}, and
+\link{lowe_site_variance_ma} are pre-loaded lists of parameters.}
 
 \item{resolution}{Either "species" or "site".  Informs whether the function
 should calculate morphospecies-mean LMA values ("species") or site-mean/site-

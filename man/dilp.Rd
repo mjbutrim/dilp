@@ -8,36 +8,40 @@ dilp(specimen_data, params = dilp_parameters)
 }
 \arguments{
 \item{specimen_data}{A data frame containing specimen level leaf physiognomic
-data.}
+data.For example: \code{\link{McAbeeExample}}}
 
 \item{params}{A list of parameters used for DiLP calculation.  Defaults to
-dilp_parameters, the parameters used in Peppe et al. 2011}
+\code{\link{dilp_parameters}}.}
 }
 \value{
 A list of tables that includes all pertinent DiLP
 information:
 \itemize{
 \item processed_leaf_data: the full set of cleaned and newly calculated leaf
-physiognomic data that is necessary for DiLP analysis.
+physiognomic data that is necessary for DiLP analysis. See \code{\link[=dilp_processing]{dilp_processing()}}
+for more information.
 \item processed_morphotype_data: morphospecies-site pair means for all leaf
-physiognomic data
-\item processed_site_data: site means for all leaf physiognomic data
+physiognomic data.
+\item processed_site_data: site means for all leaf physiognomic data.
 \item errors: lists any specimens that may be causing common errors in DiLP
-calculations
+calculations. See \code{\link[=dilp_errors]{dilp_errors()}} for more information.
 \item outliers: flags outliers in variables used for DiLP analysis that may
-represent incorrect data
-\item results: climate reconstructions of MAT and MAP
+represent incorrect data.  See \code{\link[=dilp_outliers]{dilp_outliers()}} for more information.
+\item results: climate reconstructions of MAT and MAP using single and multi-linear
+regressions.
 }
 }
 \description{
-\code{dilp()}  processes raw leaf physiognomic data, checks for common
-errors/outliers, and then returns the processed data along wiht the DiLP
-paleoclimate reconstructions.
+\code{dilp()} processes raw leaf physiognomic data, checks for common
+errors/outliers, and returns the processed data, keys to find any revealed
+errors or outliers, and paleoclimate reconstructions.
 }
 \examples{
-results <- dilp(McAbeeExample)
-}
-\seealso{
-\code{\link[data]{McAbeeExample}} to see how the specimen_data should be
-ideally formatted.
+dilp_results <- dilp(McAbeeExample)
+dilp_results$processed_leaf_data
+dilp_results$processed_morphotype_data
+dilp_results$processed_site_data
+dilp_results$errors
+dilp_results$outliers
+dilp_results$results
 }
