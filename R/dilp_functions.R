@@ -131,8 +131,12 @@ dilp_errors <- function(specimen_data) {
   error <- as.data.frame(specimen_data[which(specimen_data$`Perimeter ratio` <= 1), 2])
   temp7 <- data.frame(Check = "Perimeter ratio not greater than 1", t(error))
   errors <- dplyr::bind_rows(temp1, temp2, temp3, temp4, temp5, temp6, temp7)
+  if(length(errors) == 1){
+    errors$Specimen1 <- "none"
+  }
   names(errors) <- gsub(x = names(errors), pattern = "X", replacement = "Specimen")
   rownames(errors) <- NULL
+
   return(errors)
 }
 
@@ -175,6 +179,9 @@ dilp_outliers <- function(specimen_data) {
     outliers <- dplyr::bind_rows(outliers, temp.output) # bind to summary table
   }
   # Rename column headers
+  if(length(outliers) == 1){
+    outliers$Outlier1 <- "none"
+  }
   names(outliers) <- gsub(x = names(outliers), pattern = "V", replacement = "Outlier")
   names(outliers) <- gsub(x = names(outliers), pattern = "temp.output", replacement = "Variable")
   rownames(outliers) <- NULL

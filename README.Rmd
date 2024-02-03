@@ -16,13 +16,16 @@ knitr::opts_chunk$set(
 # dilp
 
 <!-- badges: start -->
+
 <!-- badges: end -->
 
-The goal of dilp is to help with analysis of quantitative fossil leaf traits.  Methods included are:
-- Digital Leaf Physiognomy (DiLP)
-  - Reconstruct Mean Annual Temperature and Mean Annual Precipitation
-- Leaf Mass per Area via the petiole metric (LMA)
+The goal of dilp is to help with analysis of quantitative fossil leaf traits. Methods included are:
 
+-   Digital Leaf Physiognomy (DiLP)
+
+    -   Reconstruct mean annual temperature and mean annual precipitation
+
+-   Leaf Mass per Area via the petiole metric (LMA)
 
 ## Installation
 
@@ -37,7 +40,7 @@ devtools::install_github("mjbutrim/dilp")
 
 This is a basic example which shows you how to run a basic DiLP and LMA analysis:
 
-```{r example}
+```{r example, paged.print=TRUE}
 library(dilp)
 ## basic example code
 dilp_results <- dilp(McAbeeExample)
@@ -47,16 +50,16 @@ dilp_results$results
 
 You can check the validity of your DiLP results like so:
 
-```{r}
+```{r paged.print=TRUE}
 dilp_results$errors
 ```
 
-```{r}
+```{r paged.print=TRUE}
 dilp_results$outliers
 ```
-
 
 ```{r pressure, echo = FALSE}
 dilp_cca(dilp_results)
 ```
+
 Yay

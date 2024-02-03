@@ -7,9 +7,13 @@
 <!-- badges: end -->
 
 The goal of dilp is to help with analysis of quantitative fossil leaf
-traits. Methods included are: - Digital Leaf Physiognomy (DiLP) -
-Reconstruct Mean Annual Temperature and Mean Annual Precipitation - Leaf
-Mass per Area via the petiole metric (LMA)
+traits. Methods included are:
+
+- Digital Leaf Physiognomy (DiLP)
+
+  - Reconstruct mean annual temperature and mean annual precipitation
+
+- Leaf Mass per Area via the petiole metric (LMA)
 
 ## Installation
 
@@ -50,14 +54,14 @@ You can check the validity of your DiLP results like so:
 
 ``` r
 dilp_results$errors
-#>                                                   Check
-#> 1                             Entire tooth count not NA
-#> 2                        Entire tooth count : IP not NA
-#> 3                         Entire perimeter ratio not NA
-#> 4                                   FDR not between 0-1
-#> 5 External perimeter not larger than internal perimeter
-#> 6                Feret is not larger than minimum Feret
-#> 7                    Perimeter ratio not greater than 1
+#>                                                   Check Specimen1
+#> 1                             Entire tooth count not NA      none
+#> 2                        Entire tooth count : IP not NA      none
+#> 3                         Entire perimeter ratio not NA      none
+#> 4                                   FDR not between 0-1      none
+#> 5 External perimeter not larger than internal perimeter      none
+#> 6                Feret is not larger than minimum Feret      none
+#> 7                    Perimeter ratio not greater than 1      none
 ```
 
 ``` r
@@ -69,4 +73,6 @@ dilp_results$outliers
 #> 4 Perimeter ratio   M-2015-1-1 BU-712-1073A  BU-712-1165 M-2015-1-62
 ```
 
-<img src="man/figures/README-pressure-1.png" width="100%" /> Yay
+<img src="man/figures/README-pressure-1.png" width="100%" />
+
+Yay

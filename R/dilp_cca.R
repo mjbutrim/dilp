@@ -21,7 +21,6 @@
 #' dilp_cca(results)
 #'
 dilp_cca <- function(dilp_table, physiognomy_calibration = physiognomyCalibration, climate_calibration = climateCalibration) {
-
   # sort by alphabetical order, to ensure sites line up between this and the climate dataframe
   physiognomy_calibration <- physiognomy_calibration[order(physiognomy_calibration$Site), ]
   colnames(physiognomy_calibration) <- gsub("\\.", " ", colnames(physiognomy_calibration))

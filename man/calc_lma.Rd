@@ -34,30 +34,36 @@ the flexibility to use custom regression parameters to calculate leaf mass
 per area (LMA).
 }
 \examples{
-#Calculate morphospecies-mean LMA values with the parameters from Royer et al. (2007)
-results <-  calc_lma(McAbeeExample,
-                     params = list(stat = "mean",
-                                   regression_slope = 0.382,
-                                   y_intercept = 3.070,
-                                   unexplained_mean_square = 0.032237,
-                                   sample_size_calibration = 667,
-                                   mean_log_petiole_metric_calibration = -3.011,
-                                   sum_of_squares_calibration = 182.1,
-                                   critical_value = 1.964),
-                      resolution = "species")
+# Calculate morphospecies-mean LMA values with the parameters from Royer et al. (2007)
+results <- calc_lma(McAbeeExample,
+  params = list(
+    stat = "mean",
+    regression_slope = 0.382,
+    y_intercept = 3.070,
+    unexplained_mean_square = 0.032237,
+    sample_size_calibration = 667,
+    mean_log_petiole_metric_calibration = -3.011,
+    sum_of_squares_calibration = 182.1,
+    critical_value = 1.964
+  ),
+  resolution = "species"
+)
 results
 
-#Calculate site-mean LMA values with the parameters from Lowe et al. (2024)
+# Calculate site-mean LMA values with the parameters from Lowe et al. (2024)
 site_results <- calc_lma(results,
-                         params = list(stat = "mean",
-                                       regression_slope = 0.345,
-                                       y_intercept = 2.954,
-                                       unexplained_mean_square = 0.01212861,
-                                       sample_size_calibration = 70,
-                                       mean_log_petiole_metric_calibration = -2.902972,
-                                       sum_of_squares_calibration = 1.154691,
-                                       critical_value = 1.995469),
-                         resolution = "site")
+  params = list(
+    stat = "mean",
+    regression_slope = 0.345,
+    y_intercept = 2.954,
+    unexplained_mean_square = 0.01212861,
+    sample_size_calibration = 70,
+    mean_log_petiole_metric_calibration = -2.902972,
+    sum_of_squares_calibration = 1.154691,
+    critical_value = 1.995469
+  ),
+  resolution = "site"
+)
 site_results
 
 }

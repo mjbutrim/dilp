@@ -26,30 +26,36 @@
 #' @export
 #'
 #' @examples
-#' #Calculate morphospecies-mean LMA values with the parameters from Royer et al. (2007)
-#' results <-  calc_lma(McAbeeExample,
-#'                      params = list(stat = "mean",
-#'                                    regression_slope = 0.382,
-#'                                    y_intercept = 3.070,
-#'                                    unexplained_mean_square = 0.032237,
-#'                                    sample_size_calibration = 667,
-#'                                    mean_log_petiole_metric_calibration = -3.011,
-#'                                    sum_of_squares_calibration = 182.1,
-#'                                    critical_value = 1.964),
-#'                       resolution = "species")
+#' # Calculate morphospecies-mean LMA values with the parameters from Royer et al. (2007)
+#' results <- calc_lma(McAbeeExample,
+#'   params = list(
+#'     stat = "mean",
+#'     regression_slope = 0.382,
+#'     y_intercept = 3.070,
+#'     unexplained_mean_square = 0.032237,
+#'     sample_size_calibration = 667,
+#'     mean_log_petiole_metric_calibration = -3.011,
+#'     sum_of_squares_calibration = 182.1,
+#'     critical_value = 1.964
+#'   ),
+#'   resolution = "species"
+#' )
 #' results
 #'
-#' #Calculate site-mean LMA values with the parameters from Lowe et al. (2024)
+#' # Calculate site-mean LMA values with the parameters from Lowe et al. (2024)
 #' site_results <- calc_lma(results,
-#'                          params = list(stat = "mean",
-#'                                        regression_slope = 0.345,
-#'                                        y_intercept = 2.954,
-#'                                        unexplained_mean_square = 0.01212861,
-#'                                        sample_size_calibration = 70,
-#'                                        mean_log_petiole_metric_calibration = -2.902972,
-#'                                        sum_of_squares_calibration = 1.154691,
-#'                                        critical_value = 1.995469),
-#'                          resolution = "site")
+#'   params = list(
+#'     stat = "mean",
+#'     regression_slope = 0.345,
+#'     y_intercept = 2.954,
+#'     unexplained_mean_square = 0.01212861,
+#'     sample_size_calibration = 70,
+#'     mean_log_petiole_metric_calibration = -2.902972,
+#'     sum_of_squares_calibration = 1.154691,
+#'     critical_value = 1.995469
+#'   ),
+#'   resolution = "site"
+#' )
 #' site_results
 #'
 calc_lma <- function(data, params, resolution = "species") {
@@ -57,16 +63,16 @@ calc_lma <- function(data, params, resolution = "species") {
     data <- dplyr::filter(data, data$`petiole metric` > 0)
     data$Site <- data$Site
     data$Morphotype <- data$Morphotype
-  } else if("Leaf area" %in% colnames(data) & "Petiole width" %in% colnames(data)){
+  } else if ("Leaf area" %in% colnames(data) & "Petiole width" %in% colnames(data)) {
     data$`petiole metric` <- (data$`Petiole width`^2) / data$`Leaf area`
     data <- dplyr::filter(data, data$`petiole metric` > 0)
-  } else if("Blade area" %in% colnames(data) & "Petiole width" %in% colnames(data)) {
+  } else if ("Blade area" %in% colnames(data) & "Petiole width" %in% colnames(data)) {
     data$`Petiole area` <- ifelse(data$`Blade area` > 0 & is.na(data$`Petiole area`), 0, data$`Petiole area`)
     data$`Leaf area` <- data$`Blade area` + data$`Petiole area`
     data$`petiole metric` <- (data$`Petiole width`^2) / data$`Leaf area`
     data <- dplyr::filter(data, data$`petiole metric` > 0)
-  } else{
-    stop('Parameters for calculating LMA not present: Requires either "petiole metric", "Leaf area" and "Petiole width", or "Blade area", "Petiole area" and "Petiole width".' )
+  } else {
+    stop('Parameters for calculating LMA not present: Requires either "petiole metric", "Leaf area" and "Petiole width", or "Blade area", "Petiole area" and "Petiole width".')
   }
 
   if (params$stat == "mean") {
