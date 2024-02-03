@@ -28,7 +28,7 @@ using the regression from Lowe et al. (2024)
 leaf mass per area (LMA) reconstructions of species-mean, site-mean, and site-
 variance.
 
-\code{lma()} essentially calls \code{\link[=calc_lma]{calc_lma()}} multiple times with different sets of
+\code{lma()} calls \code{\link[=calc_lma]{calc_lma()}} multiple times with different sets of
 parameters.  See \code{\link[=calc_lma]{calc_lma()}} for more control over LMA reconstructions.
 }
 \examples{

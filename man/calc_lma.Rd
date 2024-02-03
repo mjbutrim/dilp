@@ -45,6 +45,7 @@ results <-  calc_lma(McAbeeExample,
                                    sum_of_squares_calibration = 182.1,
                                    critical_value = 1.964),
                       resolution = "species")
+results
 
 #Calculate site-mean LMA values with the parameters from Lowe et al. (2024)
 site_results <- calc_lma(results,
@@ -57,5 +58,6 @@ site_results <- calc_lma(results,
                                        sum_of_squares_calibration = 1.154691,
                                        critical_value = 1.995469),
                          resolution = "site")
+site_results
 
 }

@@ -17,8 +17,7 @@ dilp_cca(
 \code{\link{physiognomy_calibration_data}}.}
 
 \item{climate_calibration}{A climate calibration dataset. Defaults to an internal version of
-\code{\link{climate_calibration_data}}.
-et al. (2011)}
+\code{\link{climate_calibration_data}}.}
 }
 \value{
 A ggplot2 plot

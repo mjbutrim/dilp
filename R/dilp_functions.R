@@ -41,7 +41,7 @@ dilp_processing <- function(specimen_data) {
   specimen_data$`Leaf area` <- specimen_data$`Blade area` + specimen_data$`Petiole area` # if petiole area was measured but there is a NA for blade area, this addition will appropriately return a NA for leaf area
 
   # Feret Diameter Ratio
-  specimen_data$`Feret diameter` <- 2*sqrt(specimen_data$`Leaf area`/pi)
+  specimen_data$`Feret diameter` <- 2 * sqrt(specimen_data$`Leaf area` / pi)
   specimen_data$FDR <- specimen_data$`Feret diameter` / specimen_data$Feret
 
   # Corrected perimeters
@@ -101,79 +101,38 @@ dilp_processing <- function(specimen_data) {
 #' @param specimen_data Processed specimen level leaf physiognomic data.  The
 #' structure should match the structure of the output from [dilp_processing()]
 #'
-#' @return A 7 x 3 data frame.  Each row shows a common error, and if/where it
-#' can be found in the input dataset.
+#' @return A 7 x X data frame.  Each row shows a common error, and which specimens
+#' from the input dataset are tripping it.
 #' @export
 #'
 #' @examples
-#' #Check for errors in the provided \code{\link{McAbeeExample}} dataset.
+#' # Check for errors in the provided \code{\link{McAbeeExample}} dataset.
 #' dilp_dataset <- dilp_processing(McAbeeExample)
 #' dilp_errors <- dilp_errors(dilp_dataset)
 #' dilp_errors
 dilp_errors <- function(specimen_data) {
   ### This data frame will be filled with the results of the following error checks
   errors <- data.frame()
-
-  # 1. Check that untoothed leaves have NA for toothed variables, rather than 0 (excluding no. of secondary teeth, which is purposely set to 0)
-
   dilp.check.1 <- specimen_data %>%
     dplyr::filter(.data$Margin == 1)
-
-  if (length(which(dilp.check.1$`Total tooth count` > -1)) == 0) {
-    e1 <- "none"
-  } else {
-    e1 <- which(dilp.check.1$`Total tooth count` > -1)
-  }
-  temp1 <- data.frame(Check = "Entire tooth count not NA", Row = e1)
-  if (length(which(dilp.check.1$`TC IP` > -1)) == 0) {
-    e2 <- "none"
-  } else {
-    e2 <- which(dilp.check.1$`TC IP` > -1)
-  }
-  temp2 <- data.frame(Check = "Entire tooth count : IP not NA", Row = e2)
-  if (length(which(dilp.check.1$`Perimeter ratio` > -1)) == 0) {
-    e3 <- "none"
-  } else {
-    e3 <- which(dilp.check.1$`Perimeter ratio` > -1)
-  }
-  temp3 <- data.frame(Check = "Entire perimeter ratio not NA", Row = e3)
-
-  # 2. Check that FDR is greater is between 0 and 1 for all leaves
-
+  error <- specimen_data[which(dilp.check.1$`Total tooth count` > -1), 2]
+  temp1 <- data.frame(Check = "Entire tooth count not NA", t(error))
+  error <- specimen_data[which(dilp.check.1$`TC IP` > -1), 2]
+  temp2 <- data.frame(Check = "Entire tooth count : IP not NA", t(error))
+  error <- specimen_data[which(dilp.check.1$`Perimeter ratio` > -1), 2]
+  temp3 <- data.frame(Check = "Entire perimeter ratio not NA", t(error))
   dilp.check.2 <- tidyr::drop_na(specimen_data, "FDR")
-  if (length(which(dilp.check.2$FDR < 0 | dilp.check.2$FDR > 1)) == 0) {
-    e4 <- "none"
-  } else {
-    e4 <- which(dilp.check.2$FDR < 0 | dilp.check.2$FDR > 1)
-  }
-  temp4 <- data.frame(Check = "FDR not between 0-1", Row = e4)
-
-  # 3. Check that external perimeter is larger than internal for all leaves
-  if (length(which(specimen_data$`Internal raw blade perimeter corrected` > specimen_data$`Raw blade perimeter corrected`)) == 0) {
-    e5 <- "none"
-  } else {
-    e5 <- which(specimen_data$`Internal raw blade perimeter corrected` > specimen_data$`Raw blade perimeter corrected`)
-  }
-  temp5 <- data.frame(Check = "External perimeter not larger than internal perimeter", Row = e5)
-
-  # 4. Check that Feret is larger than Minimum Feret
-  if (length(which(specimen_data$`Minimum Feret` > specimen_data$Feret)) == 0) {
-    e6 <- "none"
-  } else {
-    e6 <- which(specimen_data$`Minimum Feret` > specimen_data$Feret)
-  }
-  temp6 <- data.frame(Check = "Feret is not larger than minimum Feret", Row = e6)
-
-  # Check that perimeter ratio is greater than 1
-  if (length(which(specimen_data$`Perimeter ratio` <= 1)) == 0) {
-    e7 <- "none"
-  } else {
-    e7 <- which(specimen_data$`Perimeter ratio` <= 1)
-  }
-  temp7 <- data.frame(Check = "Perimeter ratio not greater than 1", Row = e7)
-
-  errors <- rbind(temp1, temp2, temp3, temp4, temp5, temp6, temp7)
-  errors$specimen <- specimen_data[errors$Row, 2]
+  error <- specimen_data[which(dilp.check.2$FDR < 0 | dilp.check.2$FDR > 1), 2]
+  temp4 <- data.frame(Check = "FDR not between 0-1", t(error))
+  error <- specimen_data[which(specimen_data$`Internal raw blade perimeter corrected` > specimen_data$`Raw blade perimeter corrected`), 2]
+  temp5 <- data.frame(Check = "External perimeter not larger than internal perimeter", t(error))
+  error <- specimen_data[which(specimen_data$`Minimum Feret` > specimen_data$Feret), 2]
+  temp6 <- data.frame(Check = "Feret is not larger than minimum Feret", t(error))
+  error <- as.data.frame(specimen_data[which(specimen_data$`Perimeter ratio` <= 1), 2])
+  temp7 <- data.frame(Check = "Perimeter ratio not greater than 1", t(error))
+  errors <- dplyr::bind_rows(temp1, temp2, temp3, temp4, temp5, temp6, temp7)
+  names(errors) <- gsub(x = names(errors), pattern = "X", replacement = "Specimen")
+  rownames(errors) <- NULL
   return(errors)
 }
 
@@ -191,13 +150,13 @@ dilp_errors <- function(specimen_data) {
 #' @param specimen_data Processed specimen level leaf physiognomic data.  The
 #' structure should match the structure of the output from [dilp_processing()]
 #'
-#' @return A 4 x 5 data frame. Each row represents one of the DiLP parameters,
-#' and the row numbers of outlier specimens.
+#' @return A 4 x X data frame. Each row represents one of the DiLP parameters,
+#' and the specimens that are outliers for that parameter.
 #' @export
 #'
 #' @examples
-#' #Check for outliers in the provided \code{\link{McAbeeExample}} dataset. Each
-#' #of these outliers has been manually re-examined and was found acceptable.
+#' # Check for outliers in the provided \code{\link{McAbeeExample}} dataset. Each
+#' # of these outliers has been manually re-examined and was found acceptable.
 #' dilp_dataset <- dilp_processing(McAbeeExample)
 #' dilp_outliers <- dilp_outliers(dilp_dataset)
 #' dilp_outliers
@@ -209,7 +168,7 @@ dilp_outliers <- function(specimen_data) {
     temp <- specimen_data
     colnames(temp)[colnames(temp) == vars[i]] <- "trait" # rename variable of focus
     temp.outliers <- grDevices::boxplot.stats(temp$trait)$out # check it for outliers
-    temp.row <- which(temp$trait %in% c(temp.outliers)) # determine row numbers for any outliers
+    temp.row <- temp[which(temp$trait %in% c(temp.outliers)), 2] # determine specimen numbers for any outliers
     temp.row <- as.data.frame(t(temp.row))
     temp.output <- (trait <- vars[i])
     temp.output <- cbind(temp.output, temp.row) # create output table with variable name and any potential rows
@@ -218,6 +177,7 @@ dilp_outliers <- function(specimen_data) {
   # Rename column headers
   names(outliers) <- gsub(x = names(outliers), pattern = "V", replacement = "Outlier")
   names(outliers) <- gsub(x = names(outliers), pattern = "temp.output", replacement = "Variable")
+  rownames(outliers) <- NULL
   return(outliers)
 }
 
@@ -259,7 +219,6 @@ dilp_outliers <- function(specimen_data) {
 #' dilp_results$errors
 #' dilp_results$outliers
 #' dilp_results$results
-
 dilp <- function(specimen_data, params = dilp_parameters) {
   processed_specimen_data <- dilp_processing(specimen_data)
   errors <- dilp_errors(processed_specimen_data)

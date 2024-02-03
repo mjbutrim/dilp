@@ -37,6 +37,7 @@
 #'                                    sum_of_squares_calibration = 182.1,
 #'                                    critical_value = 1.964),
 #'                       resolution = "species")
+#' results
 #'
 #' #Calculate site-mean LMA values with the parameters from Lowe et al. (2024)
 #' site_results <- calc_lma(results,
@@ -49,6 +50,7 @@
 #'                                        sum_of_squares_calibration = 1.154691,
 #'                                        critical_value = 1.995469),
 #'                          resolution = "site")
+#' site_results
 #'
 calc_lma <- function(data, params, resolution = "species") {
   if ("petiole metric" %in% colnames(data)) {
@@ -142,7 +144,7 @@ calc_lma <- function(data, params, resolution = "species") {
 #' leaf mass per area (LMA) reconstructions of species-mean, site-mean, and site-
 #' variance.
 #'
-#' `lma()` essentially calls [calc_lma()] multiple times with different sets of
+#' `lma()` calls [calc_lma()] multiple times with different sets of
 #' parameters.  See [calc_lma()] for more control over LMA reconstructions.
 #'
 #' @param specimen_data A table that must include "Site", "Morphotype", and

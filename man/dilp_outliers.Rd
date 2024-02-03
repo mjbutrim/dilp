@@ -11,8 +11,8 @@ dilp_outliers(specimen_data)
 structure should match the structure of the output from \code{\link[=dilp_processing]{dilp_processing()}}}
 }
 \value{
-A 4 x 5 data frame. Each row represents one of the DiLP parameters,
-and the row numbers of outlier specimens.
+A 4 x X data frame. Each row represents one of the DiLP parameters,
+and the specimens that are outliers for that parameter.
 }
 \description{
 \code{dilp_outliers()} will typically only be called internally by \code{\link[=dilp]{dilp()}}.
@@ -23,8 +23,8 @@ parameters used in DiLP analyses.  It may be worth taking a look at the
 raw measurements and evaluating if the specimen should be used.
 }
 \examples{
-#Check for outliers in the provided \code{\link{McAbeeExample}} dataset. Each
-#of these outliers has been manually re-examined and was found acceptable.
+# Check for outliers in the provided \code{\link{McAbeeExample}} dataset. Each
+# of these outliers has been manually re-examined and was found acceptable.
 dilp_dataset <- dilp_processing(McAbeeExample)
 dilp_outliers <- dilp_outliers(dilp_dataset)
 dilp_outliers

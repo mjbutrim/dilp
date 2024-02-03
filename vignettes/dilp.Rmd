@@ -18,12 +18,32 @@ knitr::opts_chunk$set(
 library(dilp)
 ```
 
-This will be a quick and dirty walkthrough of how to get DiLP results out of a raw leaf physiognomic dataset.
-To begin, a data frame of leaf physiognomic data is needed.  In this vignette we'll use the included `McAbeeExample` dataset.
+This will be a quick and dirty walkthrough of how to get results out of a raw leaf physiognomic dataset.
+
+#### Background
+This package includes functions that enable the quick analysis of a quantitative leaf physiognomic dataset.
+Leaf physiognomy (shape) is closely associated with the leaf's interaction with its environment, and thanks
+to that association, empirical relationships have been established between elements of leaf physiognomy and climate, 
+plant functional ecology, and leaf development.
+
+...
+..
+...
+
+
+Here is the standard workflow for a complete leaf physiognomic dataset. 
+In this vignette we'll use the included `McAbeeExample` dataset.
 
 ```{r}
-head(McAbeeExample)
+dilp_results <- dilp(McAbeeExample)
+lma_results <- lma(McAbeeExample)
 ```
+
+And that's it!
+
+
+
+
 If the dataset is correctly formatted, all that needs to be done now is to pass it through the `dilp()` function.  `dilp()` will 
 process the data, using `dilp_processing()`, identify possible errors and outlier measurements using `dilp_errors()` and `dilp_outliers`
 , and finally calculate Mean Annual Temperature (MAT) and Mean Annual Precipitation. All this information will be saved within a list.

@@ -11,8 +11,8 @@ dilp_errors(specimen_data)
 structure should match the structure of the output from \code{\link[=dilp_processing]{dilp_processing()}}}
 }
 \value{
-A 7 x 3 data frame.  Each row shows a common error, and if/where it
-can be found in the input dataset.
+A 7 x X data frame.  Each row shows a common error, and which specimens
+from the input dataset are tripping it.
 }
 \description{
 \code{dilp_errors()} will typically only be called internally by \code{\link[=dilp]{dilp()}}.
@@ -21,7 +21,7 @@ during the data collection and processing steps.  A \code{dilp_errors()} call
 will nearly always follow a \code{\link[=dilp_processing]{dilp_processing()}} call.  Returns a data frame.
 }
 \examples{
-#Check for errors in the provided \code{\link{McAbeeExample}} dataset.
+# Check for errors in the provided \code{\link{McAbeeExample}} dataset.
 dilp_dataset <- dilp_processing(McAbeeExample)
 dilp_errors <- dilp_errors(dilp_dataset)
 dilp_errors

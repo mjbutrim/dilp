@@ -12,7 +12,6 @@
 #' \code{\link{physiognomy_calibration_data}}.
 #' @param climate_calibration A climate calibration dataset. Defaults to an internal version of
 #' \code{\link{climate_calibration_data}}.
-#' et al. (2011)
 #'
 #' @return A ggplot2 plot
 #' @export
