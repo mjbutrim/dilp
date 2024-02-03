@@ -73,6 +73,10 @@ dilp_results$outliers
 #> 4 Perimeter ratio   M-2015-1-1 BU-712-1073A  BU-712-1165 M-2015-1-62
 ```
 
-<img src="man/figures/README-pressure-1.png" width="100%" />
+``` r
+dilp_cca(dilp_results)
+```
+
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
 
 Yay

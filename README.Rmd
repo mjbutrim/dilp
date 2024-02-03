@@ -58,7 +58,7 @@ dilp_results$errors
 dilp_results$outliers
 ```
 
-```{r pressure, echo = FALSE}
+```{r}
 dilp_cca(dilp_results)
 ```
 
