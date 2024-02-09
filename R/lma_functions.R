@@ -59,20 +59,33 @@
 #' site_results
 #'
 calc_lma <- function(data, params, resolution = "species") {
-  if ("petiole metric" %in% colnames(data)) {
-    data <- dplyr::filter(data, data$`petiole metric` > 0)
-    data$Site <- data$Site
-    data$Morphotype <- data$Morphotype
-  } else if ("Leaf area" %in% colnames(data) & "Petiole width" %in% colnames(data)) {
-    data$`petiole metric` <- (data$`Petiole width`^2) / data$`Leaf area`
-    data <- dplyr::filter(data, data$`petiole metric` > 0)
-  } else if ("Blade area" %in% colnames(data) & "Petiole width" %in% colnames(data)) {
-    data$`Petiole area` <- ifelse(data$`Blade area` > 0 & is.na(data$`Petiole area`), 0, data$`Petiole area`)
-    data$`Leaf area` <- data$`Blade area` + data$`Petiole area`
-    data$`petiole metric` <- (data$`Petiole width`^2) / data$`Leaf area`
-    data <- dplyr::filter(data, data$`petiole metric` > 0)
+  colnames(data) <- colnames(data) %>%
+    stringr::str_trim() %>%
+    stringr::str_to_lower() %>%
+    stringr::str_replace_all("[.]", "") %>%
+    stringr::str_replace_all("[ ]","_")
+
+
+  if ("petiole_metric" %in% colnames(data)) {
+    data <- dplyr::filter(data, data$petiole_metric > 0)
+    data$site <- data$site
+    data$morphotype <- data$morphotype
+  } else if ("leaf_area" %in% colnames(data) && "petiole_width" %in% colnames(data)) {
+    data$petiole_metric <- (data$petiole_width^2) / data$leaf_area
+    data <- dplyr::filter(data, data$petiole_metric > 0)
+  } else if ("blade_area" %in% colnames(data) && "petiole_width" %in% colnames(data)) {
+    if("petiole_area" %in% colnames(data)){
+
+    } else {
+      data[["petiole_area"]] <- NA
+      warning("data is missing petiole_area and has filled it with NAs", call. = FALSE)
+    }
+    data$petiole_area <- ifelse(data$blade_area > 0 & is.na(data$petiole_area), 0, data$petiole_area)
+    data$leaf_area <- data$blade_area + data$petiole_area
+    data$petiole_metric <- (data$petiole_width^2) / data$leaf_area
+    data <- dplyr::filter(data, data$petiole_metric > 0)
   } else {
-    stop('Parameters for calculating LMA not present: Requires either "petiole metric", "Leaf area" and "Petiole width", or "Blade area", "Petiole area" and "Petiole width".')
+    stop('Parameters for calculating LMA not present: Requires either "petiole_metric", or "leaf_area" and "petiole_width", or "blade_area", "petiole_area" and "petiole_width".')
   }
 
   if (params$stat == "mean") {
@@ -89,51 +102,51 @@ calc_lma <- function(data, params, resolution = "species") {
 
   if (resolution == "species") {
     species_site_combos <- data %>%
-      dplyr::group_by(.data$Site) %>%
-      dplyr::distinct(.data$Morphotype) %>%
+      dplyr::group_by(.data$site) %>%
+      dplyr::distinct(.data$morphotype) %>%
       dplyr::ungroup() %>%
-      cbind("n" = NA, "petiole metric" = NA, "lower" = NA, "value" = NA, "upper" = NA)
+      cbind("n" = NA, "petiole_metric" = NA, "lower" = NA, "value" = NA, "upper" = NA)
 
     for (i in 1:nrow(species_site_combos)) {
-      ssp_subset <- dplyr::filter(data, data$Site ==
-        as.character(species_site_combos$Site[i]) &
-        data$Morphotype ==
-          as.character(species_site_combos$Morphotype[i]))
-      value <- 10^(params$regression_slope * log10(stat_function(ssp_subset$`petiole metric`))
+      ssp_subset <- dplyr::filter(data, data$site ==
+        as.character(species_site_combos$site[i]) &
+        data$morphotype ==
+          as.character(species_site_combos$morphotype[i]))
+      value <- 10^(params$regression_slope * log10(stat_function(ssp_subset$petiole_metric))
         + params$y_intercept)
-      species_site_combos$`petiole metric`[i] <- mean(ssp_subset$`petiole metric`)
+      species_site_combos$petiole_metric[i] <- mean(ssp_subset$petiole_metric)
       species_site_combos$n[i] <- nrow(ssp_subset)
       species_site_combos$value[i] <- value
       species_site_combos$upper[i] <-
         10^(log10(value) + sqrt(params$unexplained_mean_square * ((1 / nrow(ssp_subset))
-        + (1 / params$sample_size_calibration) + (((log10(stat_function(ssp_subset$`petiole metric`)) -
+        + (1 / params$sample_size_calibration) + (((log10(stat_function(ssp_subset$petiole_metric)) -
             params$mean_log_petiole_metric_calibration)^2) / params$sum_of_squares_calibration))) * params$critical_value)
       species_site_combos$lower[i] <-
         10^(log10(value) - sqrt(params$unexplained_mean_square * ((1 / nrow(ssp_subset))
-        + (1 / params$sample_size_calibration) + (((log10(stat_function(ssp_subset$`petiole metric`)) -
+        + (1 / params$sample_size_calibration) + (((log10(stat_function(ssp_subset$petiole_metric)) -
             params$mean_log_petiole_metric_calibration)^2) / params$sum_of_squares_calibration))) * params$critical_value)
     }
 
     return(species_site_combos)
   } else if (resolution == "site") {
     sites <- data %>%
-      dplyr::distinct(.data$Site) %>%
+      dplyr::distinct(.data$site) %>%
       cbind("n" = NA, "lower" = NA, "value" = NA, "upper" = NA)
 
     for (i in 1:nrow(sites)) {
-      site_subset <- dplyr::filter(data, data$Site
-      == as.character(sites$Site[i]))
-      value <- 10^(params$regression_slope * log10(stat_function(site_subset$`petiole metric`))
+      site_subset <- dplyr::filter(data, data$site
+      == as.character(sites$site[i]))
+      value <- 10^(params$regression_slope * log10(stat_function(site_subset$petiole_metric))
         + params$y_intercept)
       sites$n[i] <- nrow(site_subset)
       sites$value[i] <- value
       sites$lower[i] <-
         10^(log10(value) - sqrt(params$unexplained_mean_square * ((1 / nrow(site_subset))
-        + (1 / params$sample_size_calibration) + (((log10(stat_function(site_subset$`petiole metric`)) -
+        + (1 / params$sample_size_calibration) + (((log10(stat_function(site_subset$petiole_metric)) -
             params$mean_log_petiole_metric_calibration)^2) / params$sum_of_squares_calibration))) * params$critical_value)
       sites$upper[i] <-
         10^(log10(value) + sqrt(params$unexplained_mean_square * ((1 / nrow(site_subset))
-        + (1 / params$sample_size_calibration) + (((log10(stat_function(site_subset$`petiole metric`)) -
+        + (1 / params$sample_size_calibration) + (((log10(stat_function(site_subset$petiole_metric)) -
             params$mean_log_petiole_metric_calibration)^2) / params$sum_of_squares_calibration))) * params$critical_value)
     }
 

@@ -35,59 +35,87 @@
 #' dilp_dataset <- dilp_processing(McAbeeExample)
 #' dilp_dataset
 dilp_processing <- function(specimen_data) {
-  ## For specimens where blade area was measured, but there is an NA for petiole area, convert NA to 0 to permit the subsequent addition
-  specimen_data$`Petiole area` <- ifelse(specimen_data$`Blade area` > 0 & is.na(specimen_data$`Petiole area`), 0, specimen_data$`Petiole area`)
-  # Sum petiole area and blade area
-  specimen_data$`Leaf area` <- specimen_data$`Blade area` + specimen_data$`Petiole area` # if petiole area was measured but there is a NA for blade area, this addition will appropriately return a NA for leaf area
 
-  # Feret Diameter Ratio
-  specimen_data$`Feret diameter` <- 2 * sqrt(specimen_data$`Leaf area` / pi)
-  specimen_data$FDR <- specimen_data$`Feret diameter` / specimen_data$Feret
+  colnames(specimen_data) <- colnames(specimen_data) %>%
+    stringr::str_trim() %>%
+    stringr::str_to_lower() %>%
+    stringr::str_replace_all("[.]", "") %>%
+    stringr::str_replace_all("[ ]","_") %>%
+    stringr::str_replace_all("no_of_secondary_teeth", "no_of_subsidiary_teeth")
 
-  # Corrected perimeters
-  specimen_data$`Raw blade perimeter corrected` <- specimen_data$`Raw blade perimeter` - specimen_data$`Length of cut perimeter`
-  specimen_data$`Internal raw blade perimeter corrected` <- specimen_data$`Internal raw blade perimeter` - specimen_data$`Length of cut perimeter`
+  required_columns <- c("site", "specimen_number", "morphotype", "margin", "feret", "blade_area",
+                        "raw_blade_perimeter", "internal_raw_blade_perimeter", "length_of_cut_perimeter",
+                        "no_primary_teeth", "no_of_subsidiary_teeth")
 
-  ## Toothed variables
-  # Total tooth count
-  specimen_data$`no. of secondary teeth`[is.na(specimen_data$`no. of secondary teeth`)] <- 0 # if it is left as NA then total tooth count will also return NA
-  specimen_data$`Total tooth count` <- specimen_data$`no. primary teeth` + specimen_data$`no. of secondary teeth`
-  # Total tooth count : internal perimeter
-  specimen_data$`TC IP` <- specimen_data$`Total tooth count` / specimen_data$`Internal raw blade perimeter corrected`
-  # Perimeter ratio
-  specimen_data$`Perimeter ratio` <- specimen_data$`Raw blade perimeter corrected` / specimen_data$`Internal raw blade perimeter corrected`
 
-  #### Apply required natural logs to appropriate variables
-  specimen_data$`Ln leaf area` <- log(100 * specimen_data$`Leaf area`) # Leaf area is expressed in mm2 in DiLP MLR and SLR models, so here also converting from cm2 to mm2
-  specimen_data$`Ln PR` <- log(specimen_data$`Perimeter ratio`)
-  specimen_data$`Ln TC IP` <- log(specimen_data$`TC IP`)
+  recommended_columns <- c("petiole_width", "petiole_area","blade_perimeter",
+                           "minimum_feret", "raw_blade_area", "internal_raw_blade_area")
+  missing_columns <- required_columns[!required_columns %in% colnames(specimen_data)]
+  if(length(missing_columns) > 0){
+    stop(paste("specimen_data is missing required columns:", stringr::str_flatten(missing_columns, collapse = ", ")))
+  } else{
+    other_columns <- recommended_columns[!recommended_columns %in% colnames(specimen_data)]
+    if(length(other_columns) > 0){
+      warning(paste("specimen_data is missing recommended columns and has filled them with NAs:", stringr::str_flatten(other_columns, collapse = ", ")), call. = FALSE)
+      for(column in other_columns) {
+        specimen_data[[column]] <- NA
+      }
+    }
 
-  # change NA's to zeros for length.of.cut.perimeter so that derived variables can be calculated
-  specimen_data$`Length of cut perimeter` <- ifelse(is.na(specimen_data$`Length of cut perimeter`), 0, specimen_data$`Length of cut perimeter`)
-  # Petiole metric for reconstructing leaf mass per area
-  specimen_data$`petiole metric` <- (specimen_data$`Petiole width`^2) / specimen_data$`Leaf area`
-  # Aspect ratio
-  specimen_data$`aspect ratio` <- specimen_data$Feret / specimen_data$`Minimum Feret`
-  # Shape factor
-  specimen_data$`shape factor` <- 4 * pi * (specimen_data$`Blade area` / (specimen_data$`Blade perimeter`^2))
-  # Compactness
-  specimen_data$compactness <- (specimen_data$`Blade perimeter`^2) / specimen_data$`Blade area`
-  # Tooth area
-  specimen_data$`tooth area` <- specimen_data$`Raw blade area` - specimen_data$`Internal raw blade area`
-  # Tooth area : perimeter
-  specimen_data$`TA P` <- specimen_data$`tooth area` / specimen_data$`Raw blade perimeter corrected`
-  # Tooth area : internal perimeter
-  specimen_data$`TA IP` <- specimen_data$`tooth area` / specimen_data$`Internal raw blade perimeter corrected`
-  # Tooth area : blade area
-  specimen_data$`TA BA` <- specimen_data$`tooth area` / specimen_data$`Raw blade area`
-  # Average primary tooth area
-  specimen_data$`Avg TA` <- specimen_data$`tooth area` / specimen_data$`no. primary teeth` # double check
-  # Tooth count : blade area
-  specimen_data$`TC BA` <- specimen_data$`Total tooth count` / specimen_data$`Raw blade area`
-  # tooth count : perimeter
-  specimen_data$`TC P` <- specimen_data$`Total tooth count` / specimen_data$`Raw blade perimeter corrected`
+    ## For specimens where blade area was measured, but there is an NA for petiole area, convert NA to 0 to permit the subsequent addition
+    specimen_data$petiole_area <- ifelse(specimen_data$blade_area > 0 & is.na(specimen_data$petiole_area), 0, specimen_data$petiole_area)
+    # Sum petiole area and blade area
+    specimen_data$leaf_area <- specimen_data$blade_area + specimen_data$petiole_area # if petiole area was measured but there is a NA for blade area, this addition will appropriately return a NA for leaf area
 
-  return(specimen_data)
+    # Feret Diameter Ratio
+    specimen_data$feret_diameter <- 2 * sqrt(specimen_data$leaf_area / pi)
+    specimen_data$fdr <- specimen_data$feret_diameter / specimen_data$feret
+
+    # Corrected perimeters
+    specimen_data$raw_blade_perimeter_corrected <- specimen_data$raw_blade_perimeter - specimen_data$length_of_cut_perimeter
+    specimen_data$internal_raw_blade_perimeter_corrected <- specimen_data$internal_raw_blade_perimeter - specimen_data$length_of_cut_perimeter
+
+    ## Toothed variables
+    # Total tooth count
+    specimen_data$no_of_subsidiary_teeth[is.na(specimen_data$no_of_subsidiary_teeth)] <- 0 # if it is left as NA then total tooth count will also return NA
+    specimen_data$total_tooth_count <- specimen_data$no_primary_teeth + specimen_data$no_of_subsidiary_teeth
+    # Total tooth count : internal perimeter
+    specimen_data$tc_ip <- specimen_data$total_tooth_count / specimen_data$internal_raw_blade_perimeter_corrected
+    # Perimeter ratio
+    specimen_data$perimeter_ratio <- specimen_data$raw_blade_perimeter_corrected / specimen_data$internal_raw_blade_perimeter_corrected
+
+    #### Apply required natural logs to appropriate variables
+    specimen_data$ln_leaf_area <- log(100 * specimen_data$leaf_area) # Leaf area is expressed in mm2 in DiLP MLR and SLR models, so here also converting from cm2 to mm2
+    specimen_data$ln_pr <- log(specimen_data$perimeter_ratio)
+    specimen_data$ln_tc_ip <- log(specimen_data$tc_ip)
+
+    # change NA's to zeros for length.of.cut.perimeter so that derived variables can be calculated
+    specimen_data$length_of_cut_perimeter <- ifelse(is.na(specimen_data$length_of_cut_perimeter), 0, specimen_data$length_of_cut_perimeter)
+    # Petiole metric for reconstructing leaf mass per area
+    specimen_data$petiole_metric <- (specimen_data$petiole_width^2) / specimen_data$leaf_area
+    # Aspect ratio
+    specimen_data$aspect_ratio <- specimen_data$feret / specimen_data$minimum_feret
+    # Shape factor
+    specimen_data$shape_factor <- 4 * pi * (specimen_data$blade_area / (specimen_data$blade_perimeter^2))
+    # Compactness
+    specimen_data$compactness <- (specimen_data$blade_perimeter^2) / specimen_data$blade_area
+    # Tooth area
+    specimen_data$tooth_area <- specimen_data$raw_blade_area - specimen_data$internal_raw_blade_area
+    # Tooth area : perimeter
+    specimen_data$ta_p <- specimen_data$tooth_area / specimen_data$raw_blade_perimeter_corrected
+    # Tooth area : internal perimeter
+    specimen_data$ta_ip <- specimen_data$tooth_area / specimen_data$internal_raw_blade_perimeter_corrected
+    # Tooth area : blade area
+    specimen_data$ta_ba <- specimen_data$tooth_area / specimen_data$raw_blade_area
+    # Average primary tooth area
+    specimen_data$avg_ta <- specimen_data$tooth_area / specimen_data$no_primary_teeth # double check
+    # Tooth count : blade area
+    specimen_data$tc_ba <- specimen_data$total_tooth_count / specimen_data$raw_blade_area
+    # tooth count : perimeter
+    specimen_data$tc_p <- specimen_data$total_tooth_count / specimen_data$raw_blade_perimeter_corrected
+
+    return(specimen_data)
+  }
 }
 
 #' Check for common errors in DiLP measurements
@@ -114,21 +142,21 @@ dilp_errors <- function(specimen_data) {
   ### This data frame will be filled with the results of the following error checks
   errors <- data.frame()
   dilp.check.1 <- specimen_data %>%
-    dplyr::filter(.data$Margin == 1)
-  error <- specimen_data[which(dilp.check.1$`Total tooth count` > -1), 2]
+    dplyr::filter(.data$margin == 1)
+  error <- specimen_data[which(dilp.check.1$total_tooth_count > -1), 2]
   temp1 <- data.frame(Check = "Entire tooth count not NA", t(error))
-  error <- specimen_data[which(dilp.check.1$`TC IP` > -1), 2]
+  error <- specimen_data[which(dilp.check.1$tc_ip > -1), 2]
   temp2 <- data.frame(Check = "Entire tooth count : IP not NA", t(error))
-  error <- specimen_data[which(dilp.check.1$`Perimeter ratio` > -1), 2]
+  error <- specimen_data[which(dilp.check.1$perimeter_ratio > -1), 2]
   temp3 <- data.frame(Check = "Entire perimeter ratio not NA", t(error))
-  dilp.check.2 <- tidyr::drop_na(specimen_data, "FDR")
-  error <- specimen_data[which(dilp.check.2$FDR < 0 | dilp.check.2$FDR > 1), 2]
+  dilp.check.2 <- tidyr::drop_na(specimen_data, "fdr")
+  error <- specimen_data[which(dilp.check.2$fdr < 0 | dilp.check.2$fdr > 1), 2]
   temp4 <- data.frame(Check = "FDR not between 0-1", t(error))
-  error <- specimen_data[which(specimen_data$`Internal raw blade perimeter corrected` > specimen_data$`Raw blade perimeter corrected`), 2]
+  error <- specimen_data[which(specimen_data$internal_raw_blade_perimeter_corrected > specimen_data$raw_blade_perimeter_corrected), 2]
   temp5 <- data.frame(Check = "External perimeter not larger than internal perimeter", t(error))
-  error <- specimen_data[which(specimen_data$`Minimum Feret` > specimen_data$Feret), 2]
+  error <- specimen_data[which(specimen_data$minimum_feret > specimen_data$feret), 2]
   temp6 <- data.frame(Check = "Feret is not larger than minimum Feret", t(error))
-  error <- as.data.frame(specimen_data[which(specimen_data$`Perimeter ratio` <= 1), 2])
+  error <- as.data.frame(specimen_data[which(specimen_data$perimeter_ratio <= 1), 2])
   temp7 <- data.frame(Check = "Perimeter ratio not greater than 1", t(error))
   errors <- dplyr::bind_rows(temp1, temp2, temp3, temp4, temp5, temp6, temp7)
   if(length(errors) == 1){
@@ -165,7 +193,7 @@ dilp_errors <- function(specimen_data) {
 #' dilp_outliers <- dilp_outliers(dilp_dataset)
 #' dilp_outliers
 dilp_outliers <- function(specimen_data) {
-  vars <- c("FDR", "TC IP", "Leaf area", "Perimeter ratio") # DiLP variables
+  vars <- c("fdr", "tc_ip", "leaf_area", "perimeter_ratio") # DiLP variables
   outliers <- data.frame()
 
   for (i in 1:length(vars)) {
@@ -233,46 +261,46 @@ dilp <- function(specimen_data, params = dilp_parameters) {
 
   ####### Morphotype average by site
   dilp_morphotype <- processed_specimen_data %>%
-    dplyr::select(-c("Specimen Number", "Measurer comments")) %>%
-    dplyr::group_by(.data$Site, .data$Morphotype) %>%
+    dplyr::select(-c("specimen_number", "measurer_comments")) %>%
+    dplyr::group_by(.data$site, .data$morphotype) %>%
     dplyr::summarise_all(mean, na.rm = TRUE)
 
   ##### Morphotypes that have variable leaf margin states require a margin state of 0.5
 
   # is just 1 and 0 listed? If so, the following finds margin state values between 0 and 1 and replaces them with 0.5
-  if (length(unique(dilp_morphotype$Margin)) > 2) {
-    dilp_morphotype$Margin[dilp_morphotype$Margin > 0 & dilp_morphotype$Margin < 1] <- 0.5
-    if (length(unique(dilp_morphotype$Margin)) > 2) {
+  if (length(unique(dilp_morphotype$margin)) > 2) {
+    dilp_morphotype$margin[dilp_morphotype$margin > 0 & dilp_morphotype$margin < 1] <- 0.5
+    if (length(unique(dilp_morphotype$margin)) > 2) {
       warning("Margin states outside the bounds of [0 - 1] present")
     } # Double check the code was successful, now there should be 0.5, 1.0 and 0.0 listed
   }
 
   ####### Site average
   dilp_site <- dilp_morphotype %>%
-    dplyr::group_by(.data$Site) %>%
-    dplyr::select(-"Morphotype") %>%
+    dplyr::group_by(.data$site) %>%
+    dplyr::select(-"morphotype") %>%
     dplyr::summarise_all(mean, na.rm = TRUE)
 
   ### Convert site margin from proportion to percentage
-  dilp_site$Margin <- dilp_site$Margin * 100
+  dilp_site$margin <- dilp_site$margin * 100
 
   ## A loop is constructed to handle spreadsheets that contain either multiple sites or a single site. For the latter, the loop will run only once.
-  sites <- c(unique(dilp_site$Site))
+  sites <- c(unique(dilp_site$site))
   Results <- data.frame()
 
   for (i in 1:length(sites)) {
-    temp <- dilp_site[dilp_site$Site == sites[i], ] # isolate site
+    temp <- dilp_site[dilp_site$site == sites[i], ] # isolate site
 
     #### MAT
     # MLR
-    MAT.MLR <- (temp$Margin * params$MAT.MLR.M) + (temp$FDR * params$MAT.MLR.FDR) + (temp$`TC IP` * params$MAT.MLR.TC.IP) + params$MAT.MLR.constant
+    MAT.MLR <- (temp$margin * params$MAT.MLR.M) + (temp$fdr * params$MAT.MLR.FDR) + (temp$tc_ip * params$MAT.MLR.TC.IP) + params$MAT.MLR.constant
 
     # SLR
-    MAT.SLR <- (temp$Margin * params$MAT.SLR.M) + params$MAT.SLR.constant
+    MAT.SLR <- (temp$margin * params$MAT.SLR.M) + params$MAT.SLR.constant
 
     #### MAP
     # MLR
-    MAP.MLR.exp <- (temp$`Ln leaf area` * params$MAP.MLR.LA) + (temp$`Ln TC IP` * params$MAP.MLR.TC.IP) + (temp$`Ln PR` * params$MAP.MLR.PR) + params$MAP.MLR.constant
+    MAP.MLR.exp <- (temp$ln_leaf_area * params$MAP.MLR.LA) + (temp$ln_tc_ip * params$MAP.MLR.TC.IP) + (temp$ln_pr * params$MAP.MLR.PR) + params$MAP.MLR.constant
     MAP.MLR <- exp(MAP.MLR.exp)
 
     MAP.MLR.error.plus <- (exp(MAP.MLR.exp + params$MAP.MLR.SE)) - MAP.MLR
@@ -280,7 +308,7 @@ dilp <- function(specimen_data, params = dilp_parameters) {
 
     # SLR
 
-    MAP.SLR.exp <- (temp$`Ln leaf area` * params$MAP.SLR.LA) + params$MAP.SLR.constant
+    MAP.SLR.exp <- (temp$ln_leaf_area * params$MAP.SLR.LA) + params$MAP.SLR.constant
     MAP.SLR <- exp(MAP.SLR.exp)
     MAP.SLR.error.plus <- (exp(MAP.SLR.exp + params$MAP.SLR.SE)) - MAP.SLR
     MAP.SLR.error.minus <- MAP.SLR - (exp(MAP.SLR.exp - params$MAP.SLR.SE))
@@ -288,7 +316,7 @@ dilp <- function(specimen_data, params = dilp_parameters) {
     # Results table
 
     temp_output <- data.frame(
-      Site = temp$Site, Margin = temp$Margin, FDR = temp$FDR, `TC IP` = temp$`TC IP`, `Ln leaf area` = temp$`Ln leaf area`, `Ln TC IP` = temp$`Ln TC IP`, `Ln PR` = temp$`Ln PR`, MAT.MLR, params$MAT.MLR.error, MAT.SLR, params$MAT.SLR.error, MAP.MLR,
+      Site = temp$site, Margin = temp$margin, FDR = temp$fdr, `TC IP` = temp$tc_ip, `Ln leaf area` = temp$ln_leaf_area, `Ln TC IP` = temp$ln_tc_ip, `Ln PR` = temp$ln_pr, MAT.MLR, params$MAT.MLR.error, MAT.SLR, params$MAT.SLR.error, MAP.MLR,
       MAP.MLR.error.plus, MAP.MLR.error.minus, MAP.SLR, MAP.SLR.error.plus, MAP.SLR.error.minus
     )
     Results <- rbind(Results, temp_output)

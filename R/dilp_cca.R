@@ -23,18 +23,27 @@
 dilp_cca <- function(dilp_table, physiognomy_calibration = physiognomyCalibration, climate_calibration = climateCalibration) {
   # sort by alphabetical order, to ensure sites line up between this and the climate dataframe
   physiognomy_calibration <- physiognomy_calibration[order(physiognomy_calibration$Site), ]
-  colnames(physiognomy_calibration) <- gsub("\\.", " ", colnames(physiognomy_calibration))
+  colnames(physiognomy_calibration) <- colnames(physiognomy_calibration) %>%
+    stringr::str_trim() %>%
+    stringr::str_to_lower() %>%
+    stringr::str_replace_all("[.]", " ") %>%
+    stringr::str_replace_all("[ ]","_")
+  colnames(climate_calibration) <- colnames(climate_calibration) %>%
+    stringr::str_trim() %>%
+    stringr::str_to_lower() %>%
+    stringr::str_replace_all("[.]", "") %>%
+    stringr::str_replace_all("[ ]","_")
 
   # remove the site column
   cca_leaf <- physiognomy_calibration %>%
-    dplyr::select(-"Site")
+    dplyr::select(-"site")
 
   # sort by alphabetical order, to ensure sites line up between this and the leaf trait dataframe
-  climate_calibration <- climate_calibration[order(climate_calibration$Site), ]
+  climate_calibration <- climate_calibration[order(climate_calibration$site), ]
 
   # remove the site column
   cca_climate <- climate_calibration %>%
-    dplyr::select(-"Site")
+    dplyr::select(-"site")
 
   ###### Preform the CCA, excluding the fossil site(s)
   cca_analysis <- vegan::cca(X = cca_leaf, Y = cca_climate, scale = "TRUE")
@@ -44,7 +53,7 @@ dilp_cca <- function(dilp_table, physiognomy_calibration = physiognomyCalibratio
   coln <- colnames(physiognomy_calibration)
   cca_fossil_site <- subset(dilp_table$processed_site_data, select = coln)
   cca_fossil <- cca_fossil_site %>%
-    dplyr::select(-"Site")
+    dplyr::select(-"site")
 
   ## Predict CCA1 and CCA2 scores from the existing model
   cca_analysis_fossil <- stats::predict(cca_analysis, type = "wa", newdata = cca_fossil)
@@ -56,7 +65,7 @@ dilp_cca <- function(dilp_table, physiognomy_calibration = physiognomyCalibratio
   # designate as calibration data
   cca_df$data <- "calibration"
   # bring the site column back
-  cca_df <- cbind(cca_df, dplyr::select(climate_calibration, "Site"))
+  cca_df <- cbind(cca_df, dplyr::select(climate_calibration, "site"))
 
   #### Merge fossil data
   # Convert CCA predictions to dataframe
@@ -64,7 +73,7 @@ dilp_cca <- function(dilp_table, physiognomy_calibration = physiognomyCalibratio
   # designate as fossil data
   cca_df_fossil$data <- "fossil"
   # bring the site column back
-  cca_df_fossil <- cbind(cca_df_fossil, dplyr::select(dilp_table$processed_site_data, "Site"))
+  cca_df_fossil <- cbind(cca_df_fossil, dplyr::select(dilp_table$processed_site_data, "site"))
   # merge the fossil and calibration CCA data
   cca_df_all <- rbind(cca_df, cca_df_fossil)
 
@@ -83,7 +92,7 @@ dilp_cca <- function(dilp_table, physiognomy_calibration = physiognomyCalibratio
       show.legend = FALSE
     ) +
     ggrepel::geom_label_repel(
-      data = cca_df_fossil, ggplot2::aes(label = .data$Site),
+      data = cca_df_fossil, ggplot2::aes(label = .data$site),
       box.padding = 0.35, point.padding = 0.5, segment.color = "grey50", max.overlaps = 50
     )
   return(cca_plot)

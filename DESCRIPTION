@@ -26,6 +26,7 @@ Imports:
     magrittr,
     rlang,
     stats,
+    stringr,
     tidyr,
     utils,
     vegan
