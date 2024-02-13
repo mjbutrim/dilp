@@ -21,7 +21,7 @@
 #' * Petiole metric
 #' * Aspect ratio
 #' * Shape factor
-#' * Compactnes
+#' * Compactness
 #' * Tooth area
 #' * Tooth area : perimeter (TA:P)
 #' * Tooth area: internal perimeter (TA:IP)
@@ -36,11 +36,7 @@
 #' dilp_dataset
 dilp_processing <- function(specimen_data) {
 
-  colnames(specimen_data) <- colnames(specimen_data) %>%
-    stringr::str_trim() %>%
-    stringr::str_to_lower() %>%
-    stringr::str_replace_all("[.]", "") %>%
-    stringr::str_replace_all("[ ]","_") %>%
+  colnames(specimen_data) <- colnameClean(specimen_data) %>%
     stringr::str_replace_all("no_of_secondary_teeth", "no_of_subsidiary_teeth")
 
   required_columns <- c("site", "specimen_number", "morphotype", "margin", "feret", "blade_area",

@@ -25,7 +25,7 @@ physiognomic data.  New variables calculated are:
 \item Petiole metric
 \item Aspect ratio
 \item Shape factor
-\item Compactnes
+\item Compactness
 \item Tooth area
 \item Tooth area : perimeter (TA:P)
 \item Tooth area: internal perimeter (TA:IP)

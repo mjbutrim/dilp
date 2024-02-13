@@ -59,11 +59,7 @@
 #' site_results
 #'
 calc_lma <- function(data, params, resolution = "species") {
-  colnames(data) <- colnames(data) %>%
-    stringr::str_trim() %>%
-    stringr::str_to_lower() %>%
-    stringr::str_replace_all("[.]", "") %>%
-    stringr::str_replace_all("[ ]","_")
+  colnames(data) <- colnameClean(data)
 
 
   if ("petiole_metric" %in% colnames(data)) {

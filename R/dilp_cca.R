@@ -23,16 +23,8 @@
 dilp_cca <- function(dilp_table, physiognomy_calibration = physiognomyCalibration, climate_calibration = climateCalibration) {
   # sort by alphabetical order, to ensure sites line up between this and the climate dataframe
   physiognomy_calibration <- physiognomy_calibration[order(physiognomy_calibration$Site), ]
-  colnames(physiognomy_calibration) <- colnames(physiognomy_calibration) %>%
-    stringr::str_trim() %>%
-    stringr::str_to_lower() %>%
-    stringr::str_replace_all("[.]", " ") %>%
-    stringr::str_replace_all("[ ]","_")
-  colnames(climate_calibration) <- colnames(climate_calibration) %>%
-    stringr::str_trim() %>%
-    stringr::str_to_lower() %>%
-    stringr::str_replace_all("[.]", "") %>%
-    stringr::str_replace_all("[ ]","_")
+  colnames(physiognomy_calibration) <- colnameClean(physiognomy_calibration)
+  colnames(climate_calibration) <- colnameClean(climate_calibration)
 
   # remove the site column
   cca_leaf <- physiognomy_calibration %>%
