@@ -214,3 +214,11 @@ dilp_parameters <- list(
   MAP.SLR.constant = 2.92,
   MAP.SLR.SE = 0.61
 )
+
+temp_regressions <- list(
+  Peppe2018 = list(slope = 0.194, constant = 5.884, error =5),
+  Peppe2011 = list(slope = 0.204, constant = 4.6, error = 5),
+  WingGreenwood = list(slope = 0.306, constant = 1.141, error = 5),
+  Wilf1997 = list(slope = 0.286, constant = 2.24, error = 5)
+)
+

@@ -12,7 +12,7 @@ temp_slr <- function(data, regression = "peppe2018"){
       warning("Margin states outside the bounds of [0 - 1] present")
     }
   }
-  regression <- list(m = 0.204, constant = 4.6, error = 5)
+  regression <- list(slope = 0.204, constant = 4.6, error = 5)
   sites <- data %>%
     dplyr::distinct(.data$site) %>%
     cbind("n" = NA, "lower" = NA, "MAT" = NA, "upper" = NA)
@@ -24,7 +24,7 @@ temp_slr <- function(data, regression = "peppe2018"){
       stats::na.omit()
 
     num_morph <- nrow(site_subset)
-    value <- regression$m * (100* sum(site_subset$margin)/num_morph) + regression$constant
+    value <- regression$slope * (100* sum(site_subset$margin)/num_morph) + regression$constant
     sites$n[i] <- num_morph
     sites$MAT[i] <- value
     sites$lower[i] <- value - regression$error
@@ -55,7 +55,7 @@ precip_slr <- function(data, regression = "peppe2018"){
     stop(paste("data is missing required columns:", stringr::str_flatten(missing_columns, collapse = ", ")))
   }
 
-  regression <- list(m = 0.283, constant = 2.92, error = 0.61)
+  regression <- list(slope = 0.283, constant = 2.92, error = 0.61)
   sites <- data %>%
     dplyr::distinct(.data$site) %>%
     cbind("n" = NA, "lower" = NA, "MAP" = NA, "upper" = NA)
@@ -67,7 +67,7 @@ precip_slr <- function(data, regression = "peppe2018"){
       dplyr::summarize(ln_leaf_area = mean(ln_leaf_area, na.rm = TRUE)) %>%
       stats::na.omit()
 
-    value <- (mean(site_subset$ln_leaf_area) * regression$m) + regression$constant
+    value <- (mean(site_subset$ln_leaf_area) * regression$slope) + regression$constant
     sites$n[i] <- nrow(site_subset)
     sites$MAP[i] <- exp(value)
     sites$lower[i] <- exp(value) - exp(value - regression$error)
