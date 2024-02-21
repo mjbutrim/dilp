@@ -12,9 +12,9 @@ A data frame with 192 rows and 18 columns:
 \item{Site}{Stratigraphic layer or locality}
 \item{Specimen Number}{Repository number for individual specimen}
 \item{Morphotype}{Morphotype the specimen belongs to}
-\item{Measurer comments}{Any additional notes about the specimen or its measurements}
+\item{Measurer comments}{Additional notes about the specimen or its measurements}
 \item{Margin}{Whether the margin is toothed (0) or entire (1)}
-\item{Petiole Width}{The width of the petiole at the basalmost point of insertion into the leaf lamina (cm)}
+\item{Petiole Width}{The width of the petiole at the basalmost point of insertion into the leaf lamina}
 \item{Blade area}{The reconstructed area of the leaf lamina, not including the petiole}
 \item{Blade perimeter}{The length of the perimeter of the leaf lamina, not including the petiole}
 \item{Feret}{The diameter of a circle with the same area as the leaf lamina, not including the petiole}

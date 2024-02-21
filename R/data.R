@@ -9,9 +9,9 @@
 #'   \item{Site}{Stratigraphic layer or locality}
 #'   \item{Specimen Number}{Repository number for individual specimen}
 #'   \item{Morphotype}{Morphotype the specimen belongs to}
-#'   \item{Measurer comments}{Any additional notes about the specimen or its measurements}
+#'   \item{Measurer comments}{Additional notes about the specimen or its measurements}
 #'   \item{Margin}{Whether the margin is toothed (0) or entire (1)}
-#'   \item{Petiole Width}{The width of the petiole at the basalmost point of insertion into the leaf lamina (cm)}
+#'   \item{Petiole Width}{The width of the petiole at the basalmost point of insertion into the leaf lamina}
 #'   \item{Blade area}{The reconstructed area of the leaf lamina, not including the petiole}
 #'   \item{Blade perimeter}{The length of the perimeter of the leaf lamina, not including the petiole}
 #'   \item{Feret}{The diameter of a circle with the same area as the leaf lamina, not including the petiole}
@@ -32,7 +32,7 @@
 
 #' Climate Calibration Data
 #'
-#' Temperature and precipitation data for modern localities used to calibrate the DiLP model
+#' Temperature and precipitation data associated with the modern localities used to calibrate the DiLP model
 #'
 #' @format ## `climate_calibration_data`
 #' A data frame with 92 rows and 3 columns:
@@ -41,14 +41,14 @@
 #'   \item{MAT}{Mean Annual Temperature (celsius)}
 #'   \item{MAP}{Mean Annual Precipitation (mm)}
 #' }
-#' @source Lowe et al. 2024
+#' @source Peppe et al. 2011
 #' @references
-#' * Lowe, A. J., A. G. Flynn, M. J. Butrim, A. Baumgartner, D. J. Peppe, and D. L. Royer. 2024. Reconstructing terrestrial paleoclimate and paleoecology using Digital Leaf Physiognomy (DiLP) and Leaf Mass per Area. JoVE. In Review.
+#' * Peppe, D.J., Royer, D.L., Cariglino, B., Oliver, S.Y., Newman, S., Leight, E., Enikolopov, G., Fernandez-Burgos, M., Herrera, F., Adams, J.M., Correa, E., Currano, E.D., Erickson, J.M., Hinojosa, L.F., Hoganson, J.W., Iglesias, A., Jaramillo, C.A., Johnson, K.R., Jordan, G.J., Kraft, N.J.B., Lovelock, E.C., Lusk, C.H., Niinemets, Ü., Peñuelas, J., Rapson, G., Wing, S.L. and Wright, I.J. (2011), Sensitivity of leaf size and shape to climate: global patterns and paleoclimatic applications. New Phytologist, 190: 724-739. https://doi.org/10.1111/j.1469-8137.2010.03615.x
 "climate_calibration_data"
 
 #' Physiognomy Calibration Data
 #'
-#' Leaf physiognomic data taken from modern localities used to calibrate the DiLP model
+#' Leaf physiognomic data taken from the modern localities used to calibrate the DiLP model
 #'
 #' @format ## `physiognomy_calibration_data`
 #' A data frame with 92 rows and 12 columns:
@@ -66,9 +66,9 @@
 #'   \item{TC.BA}{Ratio - Tooth count:Blade area}
 #'   \item{Margin}{Percentage of untoothed species at the site}
 #' }
-#' @source Lowe et al. 2024
+#' @source Peppe et al. 2011
 #' @references
-#' * Lowe, A. J., A. G. Flynn, M. J. Butrim, A. Baumgartner, D. J. Peppe, and D. L. Royer. 2024. Reconstructing terrestrial paleoclimate and paleoecology using Digital Leaf Physiognomy (DiLP) and Leaf Mass per Area. JoVE. In Review.
+#' * Peppe, D.J., Royer, D.L., Cariglino, B., Oliver, S.Y., Newman, S., Leight, E., Enikolopov, G., Fernandez-Burgos, M., Herrera, F., Adams, J.M., Correa, E., Currano, E.D., Erickson, J.M., Hinojosa, L.F., Hoganson, J.W., Iglesias, A., Jaramillo, C.A., Johnson, K.R., Jordan, G.J., Kraft, N.J.B., Lovelock, E.C., Lusk, C.H., Niinemets, Ü., Peñuelas, J., Rapson, G., Wing, S.L. and Wright, I.J. (2011), Sensitivity of leaf size and shape to climate: global patterns and paleoclimatic applications. New Phytologist, 190: 724-739. https://doi.org/10.1111/j.1469-8137.2010.03615.x
 "physiognomy_calibration_data"
 
 #' LMA reconstruction parameters
@@ -195,7 +195,7 @@ lowe_site_variance_ma <- list(
 #' }
 #'
 #' @references
-#' * ??
+#' * Peppe, D.J., Royer, D.L., Cariglino, B., Oliver, S.Y., Newman, S., Leight, E., Enikolopov, G., Fernandez-Burgos, M., Herrera, F., Adams, J.M., Correa, E., Currano, E.D., Erickson, J.M., Hinojosa, L.F., Hoganson, J.W., Iglesias, A., Jaramillo, C.A., Johnson, K.R., Jordan, G.J., Kraft, N.J.B., Lovelock, E.C., Lusk, C.H., Niinemets, Ü., Peñuelas, J., Rapson, G., Wing, S.L. and Wright, I.J. (2011), Sensitivity of leaf size and shape to climate: global patterns and paleoclimatic applications. New Phytologist, 190: 724-739. https://doi.org/10.1111/j.1469-8137.2010.03615.x
 dilp_parameters <- list(
   MAT.MLR.M = 0.21,
   MAT.MLR.FDR = 42.296,
@@ -222,3 +222,9 @@ temp_regressions <- list(
   Wilf1997 = list(slope = 0.286, constant = 2.24, error = 5)
 )
 
+precip_regressions <- list(
+  Peppe2018 = list(slope = 0.346, constant = 2.404, error = 0.93),
+  Peppe2011 = list(slope = 0.283, constant = 2.92, error = 0.61),
+  Jacobs2002 = list(slope = 0.321, constant = 2.476, error = 0.24),
+  Wilf1998 = list(slope = 0.546, constant = 0.786, error = 0.36)
+)

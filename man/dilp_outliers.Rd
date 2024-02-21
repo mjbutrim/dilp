@@ -11,7 +11,7 @@ dilp_outliers(specimen_data)
 structure should match the structure of the output from \code{\link[=dilp_processing]{dilp_processing()}}}
 }
 \value{
-A 4 x X data frame. Each row represents one of the DiLP parameters,
+A 4 by X data frame. Each row represents one of the DiLP parameters,
 and the specimens that are outliers for that parameter.
 }
 \description{
@@ -19,7 +19,7 @@ and the specimens that are outliers for that parameter.
 However, it can be used on its own to locate specimens that may have been
 misreported or measured incorrectly.  \code{dilp_outliers()} returns a data frame
 listing specimens that have unusually high or low values for the four key
-parameters used in DiLP analyses.  It may be worth taking a look at the
+parameters used in DiLP analyses.  If flagged, it may be worth taking a look at the
 raw measurements and evaluating if the specimen should be used.
 }
 \examples{

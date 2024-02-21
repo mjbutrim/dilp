@@ -11,7 +11,7 @@ dilp_errors(specimen_data)
 structure should match the structure of the output from \code{\link[=dilp_processing]{dilp_processing()}}}
 }
 \value{
-A 7 x X data frame.  Each row shows a common error, and which specimens
+A 7 by X data frame.  Each row shows a common error, and which specimens
 from the input dataset are tripping it.
 }
 \description{

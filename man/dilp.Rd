@@ -10,8 +10,8 @@ dilp(specimen_data, params = dilp_parameters)
 \item{specimen_data}{A data frame containing specimen level leaf physiognomic
 data.For example: \code{\link{McAbeeExample}}}
 
-\item{params}{A list of parameters used for DiLP calculation.  Defaults to
-\code{\link{dilp_parameters}}.}
+\item{params}{A list of parameters used for DiLP calculation.  Defaults to the
+parameters of Peppe et al. 2011: \code{\link{dilp_parameters}}.}
 }
 \value{
 A list of tables that includes all pertinent DiLP
@@ -33,7 +33,7 @@ regressions.
 }
 \description{
 \code{dilp()} processes raw leaf physiognomic data, checks for common
-errors/outliers, and returns the processed data, keys to find any revealed
+errors/outliers, and returns the processed data, keys to finding potential
 errors or outliers, and paleoclimate reconstructions.
 }
 \examples{
@@ -44,4 +44,9 @@ dilp_results$processed_site_data
 dilp_results$errors
 dilp_results$outliers
 dilp_results$results
+}
+\references{
+\itemize{
+\item Peppe, D.J., Royer, D.L., Cariglino, B., Oliver, S.Y., Newman, S., Leight, E., Enikolopov, G., Fernandez-Burgos, M., Herrera, F., Adams, J.M., Correa, E., Currano, E.D., Erickson, J.M., Hinojosa, L.F., Hoganson, J.W., Iglesias, A., Jaramillo, C.A., Johnson, K.R., Jordan, G.J., Kraft, N.J.B., Lovelock, E.C., Lusk, C.H., Niinemets, Ü., Peñuelas, J., Rapson, G., Wing, S.L. and Wright, I.J. (2011), Sensitivity of leaf size and shape to climate: global patterns and paleoclimatic applications. New Phytologist, 190: 724-739. https://doi.org/10.1111/j.1469-8137.2010.03615.x
+}
 }

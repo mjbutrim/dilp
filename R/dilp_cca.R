@@ -1,4 +1,3 @@
-# Make it so that you can have either raw data or a `dilp()` results table for the dilp_table parameter?
 #' Test if site leaf physiognomy falls within the physiognomic space of the DiLP calibration dataset
 #'
 #' `dilp_cca` plots a canonical correspondence analysis (CCA) ordination of the leaf
@@ -13,6 +12,8 @@
 #' @param climate_calibration A climate calibration dataset. Defaults to an internal version of
 #' \code{\link{climate_calibration_data}}.
 #'
+#' @references
+#' * Peppe, D.J., Royer, D.L., Cariglino, B., Oliver, S.Y., Newman, S., Leight, E., Enikolopov, G., Fernandez-Burgos, M., Herrera, F., Adams, J.M., Correa, E., Currano, E.D., Erickson, J.M., Hinojosa, L.F., Hoganson, J.W., Iglesias, A., Jaramillo, C.A., Johnson, K.R., Jordan, G.J., Kraft, N.J.B., Lovelock, E.C., Lusk, C.H., Niinemets, Ü., Peñuelas, J., Rapson, G., Wing, S.L. and Wright, I.J. (2011), Sensitivity of leaf size and shape to climate: global patterns and paleoclimatic applications. New Phytologist, 190: 724-739. https://doi.org/10.1111/j.1469-8137.2010.03615.x
 #' @return A ggplot2 plot
 #' @export
 #'

@@ -11,9 +11,9 @@ calc_lma(data, params, resolution = "species")
 calculate petiole metric such as "Blade Area", "Petiole Area", and "Petiole Width",
 or "Leaf Area" and "Petiole Width".  If calculating morphospecies-mean LMA,
 must include "Site" and "Morphotype" columns. If calculating species-mean LMA,
-must include a "Site' column.}
+only needs to include a "Site' column.}
 
-\item{params}{A list of regression parameters. Must contain "stat",
+\item{params}{A list of regression parameters. Must contain "stat" (= "mean" or = "variance"),
 "regression_slope", "y_intercept", "unexplained_mean_square", "sample_size_calibration"
 "mean_log_petiole_metric_calibration", "sum_of_squares_calibration", and "critical_value".
 

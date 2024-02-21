@@ -125,7 +125,7 @@ dilp_processing <- function(specimen_data) {
 #' @param specimen_data Processed specimen level leaf physiognomic data.  The
 #' structure should match the structure of the output from [dilp_processing()]
 #'
-#' @return A 7 x X data frame.  Each row shows a common error, and which specimens
+#' @return A 7 by X data frame.  Each row shows a common error, and which specimens
 #' from the input dataset are tripping it.
 #' @export
 #'
@@ -171,14 +171,14 @@ dilp_errors <- function(specimen_data) {
 #' However, it can be used on its own to locate specimens that may have been
 #' misreported or measured incorrectly.  `dilp_outliers()` returns a data frame
 #' listing specimens that have unusually high or low values for the four key
-#' parameters used in DiLP analyses.  It may be worth taking a look at the
+#' parameters used in DiLP analyses.  If flagged, it may be worth taking a look at the
 #' raw measurements and evaluating if the specimen should be used.
 #'
 #'
 #' @param specimen_data Processed specimen level leaf physiognomic data.  The
 #' structure should match the structure of the output from [dilp_processing()]
 #'
-#' @return A 4 x X data frame. Each row represents one of the DiLP parameters,
+#' @return A 4 by X data frame. Each row represents one of the DiLP parameters,
 #' and the specimens that are outliers for that parameter.
 #' @export
 #'
@@ -216,13 +216,13 @@ dilp_outliers <- function(specimen_data) {
 #'
 #' @description
 #' `dilp()` processes raw leaf physiognomic data, checks for common
-#' errors/outliers, and returns the processed data, keys to find any revealed
+#' errors/outliers, and returns the processed data, keys to finding potential
 #' errors or outliers, and paleoclimate reconstructions.
 #'
 #' @param specimen_data A data frame containing specimen level leaf physiognomic
 #' data.For example: \code{\link{McAbeeExample}}
-#' @param params A list of parameters used for DiLP calculation.  Defaults to
-#' \code{\link{dilp_parameters}}.
+#' @param params A list of parameters used for DiLP calculation.  Defaults to the
+#' parameters of Peppe et al. 2011: \code{\link{dilp_parameters}}.
 #'
 #' @return A list of tables that includes all pertinent DiLP
 #' information:
@@ -240,6 +240,8 @@ dilp_outliers <- function(specimen_data) {
 #' * results: climate reconstructions of MAT and MAP using single and multi-linear
 #' regressions.
 #'
+#' @references
+#' * Peppe, D.J., Royer, D.L., Cariglino, B., Oliver, S.Y., Newman, S., Leight, E., Enikolopov, G., Fernandez-Burgos, M., Herrera, F., Adams, J.M., Correa, E., Currano, E.D., Erickson, J.M., Hinojosa, L.F., Hoganson, J.W., Iglesias, A., Jaramillo, C.A., Johnson, K.R., Jordan, G.J., Kraft, N.J.B., Lovelock, E.C., Lusk, C.H., Niinemets, Ü., Peñuelas, J., Rapson, G., Wing, S.L. and Wright, I.J. (2011), Sensitivity of leaf size and shape to climate: global patterns and paleoclimatic applications. New Phytologist, 190: 724-739. https://doi.org/10.1111/j.1469-8137.2010.03615.x
 #' @export
 #'
 #' @examples

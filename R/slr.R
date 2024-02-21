@@ -1,4 +1,31 @@
-temp_slr <- function(data, regression = "peppe2018"){
+#' Estimate temperature with simple linear regression
+#'
+#' @description
+#' `temp_slr()` will produce estimates of mean annual temperature and standard error
+#' using leaf margin analysis.
+#' @param data A data frame that must include the columns "morphotype" and "margin".
+#' Can be species or site level data.
+#' @param regression A string representing one of the following pre-loaded regressions:
+#' *"Peppe2018" - for global temperature estimates
+#' *"Peppe2011" - The Americas, Japan, and Oceania
+#' *"WingGreenwood" - East Asia - original leaf margin analysis regression
+#' *"Wilf1997" - The Americas
+#' *
+#' @param slope Slope, if using a custom regression
+#' @param constant Constant, if using a custom regression
+#' @param error Standard error, if using a custom regression
+#'
+#' @return A table with MAT estimates for each site
+#' @references
+#' * Peppe, D. J., Baumgartner, A., Flynn, A., & Blonder, B. (2018). Reconstructing paleoclimate and paleoecology using fossil leaves. Methods in paleoecology: Reconstructing Cenozoic terrestrial environments and ecological communities, 289-317.
+#' * Peppe, D.J., Royer, D.L., Cariglino, B., Oliver, S.Y., Newman, S., Leight, E., Enikolopov, G., Fernandez-Burgos, M., Herrera, F., Adams, J.M., Correa, E., Currano, E.D., Erickson, J.M., Hinojosa, L.F., Hoganson, J.W., Iglesias, A., Jaramillo, C.A., Johnson, K.R., Jordan, G.J., Kraft, N.J.B., Lovelock, E.C., Lusk, C.H., Niinemets, Ü., Peñuelas, J., Rapson, G., Wing, S.L. and Wright, I.J. (2011), Sensitivity of leaf size and shape to climate: global patterns and paleoclimatic applications. New Phytologist, 190: 724-739. https://doi.org/10.1111/j.1469-8137.2010.03615.x
+#' * Wing, S., & Greenwood, D. R. (1993). Fossils and fossil climate: the case for equable continental interiors in the Eocene. Philosophical Transactions of the Royal Society of London Series B, 341, 243–252.
+#' * Wilf, P. (1997). When are leaves good thermometers? A new case for leaf margin analysis. Paleobiology, 23, 373–390.
+#' @export
+#'
+#' @examples
+#' temp_slr(McAbeeExample, regression = "Peppe2011")
+temp_slr <- function(data, regression = "Peppe2018", slope = NULL, constant = NULL, error = NULL){
   colnames(data) <- colnameClean(data) %>%
     stringr::str_replace_all("species", "morphotype")
   required_columns <- c("morphotype", "margin")
@@ -12,29 +39,68 @@ temp_slr <- function(data, regression = "peppe2018"){
       warning("Margin states outside the bounds of [0 - 1] present")
     }
   }
-  regression <- list(slope = 0.204, constant = 4.6, error = 5)
+  if(is.null(c(slope, constant, error))){
+    regression <- grab_regression(regression, "temp")
+    slope <- regression$slope
+    constant <- regression$constant
+    error <- regression$error
+  } else if(is.null(slope) | !is.numeric(slope)){
+    stop("Attempting to use custom regression but slope not a valid number")
+  } else if(is.null(constant) | !is.numeric(constant)){
+    stop("Attempting to use custom regression but constant not a valid number")
+  } else if(is.null(error) | !is.numeric(error)){
+    stop("Attempting to use custom regression but error not a valid number")
+  }
+
   sites <- data %>%
     dplyr::distinct(.data$site) %>%
     cbind("n" = NA, "lower" = NA, "MAT" = NA, "upper" = NA)
 
   for (i in 1:nrow(sites)) {
     site_subset <- dplyr::filter(data, data$site == as.character(sites$site[i])) %>%
-      dplyr::group_by(morphotype) %>%
-      dplyr::summarize(margin = mean(margin, na.rm = TRUE)) %>%
+      dplyr::group_by(.data$morphotype) %>%
+      dplyr::summarize(margin = mean(.data$margin, na.rm = TRUE)) %>%
       stats::na.omit()
 
     num_morph <- nrow(site_subset)
-    value <- regression$slope * (100* sum(site_subset$margin)/num_morph) + regression$constant
+    value <- slope * (100* sum(site_subset$margin)/num_morph) + constant
     sites$n[i] <- num_morph
     sites$MAT[i] <- value
-    sites$lower[i] <- value - regression$error
-    sites$upper[i] <- value + regression$error
+    sites$lower[i] <- value - error
+    sites$upper[i] <- value + error
   }
   return(sites)
 }
 
 
-precip_slr <- function(data, regression = "peppe2018"){
+#' Estimate precipitation with simple linear regression
+#'
+#' @description
+#' `precip_slr()` will produce estimates of mean annual precipitation and standard error
+#' using leaf area analysis.
+#' @param data A data frame that must include the columns "morphotype", "leaf_area", and "specimen_number".
+#' Must be species level data.
+#' @param regression A string representing one of the following pre-loaded regressions:
+#' *"Peppe2018" - for global precipitation estimates
+#' *"Peppe2011" - The Americas, Japan, and Oceania
+#' *"Jacobs2002" - Africa
+#' *"Wilf1998" - The Americas and Africa
+#' *
+#' @param slope Slope, if using a custom regression
+#' @param constant Constant, if using a custom regression
+#' @param error Standard error, if using a custom regression
+#'
+#' @return A table with MAP estimates for each site
+#' @references
+#' * Peppe, D. J., Baumgartner, A., Flynn, A., & Blonder, B. (2018). Reconstructing paleoclimate and paleoecology using fossil leaves. Methods in paleoecology: Reconstructing Cenozoic terrestrial environments and ecological communities, 289-317.
+#' * Peppe, D.J., Royer, D.L., Cariglino, B., Oliver, S.Y., Newman, S., Leight, E., Enikolopov, G., Fernandez-Burgos, M., Herrera, F., Adams, J.M., Correa, E., Currano, E.D., Erickson, J.M., Hinojosa, L.F., Hoganson, J.W., Iglesias, A., Jaramillo, C.A., Johnson, K.R., Jordan, G.J., Kraft, N.J.B., Lovelock, E.C., Lusk, C.H., Niinemets, Ü., Peñuelas, J., Rapson, G., Wing, S.L. and Wright, I.J. (2011), Sensitivity of leaf size and shape to climate: global patterns and paleoclimatic applications. New Phytologist, 190: 724-739. https://doi.org/10.1111/j.1469-8137.2010.03615.x
+#' * Jacobs, B. F. (2002). Estimation of low-latitude paleoclimates using fossil angiosperm leaves: examples from the Miocene Tugen Hills, Kenya. Paleobiology, 28, 399–421.
+#' * Wilf, P. (2008). Fossil angiosperm leaves: paleobotany’s difficult children prove themselves. Paleontological Society Papers, 14, 319–333.
+#' @export
+#'
+#' @examples
+#' precip_slr(McAbeeExample, regression = "Peppe2011")
+precip_slr <- function(data, regression = "Peppe2018", slope = NULL, constant = NULL, error = NULL){
   colnames(data) <- colnameClean(data)
 
   if ("leaf_area" %in% colnames(data)) {
@@ -54,26 +120,55 @@ precip_slr <- function(data, regression = "peppe2018"){
   if(length(missing_columns) > 0){
     stop(paste("data is missing required columns:", stringr::str_flatten(missing_columns, collapse = ", ")))
   }
+  if(is.null(c(slope, constant, error))){
+    regression <- grab_regression(regression, "precip")
+    slope <- regression$slope
+    constant <- regression$constant
+    error <- regression$error
+  } else if(is.null(slope) | !is.numeric(slope)){
+    stop("Attempting to use custom regression but slope not a valid number")
+  } else if(is.null(constant) | !is.numeric(constant)){
+    stop("Attempting to use custom regression but constant not a valid number")
+  } else if(is.null(error) | !is.numeric(error)){
+    stop("Attempting to use custom regression but error not a valid number")
+  }
 
-  regression <- list(slope = 0.283, constant = 2.92, error = 0.61)
   sites <- data %>%
     dplyr::distinct(.data$site) %>%
     cbind("n" = NA, "lower" = NA, "MAP" = NA, "upper" = NA)
 
   for (i in 1:nrow(sites)) {
     site_subset <- dplyr::filter(data, data$site == as.character(sites$site[i])) %>%
-      dplyr::group_by(morphotype) %>%
-      dplyr::mutate(ln_leaf_area = log(100 * leaf_area)) %>%
-      dplyr::summarize(ln_leaf_area = mean(ln_leaf_area, na.rm = TRUE)) %>%
+      dplyr::group_by(.data$morphotype) %>%
+      dplyr::mutate(ln_leaf_area = log(100 * .data$leaf_area)) %>%
+      dplyr::summarize(ln_leaf_area = mean(.data$ln_leaf_area, na.rm = TRUE)) %>%
       stats::na.omit()
 
-    value <- (mean(site_subset$ln_leaf_area) * regression$slope) + regression$constant
+    value <- (mean(site_subset$ln_leaf_area) * slope) + constant
     sites$n[i] <- nrow(site_subset)
     sites$MAP[i] <- exp(value)
-    sites$lower[i] <- exp(value) - exp(value - regression$error)
-    sites$upper[i] <- exp(value) + exp(value + regression$error)
+    sites$lower[i] <- exp(value) - exp(value - error)
+    sites$upper[i] <- exp(value) + exp(value + error)
   }
   return(sites)
+}
 
 
+grab_regression <- function(name, type){
+  if (type == "temp") {
+    index <- which(names(temp_regressions) == name)
+    if(length(index) == 0){
+      stop(paste("Regression ", name, "does not exist. Check for typos or provide parameters manually"))
+    } else{
+      return(temp_regressions[[index]])
+    }
+  }
+  if (type == "precip") {
+    index <- which(names(precip_regressions) == name)
+    if(length(index) == 0){
+      stop(paste("Regression ", name, "does not exist. Check for typos or provide parameters manually"))
+    } else{
+      return(precip_regressions[[index]])
+    }
+  }
 }
