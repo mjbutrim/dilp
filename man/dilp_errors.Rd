@@ -21,7 +21,7 @@ during the data collection and processing steps.  A \code{dilp_errors()} call
 will nearly always follow a \code{\link[=dilp_processing]{dilp_processing()}} call.  Returns a data frame.
 }
 \examples{
-# Check for errors in the provided \code{\link{McAbeeExample}} dataset.
+# Check for errors in the provided McAbeeExample dataset.
 dilp_dataset <- dilp_processing(McAbeeExample)
 dilp_errors <- dilp_errors(dilp_dataset)
 dilp_errors

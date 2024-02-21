@@ -130,7 +130,7 @@ dilp_processing <- function(specimen_data) {
 #' @export
 #'
 #' @examples
-#' # Check for errors in the provided \code{\link{McAbeeExample}} dataset.
+#' # Check for errors in the provided McAbeeExample dataset.
 #' dilp_dataset <- dilp_processing(McAbeeExample)
 #' dilp_errors <- dilp_errors(dilp_dataset)
 #' dilp_errors
@@ -183,7 +183,7 @@ dilp_errors <- function(specimen_data) {
 #' @export
 #'
 #' @examples
-#' # Check for outliers in the provided \code{\link{McAbeeExample}} dataset. Each
+#' # Check for outliers in the provided McAbeeExample dataset. Each
 #' # of these outliers has been manually re-examined and was found acceptable.
 #' dilp_dataset <- dilp_processing(McAbeeExample)
 #' dilp_outliers <- dilp_outliers(dilp_dataset)
@@ -222,7 +222,25 @@ dilp_outliers <- function(specimen_data) {
 #' @param specimen_data A data frame containing specimen level leaf physiognomic
 #' data.For example: \code{\link{McAbeeExample}}
 #' @param params A list of parameters used for DiLP calculation.  Defaults to the
-#' parameters of Peppe et al. 2011: \code{\link{dilp_parameters}}.
+#' parameters of Peppe et al. 2011:
+#'
+#'    * MAT.MLR.M = 0.21,
+#'    * MAT.MLR.FDR = 42.296,
+#'    * MAT.MLR.TC.IP = -2.609,
+#'    * MAT.MLR.constant = -16.004,
+#'    * MAT.MLR.error = 4,
+#'    * MAT.SLR.M = 0.204,
+#'    * MAT.SLR.constant = 4.6,
+#'    * MAT.SLR.error = 4.9,
+#'    * MAP.MLR.LA = 0.298,
+#'    * MAP.MLR.TC.IP = 0.279,
+#'    * MAP.MLR.PR = -2.717,
+#'    * MAP.MLR.constant = 3.033,
+#'    * MAP.MLR.SE = 0.6,
+#'    * MAP.SLR.LA = 0.283,
+#'    * MAP.SLR.constant = 2.92,
+#'    * MAP.SLR.SE = 0.61
+#'
 #'
 #' @return A list of tables that includes all pertinent DiLP
 #' information:
@@ -259,9 +277,8 @@ dilp <- function(specimen_data, params = dilp_parameters) {
 
   ####### Morphotype average by site
   dilp_morphotype <- processed_specimen_data %>%
-    dplyr::select(-c("specimen_number", "measurer_comments")) %>%
     dplyr::group_by(.data$site, .data$morphotype) %>%
-    dplyr::summarise_all(mean, na.rm = TRUE)
+    dplyr::summarize(dplyr::across(where(~ !is.character(.)), \(x) mean(x, na.rm = TRUE)))
 
   ##### Morphotypes that have variable leaf margin states require a margin state of 0.5
 
@@ -269,8 +286,8 @@ dilp <- function(specimen_data, params = dilp_parameters) {
   if (length(unique(dilp_morphotype$margin)) > 2) {
     dilp_morphotype$margin[dilp_morphotype$margin > 0 & dilp_morphotype$margin < 1] <- 0.5
     if (length(unique(dilp_morphotype$margin)) > 2) {
-      warning("Margin states outside the bounds of [0 - 1] present")
-    } # Double check the code was successful, now there should be 0.5, 1.0 and 0.0 listed
+      warning("Margin states outside the bounds of [0 - 1] present. Non 0 and 1 values converted to 0.5")
+    }
   }
 
   ####### Site average

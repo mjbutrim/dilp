@@ -17,11 +17,13 @@ precip_slr(
 Must be species level data.}
 
 \item{regression}{A string representing one of the following pre-loaded regressions:
-*"Peppe2018" - for global precipitation estimates
-*"Peppe2011" - The Americas, Japan, and Oceania
-*"Jacobs2002" - Africa
-*"Wilf1998" - The Americas and Africa
-*}
+\itemize{
+\item "Peppe2018" - for global precipitation estimates
+\item "Peppe2011" - The Americas, Japan, and Oceania
+\item "Jacobs2002" - Africa
+\item "Wilf1998" - The Americas and Africa
+\item 
+}}
 
 \item{slope}{Slope, if using a custom regression}
 

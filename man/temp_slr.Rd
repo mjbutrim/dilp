@@ -17,11 +17,14 @@ temp_slr(
 Can be species or site level data.}
 
 \item{regression}{A string representing one of the following pre-loaded regressions:
-*"Peppe2018" - for global temperature estimates
-*"Peppe2011" - The Americas, Japan, and Oceania
-*"WingGreenwood" - East Asia - original leaf margin analysis regression
-*"Wilf1997" - The Americas
-*}
+\itemize{
+\item "Peppe2018" - for global temperature estimates
+\item "Peppe2011" - The Americas, Japan, and Oceania
+\item "Miller2006" - North and Central America
+\item "WingGreenwood" - East Asia - original leaf margin analysis regression
+\item "Wilf1997" - The Americas
+\item 
+}}
 
 \item{slope}{Slope, if using a custom regression}
 
@@ -41,6 +44,7 @@ temp_slr(McAbeeExample, regression = "Peppe2011")
 }
 \references{
 \itemize{
+\item Miller, I. M., Brandon, M. T., & Hickey, L. J. (2006). Using leaf margin analysis to estimate mid-Cretaceous (Albian) paleolatitude of the Baja BC block. Earth and Planetary Science Letters, 245, 95–114.
 \item Peppe, D. J., Baumgartner, A., Flynn, A., & Blonder, B. (2018). Reconstructing paleoclimate and paleoecology using fossil leaves. Methods in paleoecology: Reconstructing Cenozoic terrestrial environments and ecological communities, 289-317.
 \item Peppe, D.J., Royer, D.L., Cariglino, B., Oliver, S.Y., Newman, S., Leight, E., Enikolopov, G., Fernandez-Burgos, M., Herrera, F., Adams, J.M., Correa, E., Currano, E.D., Erickson, J.M., Hinojosa, L.F., Hoganson, J.W., Iglesias, A., Jaramillo, C.A., Johnson, K.R., Jordan, G.J., Kraft, N.J.B., Lovelock, E.C., Lusk, C.H., Niinemets, Ü., Peñuelas, J., Rapson, G., Wing, S.L. and Wright, I.J. (2011), Sensitivity of leaf size and shape to climate: global patterns and paleoclimatic applications. New Phytologist, 190: 724-739. https://doi.org/10.1111/j.1469-8137.2010.03615.x
 \item Wing, S., & Greenwood, D. R. (1993). Fossils and fossil climate: the case for equable continental interiors in the Eocene. Philosophical Transactions of the Royal Society of London Series B, 341, 243–252.

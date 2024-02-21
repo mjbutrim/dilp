@@ -11,7 +11,25 @@ dilp(specimen_data, params = dilp_parameters)
 data.For example: \code{\link{McAbeeExample}}}
 
 \item{params}{A list of parameters used for DiLP calculation.  Defaults to the
-parameters of Peppe et al. 2011: \code{\link{dilp_parameters}}.}
+parameters of Peppe et al. 2011:
+\itemize{
+\item MAT.MLR.M = 0.21,
+\item MAT.MLR.FDR = 42.296,
+\item MAT.MLR.TC.IP = -2.609,
+\item MAT.MLR.constant = -16.004,
+\item MAT.MLR.error = 4,
+\item MAT.SLR.M = 0.204,
+\item MAT.SLR.constant = 4.6,
+\item MAT.SLR.error = 4.9,
+\item MAP.MLR.LA = 0.298,
+\item MAP.MLR.TC.IP = 0.279,
+\item MAP.MLR.PR = -2.717,
+\item MAP.MLR.constant = 3.033,
+\item MAP.MLR.SE = 0.6,
+\item MAP.SLR.LA = 0.283,
+\item MAP.SLR.constant = 2.92,
+\item MAP.SLR.SE = 0.61
+}}
 }
 \value{
 A list of tables that includes all pertinent DiLP

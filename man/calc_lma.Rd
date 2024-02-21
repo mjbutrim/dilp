@@ -17,8 +17,57 @@ only needs to include a "Site' column.}
 "regression_slope", "y_intercept", "unexplained_mean_square", "sample_size_calibration"
 "mean_log_petiole_metric_calibration", "sum_of_squares_calibration", and "critical_value".
 
-\link{royer_species_mean_ma}, \link{royer_site_mean_ma}, \link{lowe_site_mean_ma}, and
-\link{lowe_site_variance_ma} are pre-loaded lists of parameters.}
+Pre-loaded sets of parameters:
+
+\describe{
+\item{"royer_species_mean_ma":}{
+\itemize{
+\item stat = "mean",
+\item regression_slope = 0.382,
+\item y_intercept = 3.070,
+\item unexplained_mean_square = 0.032237,
+\item sample_size_calibration = 667,
+\item mean_log_petiole_metric_calibration = -3.011,
+\item sum_of_squares_calibration = 182.1,
+\item critical_value = 1.964}
+}
+
+\item{"royer_site_mean_ma":}{
+\itemize{
+\item stat = "mean",
+\item regression_slope = 0.429,
+\item y_intercept = 3.214,
+\item unexplained_mean_square = 0.005285,
+\item sample_size_calibration = 25,
+\item mean_log_petiole_metric_calibration = -2.857,
+\item sum_of_squares_calibration = 5.331,
+\item critical_value = 2.069}
+}
+
+\item{"lowe_site_mean_ma":}{
+\itemize{
+\item stat = "mean",
+\item regression_slope = 0.345,
+\item y_intercept = 2.954,
+\item unexplained_mean_square = 0.01212861,
+\item sample_size_calibration = 70,
+\item mean_log_petiole_metric_calibration = -2.902972,
+\item sum_of_squares_calibration = 1.154691,
+\item critical_value = 1.995469}
+}
+
+\item{"lowe_site_variance_ma":}{
+\itemize{
+\item stat = "variance",
+\item regression_slope = 0.302,
+\item y_intercept = 5.028,
+\item unexplained_mean_square = 0.1713672,
+\item sample_size_calibration = 70,
+\item mean_log_petiole_metric_calibration = -5.97104,
+\item sum_of_squares_calibration = 5.085184,
+\item critical_value = 1.995469}
+}
+}}
 
 \item{resolution}{Either "species" or "site".  Informs whether the function
 should calculate morphospecies-mean LMA values ("species") or site-mean/site-
@@ -36,21 +85,12 @@ per area (LMA).
 \examples{
 # Calculate morphospecies-mean LMA values with the parameters from Royer et al. (2007)
 results <- calc_lma(McAbeeExample,
-  params = list(
-    stat = "mean",
-    regression_slope = 0.382,
-    y_intercept = 3.070,
-    unexplained_mean_square = 0.032237,
-    sample_size_calibration = 667,
-    mean_log_petiole_metric_calibration = -3.011,
-    sum_of_squares_calibration = 182.1,
-    critical_value = 1.964
-  ),
+  params = "royer_species_mean_ma",
   resolution = "species"
 )
 results
 
-# Calculate site-mean LMA values with the parameters from Lowe et al. (2024)
+# Calculate site-mean LMA values with the parameters from Lowe et al. (2024) entered from scratch
 site_results <- calc_lma(results,
   params = list(
     stat = "mean",
@@ -66,4 +106,10 @@ site_results <- calc_lma(results,
 )
 site_results
 
+}
+\references{
+\itemize{
+\item Royer, D. L., L. Sack, P. Wilf, C. H. Lusk, G. J. Jordan, Ulo Niinemets, I. J. Wright, et al. 2007. Fossil Leaf Economics Quantified: Calibration, Eocene Case Study, and Implications. Paleobiology 33: 574–589
+\item Lowe, A. J., D. L. Royer, D. J. Wieczynski, M. J. Butrim, T. Reichgelt, L. Azevedo-Schmidt, D. J. Peppe, et al. 2024. Global patterns in community-scale leaf mass per area distributions of woody non-monocot angiosperms and their utility in the fossil record. In review.
+}
 }

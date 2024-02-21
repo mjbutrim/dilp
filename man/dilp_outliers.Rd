@@ -23,7 +23,7 @@ parameters used in DiLP analyses.  If flagged, it may be worth taking a look at 
 raw measurements and evaluating if the specimen should be used.
 }
 \examples{
-# Check for outliers in the provided \code{\link{McAbeeExample}} dataset. Each
+# Check for outliers in the provided McAbeeExample dataset. Each
 # of these outliers has been manually re-examined and was found acceptable.
 dilp_dataset <- dilp_processing(McAbeeExample)
 dilp_outliers <- dilp_outliers(dilp_dataset)
