@@ -4,13 +4,15 @@ template:
 
 reference:
 - title: Key functions
+  desc:
   contents:
   - dilp
   - lma
-  - mat_slr
-  - map_slr
+  - temp_slr
+  - precip_slr
 
 - title: Other functions
+  desc:
   contents:
   - dilp_cca
   - dilp_errors
@@ -19,6 +21,7 @@ reference:
   - calc_lma
 
 - title: Built in datasets
+  desc:
   contents:
   - McAbeeExample
   - climate_calibration_data
