@@ -9,7 +9,7 @@
 <!-- badges: end -->
 
 The goal of dilp is to help with analysis of quantitative fossil leaf
-traits. Methods included are:
+traits. Key functions included are:
 
 - Digital Leaf Physiognomy - `dilp()`
 
@@ -22,11 +22,11 @@ traits. Methods included are:
 
 - Leaf Margin Analysis - `temp_slr()`
 
-  - Estimate mean annual temperature using leaf margin
+  - Estimate mean annual temperature using leaf margin analysis
 
 - Leaf Area Analysis - `precip_slr()`
 
-  - Estimate mean annual precipitation using leaf area
+  - Estimate mean annual precipitation using leaf area analysis
 
 ## Installation
 

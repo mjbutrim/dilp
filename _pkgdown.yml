@@ -2,3 +2,24 @@ url: https://mjbutrim.github.io/dilp/
 template:
   bootstrap: 5
 
+reference:
+- title: Key functions
+  contents:
+  - dilp
+  - lma
+  - mat_slr
+  - map_slr
+
+- title: Other functions
+  contents:
+  - dilp_cca
+  - dilp_errors
+  - dilp_outliers
+  - dilp_processing
+  - calc_lma
+
+- title: Built in datasets
+  contents:
+  - McAbeeExample
+  - climate_calibration_data
+  - physiognomy_calibration_data
