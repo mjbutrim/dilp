@@ -13,7 +13,7 @@ Description: Use leaf physiognomic methods to reconstruct mean annual
     temperature (MAT), mean annual precipitation (MAP), and leaf dry mass
     per area (Ma), along with other useful quantitative leaf traits.
 License: GPL (>= 3)
-URL: https://github.com/mjbutrim/dilp
+URL: https://github.com/mjbutrim/dilp, https://mjbutrim.github.io/dilp/
 BugReports: https://github.com/mjbutrim/dilp/issues
 Depends: 
     R (>= 2.10)

@@ -11,6 +11,7 @@ Use leaf physiognomic methods to reconstruct mean annual temperature (MAT), mean
 Useful links:
 \itemize{
   \item \url{https://github.com/mjbutrim/dilp}
+  \item \url{https://mjbutrim.github.io/dilp/}
   \item Report bugs at \url{https://github.com/mjbutrim/dilp/issues}
 }
 

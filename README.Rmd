@@ -21,21 +21,25 @@ knitr::opts_chunk$set(
 
 The goal of dilp is to help with analysis of quantitative fossil leaf traits. Methods included are:
 
--   Digital Leaf Physiognomy - dilp()
+-   Digital Leaf Physiognomy - `dilp()`
 
     -   Estimate mean annual temperature and mean annual precipitation using multiple linear regressions.
+    
 
--   Fossil Leaf Mass per Area - lma()
+-   Fossil Leaf Mass per Area - `lma()`
 
     -   Reconstruct leaf mass per area using leaf area and petiole width
+    
 
--   Leaf Margin Analysis - temp_slr()
+-   Leaf Margin Analysis - `temp_slr()`
 
     -   Estimate mean annual temperature using leaf margin
+    
 
--   Leaf Area Analysis - precip_slr()
+-   Leaf Area Analysis - `precip_slr()`
 
     -   Estimate mean annual precipitation using leaf area
+    
 
 ## Installation
 
@@ -48,31 +52,4 @@ devtools::install_github("mjbutrim/dilp")
 
 ## Example
 
-This is a basic example which shows you how to run a basic DiLP and LMA analysis:
-
-```{r example, paged.print=TRUE}
-library(dilp)
-## basic example code
-dilp_results <- dilp(McAbeeExample)
-lma_results <- lma(McAbeeExample)
-data.frame(Site = c("McAbee H1", "McAbee H2"), 
-           MAT_MLR = dilp_results$results$MAT.MLR, 
-           MAT_SLR = dilp_results$results$MAT.SLR, 
-           MAP_MLR = dilp_results$results$MAP.MLR, 
-           MAP_SLR = dilp_results$results$MAP.SLR,
-           site_mean_LMA = lma_results$lowe_site_mean_lma$value)
-```
-
-You can check the validity of your DiLP results like so:
-
-```{r paged.print=TRUE}
-dilp_results$errors
-```
-
-```{r paged.print=TRUE}
-dilp_results$outliers
-```
-
-```{r}
-dilp_cca(dilp_results)
-```
+Find a basic example of running a DiLP and LMA analysis [in this vignette](https://mjbutrim.github.io/dilp/articles/dilp.html)
