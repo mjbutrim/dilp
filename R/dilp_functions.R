@@ -278,7 +278,7 @@ dilp <- function(specimen_data, params = dilp_parameters) {
   ####### Morphotype average by site
   dilp_morphotype <- processed_specimen_data %>%
     dplyr::group_by(.data$site, .data$morphotype) %>%
-    dplyr::summarize(dplyr::across(where(~ !is.character(.)), \(x) mean(x, na.rm = TRUE)))
+    dplyr::summarize(dplyr::across(dplyr::where(~ !is.character(.)), \(x) mean(x, na.rm = TRUE)))
 
   ##### Morphotypes that have variable leaf margin states require a margin state of 0.5
 

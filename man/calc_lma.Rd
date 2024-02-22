@@ -85,7 +85,16 @@ per area (LMA).
 \examples{
 # Calculate morphospecies-mean LMA values with the parameters from Royer et al. (2007)
 results <- calc_lma(McAbeeExample,
-  params = "royer_species_mean_ma",
+  params = list(
+    stat = "mean",
+    regression_slope = 0.382,
+    y_intercept = 3.070,
+    unexplained_mean_square = 0.032237,
+    sample_size_calibration = 667,
+    mean_log_petiole_metric_calibration = -3.011,
+    sum_of_squares_calibration = 182.1,
+    critical_value = 1.964
+  ),
   resolution = "species"
 )
 results

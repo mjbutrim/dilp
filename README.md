@@ -9,11 +9,22 @@
 The goal of dilp is to help with analysis of quantitative fossil leaf
 traits. Methods included are:
 
-- Digital Leaf Physiognomy (DiLP)
+- Digital Leaf Physiognomy - dilp()
 
-  - Reconstruct mean annual temperature and mean annual precipitation
+  - Estimate mean annual temperature and mean annual precipitation using
+    multiple linear regressions.
 
-- Leaf Mass per Area via the petiole metric (LMA)
+- Fossil Leaf Mass per Area - lma()
+
+  - Reconstruct leaf mass per area using leaf area and petiole width
+
+- Leaf Margin Analysis - temp_slr()
+
+  - Estimate mean annual temperature using leaf margin
+
+- Leaf Area Analysis - precip_slr()
+
+  - Estimate mean annual precipitation using leaf area
 
 ## Installation
 
@@ -35,19 +46,15 @@ library(dilp)
 ## basic example code
 dilp_results <- dilp(McAbeeExample)
 lma_results <- lma(McAbeeExample)
-dilp_results$results
-#>        Site   Margin       FDR    TC.IP Ln.leaf.area  Ln.TC.IP     Ln.PR
-#> 1 McAbee H1 32.25806 0.6965086 2.541611     6.792833 0.5991961 0.2027609
-#> 2 McAbee H2 23.33333 0.7012671 2.651242     7.037892 0.6218561 0.1504205
-#>    MAT.MLR params.MAT.MLR.error  MAT.SLR params.MAT.SLR.error MAP.MLR
-#> 1 13.59866                    4 11.18065                  4.9 107.076
-#> 2 11.63970                    4  9.36000                  4.9 133.633
-#>   MAP.MLR.error.plus MAP.MLR.error.minus  MAP.SLR MAP.SLR.error.plus
-#> 1           88.02917            48.31143 126.7697           106.5412
-#> 2          109.86219            60.29365 135.8734           114.1923
-#>   MAP.SLR.error.minus
-#> 1            57.88926
-#> 2            62.04646
+data.frame(Site = c("McAbee H1", "McAbee H2"), 
+           MAT_MLR = dilp_results$results$MAT.MLR, 
+           MAT_SLR = dilp_results$results$MAT.SLR, 
+           MAP_MLR = dilp_results$results$MAP.MLR, 
+           MAP_SLR = dilp_results$results$MAP.SLR,
+           site_mean_LMA = lma_results$lowe_site_mean_lma$value)
+#>        Site  MAT_MLR  MAT_SLR MAP_MLR  MAP_SLR site_mean_LMA
+#> 1 McAbee H1 13.59866 11.18065 107.076 126.7697      73.68178
+#> 2 McAbee H2 11.63970  9.36000 133.633 135.8734      67.58568
 ```
 
 You can check the validity of your DiLP results like so:
@@ -67,10 +74,10 @@ dilp_results$errors
 ``` r
 dilp_results$outliers
 #>          Variable     Outlier1     Outlier2     Outlier3    Outlier4
-#> 1             FDR         <NA>         <NA>         <NA>        <NA>
-#> 2           TC IP  BU-712-1117 BU-712-1169A BU-712-1176A        <NA>
-#> 3       Leaf area BU-712-2173A BU-712-2105A  BU-712-2124        <NA>
-#> 4 Perimeter ratio   M-2015-1-1 BU-712-1073A  BU-712-1165 M-2015-1-62
+#> 1             fdr         <NA>         <NA>         <NA>        <NA>
+#> 2           tc_ip  BU-712-1117 BU-712-1169A BU-712-1176A        <NA>
+#> 3       leaf_area BU-712-2173A BU-712-2105A  BU-712-2124        <NA>
+#> 4 perimeter_ratio   M-2015-1-1 BU-712-1073A  BU-712-1165 M-2015-1-62
 ```
 
 ``` r
@@ -78,5 +85,3 @@ dilp_cca(dilp_results)
 ```
 
 <img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
-
-Yay
