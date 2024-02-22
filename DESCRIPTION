@@ -2,8 +2,7 @@ Package: dilp
 Title: Reconstruct Paleoclimate and Paleoecology With Leaf Physiognomy
 Version: 0.0.0.9000
 Authors@R: c(
-    person("Matthew", "Butrim", , "mbutrim@uwyo.edu", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0002-7869-380X")),
+    person("Matthew", "Butrim", email = "mbutrim@uwyo.edu", role = c("aut", "cre", "cph")),
     person("Alexander", "Lowe", role = "aut"),
     person("Andrew", "Flynn", role = "aut"),
     person("Aly", "Baumgartner", role = "aut"),

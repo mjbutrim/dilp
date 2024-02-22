@@ -16,7 +16,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Matthew Butrim \email{mbutrim@uwyo.edu} (\href{https://orcid.org/0000-0002-7869-380X}{ORCID})
+\strong{Maintainer}: Matthew Butrim \email{mbutrim@uwyo.edu} [copyright holder]
 
 Authors:
 \itemize{
