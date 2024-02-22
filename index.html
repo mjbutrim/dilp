@@ -75,25 +75,25 @@
 <p>The goal of dilp is to help with analysis of quantitative fossil leaf traits. Methods included are:</p>
 <ul>
 <li>
-<p>Digital Leaf Physiognomy - dilp()</p>
+<p>Digital Leaf Physiognomy - <code><a href="reference/dilp.html">dilp()</a></code></p>
 <ul>
 <li>Estimate mean annual temperature and mean annual precipitation using multiple linear regressions.</li>
 </ul>
 </li>
 <li>
-<p>Fossil Leaf Mass per Area - lma()</p>
+<p>Fossil Leaf Mass per Area - <code><a href="reference/lma.html">lma()</a></code></p>
 <ul>
 <li>Reconstruct leaf mass per area using leaf area and petiole width</li>
 </ul>
 </li>
 <li>
-<p>Leaf Margin Analysis - temp_slr()</p>
+<p>Leaf Margin Analysis - <code><a href="reference/temp_slr.html">temp_slr()</a></code></p>
 <ul>
 <li>Estimate mean annual temperature using leaf margin</li>
 </ul>
 </li>
 <li>
-<p>Leaf Area Analysis - precip_slr()</p>
+<p>Leaf Area Analysis - <code><a href="reference/precip_slr.html">precip_slr()</a></code></p>
 <ul>
 <li>Estimate mean annual precipitation using leaf area</li>
 </ul>
@@ -110,42 +110,7 @@
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<p>This is a basic example which shows you how to run a basic DiLP and LMA analysis:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mjbutrim/dilp" class="external-link">dilp</a></span><span class="op">)</span></span>
-<span><span class="co">## basic example code</span></span>
-<span><span class="va">dilp_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/dilp.html">dilp</a></span><span class="op">(</span><span class="va">McAbeeExample</span><span class="op">)</span></span>
-<span><span class="va">lma_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/lma.html">lma</a></span><span class="op">(</span><span class="va">McAbeeExample</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Site <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"McAbee H1"</span>, <span class="st">"McAbee H2"</span><span class="op">)</span>, </span>
-<span>           MAT_MLR <span class="op">=</span> <span class="va">dilp_results</span><span class="op">$</span><span class="va">results</span><span class="op">$</span><span class="va">MAT.MLR</span>, </span>
-<span>           MAT_SLR <span class="op">=</span> <span class="va">dilp_results</span><span class="op">$</span><span class="va">results</span><span class="op">$</span><span class="va">MAT.SLR</span>, </span>
-<span>           MAP_MLR <span class="op">=</span> <span class="va">dilp_results</span><span class="op">$</span><span class="va">results</span><span class="op">$</span><span class="va">MAP.MLR</span>, </span>
-<span>           MAP_SLR <span class="op">=</span> <span class="va">dilp_results</span><span class="op">$</span><span class="va">results</span><span class="op">$</span><span class="va">MAP.SLR</span>,</span>
-<span>           site_mean_LMA <span class="op">=</span> <span class="va">lma_results</span><span class="op">$</span><span class="va">lowe_site_mean_lma</span><span class="op">$</span><span class="va">value</span><span class="op">)</span></span>
-<span><span class="co">#&gt;        Site  MAT_MLR  MAT_SLR MAP_MLR  MAP_SLR site_mean_LMA</span></span>
-<span><span class="co">#&gt; 1 McAbee H1 13.59866 11.18065 107.076 126.7697      73.68178</span></span>
-<span><span class="co">#&gt; 2 McAbee H2 11.63970  9.36000 133.633 135.8734      67.58568</span></span></code></pre></div>
-<p>You can check the validity of your DiLP results like so:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dilp_results</span><span class="op">$</span><span class="va">errors</span></span>
-<span><span class="co">#&gt;                                                   Check Specimen1</span></span>
-<span><span class="co">#&gt; 1                             Entire tooth count not NA      none</span></span>
-<span><span class="co">#&gt; 2                        Entire tooth count : IP not NA      none</span></span>
-<span><span class="co">#&gt; 3                         Entire perimeter ratio not NA      none</span></span>
-<span><span class="co">#&gt; 4                                   FDR not between 0-1      none</span></span>
-<span><span class="co">#&gt; 5 External perimeter not larger than internal perimeter      none</span></span>
-<span><span class="co">#&gt; 6                Feret is not larger than minimum Feret      none</span></span>
-<span><span class="co">#&gt; 7                    Perimeter ratio not greater than 1      none</span></span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dilp_results</span><span class="op">$</span><span class="va">outliers</span></span>
-<span><span class="co">#&gt;          Variable     Outlier1     Outlier2     Outlier3    Outlier4</span></span>
-<span><span class="co">#&gt; 1             fdr         &lt;NA&gt;         &lt;NA&gt;         &lt;NA&gt;        &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 2           tc_ip  BU-712-1117 BU-712-1169A BU-712-1176A        &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 3       leaf_area BU-712-2173A BU-712-2105A  BU-712-2124        &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 4 perimeter_ratio   M-2015-1-1 BU-712-1073A  BU-712-1165 M-2015-1-62</span></span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/dilp_cca.html">dilp_cca</a></span><span class="op">(</span><span class="va">dilp_results</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-4-1.png" width="100%"></p>
+<p>Find a basic example of running a DiLP and LMA analysis <a href="https://mjbutrim.github.io/dilp/articles/dilp.html">in this vignette</a></p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
