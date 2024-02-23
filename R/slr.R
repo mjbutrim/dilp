@@ -11,7 +11,7 @@
 #' * "Miller2006" - North and Central America
 #' * "WingGreenwood" - East Asia - original leaf margin analysis regression
 #' * "Wilf1997" - The Americas
-#' *
+#'
 #' @param slope Slope, if using a custom regression
 #' @param constant Constant, if using a custom regression
 #' @param error Standard error, if using a custom regression
@@ -87,7 +87,7 @@ temp_slr <- function(data, regression = "Peppe2018", slope = NULL, constant = NU
 #' * "Peppe2011" - The Americas, Japan, and Oceania
 #' * "Jacobs2002" - Africa
 #' * "Wilf1998" - The Americas and Africa
-#' *
+#'
 #' @param slope Slope, if using a custom regression
 #' @param constant Constant, if using a custom regression
 #' @param error Standard error, if using a custom regression

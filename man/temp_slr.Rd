@@ -23,7 +23,6 @@ Can be species or site level data.}
 \item "Miller2006" - North and Central America
 \item "WingGreenwood" - East Asia - original leaf margin analysis regression
 \item "Wilf1997" - The Americas
-\item 
 }}
 
 \item{slope}{Slope, if using a custom regression}

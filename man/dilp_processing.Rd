@@ -8,7 +8,7 @@ dilp_processing(specimen_data)
 }
 \arguments{
 \item{specimen_data}{A data frame containing specimen level leaf physiognomic
-data. For example: \code{\link{McAbeeExample}}}
+data. A good reference for how to put together the data: \code{\link{McAbeeExample}}}
 }
 \value{
 A data frame containing cleaned and processed specimen level leaf

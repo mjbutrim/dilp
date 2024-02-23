@@ -7,7 +7,7 @@
 #' other physiognomic analyses.  Returns a data frame.
 #'
 #' @param specimen_data A data frame containing specimen level leaf physiognomic
-#' data. For example: \code{\link{McAbeeExample}}
+#' data. A good reference for how to put together the data: \code{\link{McAbeeExample}}
 #' @return A data frame containing cleaned and processed specimen level leaf
 #' physiognomic data.  New variables calculated are:
 #' * Leaf area
@@ -36,8 +36,7 @@
 #' dilp_dataset
 dilp_processing <- function(specimen_data) {
 
-  colnames(specimen_data) <- colnameClean(specimen_data) %>%
-    stringr::str_replace_all("no_of_secondary_teeth", "no_of_subsidiary_teeth")
+  colnames(specimen_data) <- colnameClean(specimen_data)
 
   required_columns <- c("site", "specimen_number", "morphotype", "margin", "feret", "blade_area",
                         "raw_blade_perimeter", "internal_raw_blade_perimeter", "length_of_cut_perimeter",
@@ -67,12 +66,17 @@ dilp_processing <- function(specimen_data) {
     specimen_data$feret_diameter <- 2 * sqrt(specimen_data$leaf_area / pi)
     specimen_data$fdr <- specimen_data$feret_diameter / specimen_data$feret
 
+    # change NA's to zeros for length.of.cut.perimeter so that derived variables can be calculated
+    temp1 <- specimen_data$length_of_cut_perimeter
+    specimen_data$length_of_cut_perimeter <- ifelse(is.na(specimen_data$length_of_cut_perimeter), 0, specimen_data$length_of_cut_perimeter)
+
     # Corrected perimeters
     specimen_data$raw_blade_perimeter_corrected <- specimen_data$raw_blade_perimeter - specimen_data$length_of_cut_perimeter
     specimen_data$internal_raw_blade_perimeter_corrected <- specimen_data$internal_raw_blade_perimeter - specimen_data$length_of_cut_perimeter
 
     ## Toothed variables
     # Total tooth count
+    temp2 <- specimen_data$no_of_subsidiary_teeth
     specimen_data$no_of_subsidiary_teeth[is.na(specimen_data$no_of_subsidiary_teeth)] <- 0 # if it is left as NA then total tooth count will also return NA
     specimen_data$total_tooth_count <- specimen_data$no_primary_teeth + specimen_data$no_of_subsidiary_teeth
     # Total tooth count : internal perimeter
@@ -85,8 +89,6 @@ dilp_processing <- function(specimen_data) {
     specimen_data$ln_pr <- log(specimen_data$perimeter_ratio)
     specimen_data$ln_tc_ip <- log(specimen_data$tc_ip)
 
-    # change NA's to zeros for length.of.cut.perimeter so that derived variables can be calculated
-    specimen_data$length_of_cut_perimeter <- ifelse(is.na(specimen_data$length_of_cut_perimeter), 0, specimen_data$length_of_cut_perimeter)
     # Petiole metric for reconstructing leaf mass per area
     specimen_data$petiole_metric <- (specimen_data$petiole_width^2) / specimen_data$leaf_area
     # Aspect ratio
@@ -109,6 +111,11 @@ dilp_processing <- function(specimen_data) {
     specimen_data$tc_ba <- specimen_data$total_tooth_count / specimen_data$raw_blade_area
     # tooth count : perimeter
     specimen_data$tc_p <- specimen_data$total_tooth_count / specimen_data$raw_blade_perimeter_corrected
+
+    # Return length of cut perimeter and no subsidiary teeth back to original values to keep averages intact
+    specimen_data$length_of_cut_perimeter <- temp1
+    specimen_data$no_of_subsidiary_teeth <- temp2
+
 
     return(specimen_data)
   }
@@ -191,15 +198,16 @@ dilp_errors <- function(specimen_data) {
 dilp_outliers <- function(specimen_data) {
   vars <- c("fdr", "tc_ip", "leaf_area", "perimeter_ratio") # DiLP variables
   outliers <- data.frame()
+  index <- which(colnames(specimen_data) == "specimen_number")
 
   for (i in 1:length(vars)) {
     temp <- specimen_data
     colnames(temp)[colnames(temp) == vars[i]] <- "trait" # rename variable of focus
     temp.outliers <- grDevices::boxplot.stats(temp$trait)$out # check it for outliers
-    temp.row <- temp[which(temp$trait %in% c(temp.outliers)), 2] # determine specimen numbers for any outliers
-    temp.row <- as.data.frame(t(temp.row))
+    temp.specimen <- temp[which(temp$trait %in% c(temp.outliers)), index] # determine specimen numbers for any outliers
+    temp.specimen <- as.data.frame(t(temp.specimen))
     temp.output <- (trait <- vars[i])
-    temp.output <- cbind(temp.output, temp.row) # create output table with variable name and any potential rows
+    temp.output <- cbind(temp.output, temp.specimen) # create output table with variable name and any potential rows
     outliers <- dplyr::bind_rows(outliers, temp.output) # bind to summary table
   }
   # Rename column headers
@@ -220,7 +228,30 @@ dilp_outliers <- function(specimen_data) {
 #' errors or outliers, and paleoclimate reconstructions.
 #'
 #' @param specimen_data A data frame containing specimen level leaf physiognomic
-#' data.For example: \code{\link{McAbeeExample}}
+#' data. See Lowe et al. 2024 for more information on how to collect this data.
+#' A good reference for how to put together the data: \code{\link{McAbeeExample}}
+#'
+#' Required columns:
+#'    * site
+#'    * specimen_number
+#'    * morphotype
+#'    * margin
+#'    * feret
+#'    * blade_area
+#'    * raw_blade_perimeter
+#'    * internal_raw_blade_perimeter
+#'    * length_of_cut_perimeter
+#'    * no_primary_teeth
+#'    * no_of_subsidiary_teeth
+#'
+#'  Recommended columns:
+#'    * petiole_width
+#'    * petiole_area
+#'    * blade_perimeter
+#'    * minimum_feret
+#'    * raw_blade_area
+#'    * internal_raw_blade_area
+#'
 #' @param params A list of parameters used for DiLP calculation.  Defaults to the
 #' parameters of Peppe et al. 2011:
 #'
@@ -260,6 +291,7 @@ dilp_outliers <- function(specimen_data) {
 #'
 #' @references
 #' * Peppe, D.J., Royer, D.L., Cariglino, B., Oliver, S.Y., Newman, S., Leight, E., Enikolopov, G., Fernandez-Burgos, M., Herrera, F., Adams, J.M., Correa, E., Currano, E.D., Erickson, J.M., Hinojosa, L.F., Hoganson, J.W., Iglesias, A., Jaramillo, C.A., Johnson, K.R., Jordan, G.J., Kraft, N.J.B., Lovelock, E.C., Lusk, C.H., Niinemets, Ü., Peñuelas, J., Rapson, G., Wing, S.L. and Wright, I.J. (2011), Sensitivity of leaf size and shape to climate: global patterns and paleoclimatic applications. New Phytologist, 190: 724-739. https://doi.org/10.1111/j.1469-8137.2010.03615.x
+#' * Lowe. A.J., Flynn, A.G., Butrim, M.J., Baumgartner, A., Peppe, D.J., and Royer, D.L. (2024), Reconstructing terrestrial paleoclimate and paleoecology with fossil leaves using Digital Leaf Physiognomy and leaf mass per area.  JoVE.
 #' @export
 #'
 #' @examples
@@ -277,6 +309,7 @@ dilp <- function(specimen_data, params = dilp_parameters) {
 
   ####### Morphotype average by site
   dilp_morphotype <- processed_specimen_data %>%
+    dplyr::select(-"specimen_number") %>%
     dplyr::group_by(.data$site, .data$morphotype) %>%
     dplyr::summarize(dplyr::across(dplyr::where(~ !is.character(.)), \(x) mean(x, na.rm = TRUE)))
 
@@ -294,7 +327,7 @@ dilp <- function(specimen_data, params = dilp_parameters) {
   dilp_site <- dilp_morphotype %>%
     dplyr::group_by(.data$site) %>%
     dplyr::select(-"morphotype") %>%
-    dplyr::summarise_all(mean, na.rm = TRUE)
+    dplyr::summarize(dplyr::across(dplyr::where(~ !is.character(.)), \(x) mean(x, na.rm = TRUE)))
 
   ### Convert site margin from proportion to percentage
   dilp_site$margin <- dilp_site$margin * 100

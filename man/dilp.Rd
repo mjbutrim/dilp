@@ -8,7 +8,33 @@ dilp(specimen_data, params = dilp_parameters)
 }
 \arguments{
 \item{specimen_data}{A data frame containing specimen level leaf physiognomic
-data.For example: \code{\link{McAbeeExample}}}
+data. See Lowe et al. 2024 for more information on how to collect this data.
+A good reference for how to put together the data: \code{\link{McAbeeExample}}
+
+Required columns:
+\itemize{
+\item site
+\item specimen_number
+\item morphotype
+\item margin
+\item feret
+\item blade_area
+\item raw_blade_perimeter
+\item internal_raw_blade_perimeter
+\item length_of_cut_perimeter
+\item no_primary_teeth
+\item no_of_subsidiary_teeth
+}
+
+Recommended columns:
+\itemize{
+\item petiole_width
+\item petiole_area
+\item blade_perimeter
+\item minimum_feret
+\item raw_blade_area
+\item internal_raw_blade_area
+}}
 
 \item{params}{A list of parameters used for DiLP calculation.  Defaults to the
 parameters of Peppe et al. 2011:
@@ -66,5 +92,6 @@ dilp_results$results
 \references{
 \itemize{
 \item Peppe, D.J., Royer, D.L., Cariglino, B., Oliver, S.Y., Newman, S., Leight, E., Enikolopov, G., Fernandez-Burgos, M., Herrera, F., Adams, J.M., Correa, E., Currano, E.D., Erickson, J.M., Hinojosa, L.F., Hoganson, J.W., Iglesias, A., Jaramillo, C.A., Johnson, K.R., Jordan, G.J., Kraft, N.J.B., Lovelock, E.C., Lusk, C.H., Niinemets, Ü., Peñuelas, J., Rapson, G., Wing, S.L. and Wright, I.J. (2011), Sensitivity of leaf size and shape to climate: global patterns and paleoclimatic applications. New Phytologist, 190: 724-739. https://doi.org/10.1111/j.1469-8137.2010.03615.x
+\item Lowe. A.J., Flynn, A.G., Butrim, M.J., Baumgartner, A., Peppe, D.J., and Royer, D.L. (2024), Reconstructing terrestrial paleoclimate and paleoecology with fossil leaves using Digital Leaf Physiognomy and leaf mass per area.  JoVE.
 }
 }

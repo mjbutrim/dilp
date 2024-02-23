@@ -12,7 +12,8 @@ colnameClean <- function(data){
   names <- colnameSynonym(names, "internal_raw_blade_perimeter", c("raw_internal_blade_perimeter"))
   names <- colnameSynonym(names, "no_primary_teeth", c("no_of_primary_teeth", "number_primary_teeth", "number_of_primary_teeth", "#primary_teeth", "#_of_primary_teeth"))
   names <- colnameSynonym(names, "no_of_subsidiary_teeth", c("no_subsidiary_teeth", "number_subsidiary_teeth", "number_of_subsidiary_teeth", "#subsidiary_teeth", "#_of_subsidiary_teeth",
-                                                           "no_secondary_teeth", "number_secondary_teeth", "number_of_secondary_teeth", "#secondary_teeth", "#_of_secondary_teeth"))
+                                                           "no_secondary_teeth", "number_secondary_teeth", "number_of_secondary_teeth", "#secondary_teeth", "#_of_secondary_teeth",
+                                                           "no_of_secondary_teeth"))
   names <- colnameSynonym(names, "feret", c("feret_diameter"))
   names <- colnameSynonym(names, "margin", c("Margin (0 - Toothed; 1 - Untoothed)"))
   return(names)

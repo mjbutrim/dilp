@@ -22,7 +22,6 @@ Must be species level data.}
 \item "Peppe2011" - The Americas, Japan, and Oceania
 \item "Jacobs2002" - Africa
 \item "Wilf1998" - The Americas and Africa
-\item 
 }}
 
 \item{slope}{Slope, if using a custom regression}
