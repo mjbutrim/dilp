@@ -67,7 +67,26 @@ errors or outliers, and paleoclimate reconstructions.</p>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>specimen_data</dt>
 <dd><p>A data frame containing specimen level leaf physiognomic
-data.For example: <code><a href="McAbeeExample.html">McAbeeExample</a></code></p></dd>
+data. See Lowe et al. 2024 for more information on how to collect this data.
+A good reference for how to put together the data: <code><a href="McAbeeExample.html">McAbeeExample</a></code></p>
+<p>Required columns:</p><ul><li><p>site</p></li>
+<li><p>specimen_number</p></li>
+<li><p>morphotype</p></li>
+<li><p>margin</p></li>
+<li><p>feret</p></li>
+<li><p>blade_area</p></li>
+<li><p>raw_blade_perimeter</p></li>
+<li><p>internal_raw_blade_perimeter</p></li>
+<li><p>length_of_cut_perimeter</p></li>
+<li><p>no_primary_teeth</p></li>
+<li><p>no_of_subsidiary_teeth</p></li>
+</ul><p>Recommended columns:</p><ul><li><p>petiole_width</p></li>
+<li><p>petiole_area</p></li>
+<li><p>blade_perimeter</p></li>
+<li><p>minimum_feret</p></li>
+<li><p>raw_blade_area</p></li>
+<li><p>internal_raw_blade_area</p></li>
+</ul></dd>
 
 
 <dt>params</dt>
@@ -113,6 +132,7 @@ regressions.</p></li>
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     
 <ul><li><p>Peppe, D.J., Royer, D.L., Cariglino, B., Oliver, S.Y., Newman, S., Leight, E., Enikolopov, G., Fernandez-Burgos, M., Herrera, F., Adams, J.M., Correa, E., Currano, E.D., Erickson, J.M., Hinojosa, L.F., Hoganson, J.W., Iglesias, A., Jaramillo, C.A., Johnson, K.R., Jordan, G.J., Kraft, N.J.B., Lovelock, E.C., Lusk, C.H., Niinemets, Ü., Peñuelas, J., Rapson, G., Wing, S.L. and Wright, I.J. (2011), Sensitivity of leaf size and shape to climate: global patterns and paleoclimatic applications. New Phytologist, 190: 724-739. https://doi.org/10.1111/j.1469-8137.2010.03615.x</p></li>
+<li><p>Lowe. A.J., Flynn, A.G., Butrim, M.J., Baumgartner, A., Peppe, D.J., and Royer, D.L. (2024), Reconstructing terrestrial paleoclimate and paleoecology with fossil leaves using Digital Leaf Physiognomy and leaf mass per area.  JoVE.</p></li>
 </ul></div>
 
     <div class="section level2">
@@ -191,13 +211,13 @@ regressions.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4 perimeter_ratio   M-2015-1-1 BU-712-1073A  BU-712-1165 M-2015-1-62</span>
 <span class="r-in"><span><span class="va">dilp_results</span><span class="op">$</span><span class="va">results</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        Site   Margin       FDR    TC.IP Ln.leaf.area  Ln.TC.IP     Ln.PR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 McAbee H1 32.25806 0.6965086 2.541611     6.792833 0.5991961 0.2027609</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 McAbee H1 32.25806 0.6965086 2.562487     6.792833 0.6070757 0.2047427</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 McAbee H2 23.33333 0.7012671 2.651242     7.037892 0.6218561 0.1504205</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    MAT.MLR params.MAT.MLR.error  MAT.SLR params.MAT.SLR.error MAP.MLR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 13.59866                    4 11.18065                  4.9 107.076</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 11.63970                    4  9.36000                  4.9 133.633</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    MAT.MLR params.MAT.MLR.error  MAT.SLR params.MAT.SLR.error  MAP.MLR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 13.54419                    4 11.18065                  4.9 106.7353</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 11.63970                    4  9.36000                  4.9 133.6330</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   MAP.MLR.error.plus MAP.MLR.error.minus  MAP.SLR MAP.SLR.error.plus</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1           88.02917            48.31143 126.7697           106.5412</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1           87.74914            48.15775 126.7697           106.5412</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2          109.86219            60.29365 135.8734           114.1923</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   MAP.SLR.error.minus</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1            57.88926</span>
