@@ -98,8 +98,9 @@ respectively.</p>
 area (<code><a href="../reference/lma.html">lma()</a></code>), a functional trait that reflects leaf
 resource economy.</p>
 <p>In this vignette, we’ll walk you through the standard workflow for a
-complete leaf physiognomic dataset, using the included
-<code>McAbeeExample</code> dataset.</p>
+complete leaf physiognomic dataset, using the included dataset.</p>
+<p>For ease of use, a template spreadsheet for data collection can be
+found here: <a href="https://drive.google.com/file/d/1UYAd0u2fIn2QCLF6aKKzTj6KPaAPv0d1/view?usp=sharing" class="external-link uri">DiLP Data Collection Template</a>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#If the dataset is in good shape, this is all you need to do</span></span>
 <span></span>
@@ -138,8 +139,9 @@ physiognomic characters based on the raw physiognomic data.</p>
 the <code><a href="../reference/dilp_errors.html">dilp_errors()</a></code> and <code><a href="../reference/dilp_outliers.html">dilp_outliers()</a></code>
 functions.</p>
 <p>Finally, Mean Annual Temperature (MAT) and Mean Annual Precipitation
-(MAP) are estimated using both multiple and simple linear
-regressions.</p>
+(MAP) are estimated using both multiple and simple linear regressions.
+Default parameters used are from the global regressions provided by
+Peppe et al. (2011).</p>
 <p>All this information will be contained within the returned list.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Elements of DiLP results:</span></span>
@@ -152,9 +154,9 @@ regressions.</p>
 <span><span class="co">#&gt; [6] "dilp_results$results"</span></span></code></pre></div>
 <p>After generating <code><a href="../reference/dilp.html">dilp()</a></code> results, make sure to check
 whether any common errors were discovered within the dataset.</p>
-<p>There are no errors in the <code>McAbeeExample</code> dataset, but if
-there were, this table would identify the specimens in the original
-dataset that trigger the errors.</p>
+<p>There are no errors in the dataset, but if there were, this table
+would identify the specimens in the original dataset that trigger the
+errors.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dilp_results</span><span class="op">$</span><span class="va">errors</span></span>
 <span><span class="co">#&gt;                                                   Check Specimen1</span></span>
@@ -168,11 +170,10 @@ dataset that trigger the errors.</p>
 <p>Similarly, check if there are any outlier datapoints. These aren’t
 necessarily errors, but it may be worth double checking the original
 measurements.</p>
-<p>In the <code>McAbeeExample</code> dataset, three specimens are
-identified as outliers in tooth count:internal perimeter ratio, three
-specimens are outliers in leaf area, and four specimens are outliers in
-perimeter ratio. In this case, each of these were re-examined and found
-to be acceptable outliers.</p>
+<p>In the dataset, three specimens are identified as outliers in tooth
+count:internal perimeter ratio, three specimens are outliers in leaf
+area, and four specimens are outliers in perimeter ratio. In this case,
+each of these were re-examined and found to be acceptable outliers.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dilp_results</span><span class="op">$</span><span class="va">outliers</span></span>
 <span><span class="co">#&gt;          Variable     Outlier1     Outlier2     Outlier3    Outlier4</span></span>
@@ -223,7 +224,7 @@ subset of leaf physiognomic data than is needed for DiLP paleoclimate
 estimates. All you really need is leaf area and petiole width.</p>
 <p>The standard suite of DiLP traits already includes leaf area and
 petiole width, so here we will just continue using the included
-<code>McAbeeExample</code> dataset.</p>
+dataset.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lma_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lma.html">lma</a></span><span class="op">(</span><span class="va">McAbeeExample</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"lma_results$"</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">lma_results</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
@@ -322,7 +323,7 @@ long as you provide the slope, the constant, and the standard error
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Matthew Butrim, Alexander Lowe, Andrew Flynn, Aly Baumgartner, Daniel Peppe, Dana Royer.</p>
+<p>Developed by Matthew J. Butrim, Alexander J. Lowe, Anderw G. Flynn, Aly Baumgartner, Daniel J. Peppe, Dana L. Royer.</p>
 </div>
 
 <div class="pkgdown-footer-right">

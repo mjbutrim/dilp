@@ -1,9 +1,9 @@
-pandoc: 2.19.2
+pandoc: 3.1.11
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   dilp: dilp.html
-last_built: 2024-02-23T22:47Z
+last_built: 2024-02-29T18:57Z
 urls:
   reference: https://mjbutrim.github.io/dilp/reference
   article: https://mjbutrim.github.io/dilp/articles
