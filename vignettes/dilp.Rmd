@@ -30,7 +30,7 @@ We also provide functions for Leaf Margin Analysis (`temp_slr()`) and Leaf Area 
 
 Lastly, we provide a function for reconstructing fossil leaf mass per area (`lma()`), a functional trait that reflects leaf resource economy.
 
-In this vignette, we'll walk you through the standard workflow for a complete leaf physiognomic dataset, using the included \code{\link{McAbeeExample}} dataset.
+In this vignette, we'll walk you through the standard workflow for a complete leaf physiognomic dataset, using the included `McAbeeExample` dataset.
 
 For ease of use, a template spreadsheet for data collection can be found here: [DiLP Data Collection Template](https://drive.google.com/file/d/1UYAd0u2fIn2QCLF6aKKzTj6KPaAPv0d1/view?usp=sharing){.uri}.
 
@@ -74,7 +74,7 @@ print(paste0("dilp_results$", names(dilp_results)))
 
 After generating `dilp()` results, make sure to check whether any common errors were discovered within the dataset.
 
-There are no errors in the \code{\link{McAbeeExample}} dataset, but if there were, this table would identify the specimens in the original dataset that trigger the errors.
+There are no errors in the `McAbeeExample` dataset, but if there were, this table would identify the specimens in the original dataset that trigger the errors.
 
 ```{r Check errors}
 dilp_results$errors
@@ -82,7 +82,7 @@ dilp_results$errors
 
 Similarly, check if there are any outlier datapoints. These aren't necessarily errors, but it may be worth double checking the original measurements.
 
-In the \code{\link{McAbeeExample}} dataset, three specimens are identified as outliers in tooth count:internal perimeter ratio, three specimens are outliers in leaf area, and four specimens are outliers in perimeter ratio. In this case, each of these were re-examined and found to be acceptable outliers.
+In the `McAbeeExample` dataset, three specimens are identified as outliers in tooth count:internal perimeter ratio, three specimens are outliers in leaf area, and four specimens are outliers in perimeter ratio. In this case, each of these were re-examined and found to be acceptable outliers.
 
 ```{r Check outliers}
 dilp_results$outliers
@@ -110,7 +110,7 @@ In this case, both McAbee localities do fall within the bounds of the calibratio
 
 Leaf mass per area reconstructions can be generated from a smaller subset of leaf physiognomic data than is needed for DiLP paleoclimate estimates. All you really need is leaf area and petiole width.
 
-The standard suite of DiLP traits already includes leaf area and petiole width, so here we will just continue using the included \code{\link{McAbeeExample}} dataset.
+The standard suite of DiLP traits already includes leaf area and petiole width, so here we will just continue using the included `McAbeeExample` dataset.
 
 ```{r LMA results elements}
 lma_results <- lma(McAbeeExample)
