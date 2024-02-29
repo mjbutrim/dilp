@@ -8,6 +8,7 @@
 #' @param regression A string representing one of the following pre-loaded regressions:
 #' * "Peppe2018" - for global temperature estimates
 #' * "Peppe2011" - The Americas, Japan, and Oceania
+#' * "Peppe2011NH" - Peppe 2011 (Northern Hemisphere only)
 #' * "Miller2006" - North and Central America
 #' * "WingGreenwood" - East Asia - original leaf margin analysis regression
 #' * "Wilf1997" - The Americas
@@ -156,21 +157,4 @@ precip_slr <- function(data, regression = "Peppe2018", slope = NULL, constant = 
 }
 
 
-grab_regression <- function(name, type){
-  if (type == "temp") {
-    index <- which(names(temp_regressions) == name)
-    if(length(index) == 0){
-      stop(paste("Regression ", name, "does not exist. Check for typos or provide parameters manually"))
-    } else{
-      return(temp_regressions[[index]])
-    }
-  }
-  if (type == "precip") {
-    index <- which(names(precip_regressions) == name)
-    if(length(index) == 0){
-      stop(paste("Regression ", name, "does not exist. Check for typos or provide parameters manually"))
-    } else{
-      return(precip_regressions[[index]])
-    }
-  }
-}
+

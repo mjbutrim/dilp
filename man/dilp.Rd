@@ -4,7 +4,7 @@
 \alias{dilp}
 \title{Generate DiLP results}
 \usage{
-dilp(specimen_data, params = dilp_parameters)
+dilp(specimen_data, params = "PeppeGlobal")
 }
 \arguments{
 \item{specimen_data}{A data frame containing specimen level leaf physiognomic
@@ -36,8 +36,12 @@ Recommended columns:
 \item internal_raw_blade_area
 }}
 
-\item{params}{A list of parameters used for DiLP calculation.  Defaults to the
-parameters of Peppe et al. 2011:
+\item{params}{Either a string referring to one of two preloaded parameter sets
+of a list of custom parameters (same format as the list below).
+
+Preloaded parameter sets are "global" and "northern_hemisphere" which are calibrated based on
+global and northern hemisphere data respectively. Allen et al. (2020) illustrates a situation
+in which the northern hemisphere parameters may be preferable. Defaults to "global" (Peppe et al. 2011):
 \itemize{
 \item MAT.MLR.M = 0.21,
 \item MAT.MLR.FDR = 42.296,
@@ -91,6 +95,7 @@ dilp_results$results
 }
 \references{
 \itemize{
+\item Allen, S. E., Lowe, A. J., Peppe, D. J., & Meyer, H. W. (2020). Paleoclimate and paleoecology of the latest Eocene Florissant flora of central Colorado, USA. Palaeogeography, Palaeoclimatology, Palaeoecology, 551, 109678.
 \item Peppe, D.J., Royer, D.L., Cariglino, B., Oliver, S.Y., Newman, S., Leight, E., Enikolopov, G., Fernandez-Burgos, M., Herrera, F., Adams, J.M., Correa, E., Currano, E.D., Erickson, J.M., Hinojosa, L.F., Hoganson, J.W., Iglesias, A., Jaramillo, C.A., Johnson, K.R., Jordan, G.J., Kraft, N.J.B., Lovelock, E.C., Lusk, C.H., Niinemets, Ü., Peñuelas, J., Rapson, G., Wing, S.L. and Wright, I.J. (2011), Sensitivity of leaf size and shape to climate: global patterns and paleoclimatic applications. New Phytologist, 190: 724-739. https://doi.org/10.1111/j.1469-8137.2010.03615.x
 \item Lowe. A.J., Flynn, A.G., Butrim, M.J., Baumgartner, A., Peppe, D.J., and Royer, D.L. (2024), Reconstructing terrestrial paleoclimate and paleoecology with fossil leaves using Digital Leaf Physiognomy and leaf mass per area.  JoVE.
 }

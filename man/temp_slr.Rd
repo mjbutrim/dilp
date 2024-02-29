@@ -20,6 +20,7 @@ Can be species or site level data.}
 \itemize{
 \item "Peppe2018" - for global temperature estimates
 \item "Peppe2011" - The Americas, Japan, and Oceania
+\item "Peppe2011NH" - Peppe 2011 (Northern Hemisphere only)
 \item "Miller2006" - North and Central America
 \item "WingGreenwood" - East Asia - original leaf margin analysis regression
 \item "Wilf1997" - The Americas

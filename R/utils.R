@@ -26,3 +26,30 @@ colnameSynonym <- function(data, name, synonyms){
   }
   return(data)
 }
+
+grab_regression <- function(name, type){
+  if (type == "temp") {
+    index <- which(names(temp_regressions) == name)
+    if(length(index) == 0){
+      stop(paste("Regression ", name, "does not exist. Check for typos or provide parameters manually"))
+    } else{
+      return(temp_regressions[[index]])
+    }
+  }
+  if (type == "precip") {
+    index <- which(names(precip_regressions) == name)
+    if(length(index) == 0){
+      stop(paste("Regression ", name, "does not exist. Check for typos or provide parameters manually"))
+    } else{
+      return(precip_regressions[[index]])
+    }
+  }
+  if (type == "dilp") {
+    index <- which(names(dilp_parameters) == name)
+    if(length(index) == 0){
+      stop(paste("DiLP parameter set ", name, "does not exist. Check for typos or provide parameters manually"))
+    } else{
+      return(dilp_parameters[[index]])
+    }
+  }
+}

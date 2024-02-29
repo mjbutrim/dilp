@@ -120,28 +120,50 @@ lowe_site_variance_ma <- list(
 )
 
 dilp_parameters <- list(
-  MAT.MLR.M = 0.21,
-  MAT.MLR.FDR = 42.296,
-  MAT.MLR.TC.IP = -2.609,
-  MAT.MLR.constant = -16.004,
-  MAT.MLR.error = 4,
-  MAT.SLR.M = 0.204,
-  MAT.SLR.constant = 4.6,
-  MAT.SLR.error = 4.9,
-  MAP.MLR.LA = 0.298,
-  MAP.MLR.TC.IP = 0.279,
-  MAP.MLR.PR = -2.717,
-  MAP.MLR.constant = 3.033,
-  MAP.MLR.SE = 0.6,
-  MAP.SLR.LA = 0.283,
-  MAP.SLR.constant = 2.92,
-  MAP.SLR.SE = 0.61
+  PeppeGlobal = list(
+    MAT.MLR.M = 0.21,
+    MAT.MLR.FDR = 42.296,
+    MAT.MLR.TC.IP = -2.609,
+    MAT.MLR.constant = -16.004,
+    MAT.MLR.error = 4,
+    MAT.SLR.M = 0.204,
+    MAT.SLR.constant = 4.6,
+    MAT.SLR.error = 4.8,
+    MAP.MLR.LA = 0.298,
+    MAP.MLR.TC.IP = 0.279,
+    MAP.MLR.PR = -2.717,
+    MAP.MLR.constant = 3.033,
+    MAP.MLR.SE = 0.6,
+    MAP.SLR.LA = 0.283,
+    MAP.SLR.constant = 2.92,
+    MAP.SLR.SE = 0.61
+  ),
+  PeppeNH = list(
+    MAT.MLR.M = 0.233,
+    MAT.MLR.FDR = 0,
+    MAT.MLR.TC.IP = -1.547,
+    MAT.MLR.constant = 8.161,
+    MAT.MLR.error = 4,
+    MAT.SLR.M = 0.262,
+    MAT.SLR.constant = 3.167,
+    MAT.SLR.error = 2.0,
+    MAP.MLR.LA = 0.298,
+    MAP.MLR.TC.IP = 0.279,
+    MAP.MLR.PR = -2.717,
+    MAP.MLR.constant = 3.033,
+    MAP.MLR.SE = 0.6,
+    MAP.SLR.LA = 0.283,
+    MAP.SLR.constant = 2.92,
+    MAP.SLR.SE = 0.61
+  )
+
 )
 
 temp_regressions <- list(
-  Peppe2018 = list(slope = 0.194, constant = 5.884, error =5),
-  Peppe2011 = list(slope = 0.204, constant = 4.6, error = 5),
-  WingGreenwood = list(slope = 0.306, constant = 1.141, error = 5),
+  Peppe2018 = list(slope = 0.194, constant = 5.884, error = 5), #4.54
+  Peppe2011NH = list(slope = 0.262, constant = 3.167, error = 5.0), #2.0
+  Peppe2011 = list(slope = 0.204, constant = 4.6, error = 5), #4.8
+  WingGreenwood = list(slope = 0.306, constant = 1.141, error = 5), #0.80
   Wilf1997 = list(slope = 0.286, constant = 2.24, error = 5),
   Miller2006 = list(slope = 0.290, constant = 1.320, error = 5)
 )

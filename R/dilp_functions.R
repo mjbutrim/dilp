@@ -255,8 +255,12 @@ dilp_outliers <- function(specimen_data) {
 #'    * raw_blade_area
 #'    * internal_raw_blade_area
 #'
-#' @param params A list of parameters used for DiLP calculation.  Defaults to the
-#' parameters of Peppe et al. 2011:
+#' @param params Either a string referring to one of two preloaded parameter sets
+#' of a list of custom parameters (same format as the list below).
+#'
+#' Preloaded parameter sets are "global" and "northern_hemisphere" which are calibrated based on
+#' global and northern hemisphere data respectively. Allen et al. (2020) illustrates a situation
+#' in which the northern hemisphere parameters may be preferable. Defaults to "global" (Peppe et al. 2011):
 #'
 #'    * MAT.MLR.M = 0.21,
 #'    * MAT.MLR.FDR = 42.296,
@@ -293,6 +297,7 @@ dilp_outliers <- function(specimen_data) {
 #' regressions.
 #'
 #' @references
+#' * Allen, S. E., Lowe, A. J., Peppe, D. J., & Meyer, H. W. (2020). Paleoclimate and paleoecology of the latest Eocene Florissant flora of central Colorado, USA. Palaeogeography, Palaeoclimatology, Palaeoecology, 551, 109678.
 #' * Peppe, D.J., Royer, D.L., Cariglino, B., Oliver, S.Y., Newman, S., Leight, E., Enikolopov, G., Fernandez-Burgos, M., Herrera, F., Adams, J.M., Correa, E., Currano, E.D., Erickson, J.M., Hinojosa, L.F., Hoganson, J.W., Iglesias, A., Jaramillo, C.A., Johnson, K.R., Jordan, G.J., Kraft, N.J.B., Lovelock, E.C., Lusk, C.H., Niinemets, Ü., Peñuelas, J., Rapson, G., Wing, S.L. and Wright, I.J. (2011), Sensitivity of leaf size and shape to climate: global patterns and paleoclimatic applications. New Phytologist, 190: 724-739. https://doi.org/10.1111/j.1469-8137.2010.03615.x
 #' * Lowe. A.J., Flynn, A.G., Butrim, M.J., Baumgartner, A., Peppe, D.J., and Royer, D.L. (2024), Reconstructing terrestrial paleoclimate and paleoecology with fossil leaves using Digital Leaf Physiognomy and leaf mass per area.  JoVE.
 #' @export
@@ -305,10 +310,15 @@ dilp_outliers <- function(specimen_data) {
 #' dilp_results$errors
 #' dilp_results$outliers
 #' dilp_results$results
-dilp <- function(specimen_data, params = dilp_parameters) {
+dilp <- function(specimen_data, params = "PeppeGlobal") {
   processed_specimen_data <- dilp_processing(specimen_data)
   errors <- dilp_errors(processed_specimen_data)
   outliers <- dilp_outliers(processed_specimen_data)
+  if(is.list(params)){
+
+  } else {
+    params <- grab_regression(params, "dilp")
+  }
 
   ####### Morphotype average by site
   dilp_morphotype <- processed_specimen_data %>%
