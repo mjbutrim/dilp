@@ -42,3 +42,7 @@ devtools::install_github("mjbutrim/dilp")
 
 Find a basic example of running a DiLP and LMA analysis [in this
 vignette](https://mjbutrim.github.io/dilp/articles/dilp.html)
+
+For ease of use, a template spreadsheet for data collection can be found
+here: [DiLP Data Collection
+Template](https://drive.google.com/file/d/1UYAd0u2fIn2QCLF6aKKzTj6KPaAPv0d1/view?usp=sharing)

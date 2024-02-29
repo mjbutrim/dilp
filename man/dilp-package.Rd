@@ -17,15 +17,15 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Matthew Butrim \email{mbutrim@uwyo.edu} [copyright holder]
+\strong{Maintainer}: Matthew J. Butrim \email{mbutrim@uwyo.edu} [copyright holder]
 
 Authors:
 \itemize{
-  \item Alexander Lowe
-  \item Andrew Flynn
+  \item Alexander J. Lowe
+  \item Anderw G. Flynn
   \item Aly Baumgartner
-  \item Daniel Peppe
-  \item Dana Royer
+  \item Daniel J. Peppe
+  \item Dana L. Royer
 }
 
 }

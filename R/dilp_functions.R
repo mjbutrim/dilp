@@ -78,7 +78,8 @@ dilp_processing <- function(specimen_data) {
     # Total tooth count
     temp2 <- specimen_data$no_of_subsidiary_teeth
     specimen_data$no_of_subsidiary_teeth[is.na(specimen_data$no_of_subsidiary_teeth)] <- 0 # if it is left as NA then total tooth count will also return NA
-    specimen_data$total_tooth_count <- specimen_data$no_primary_teeth + specimen_data$no_of_subsidiary_teeth
+    specimen_data$total_tooth_count <- ifelse(specimen_data$margin == 1, NA, specimen_data$no_primary_teeth + specimen_data$no_of_subsidiary_teeth)
+
     # Total tooth count : internal perimeter
     specimen_data$tc_ip <- specimen_data$total_tooth_count / specimen_data$internal_raw_blade_perimeter_corrected
     # Perimeter ratio
@@ -115,6 +116,8 @@ dilp_processing <- function(specimen_data) {
     # Return length of cut perimeter and no subsidiary teeth back to original values to keep averages intact
     specimen_data$length_of_cut_perimeter <- temp1
     specimen_data$no_of_subsidiary_teeth <- temp2
+
+
 
 
     return(specimen_data)
