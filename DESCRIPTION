@@ -4,7 +4,7 @@ Version: 0.0.0.9000
 Authors@R: c(
     person(given = "Matthew J.", family = "Butrim", email = "mbutrim@uwyo.edu", role = c("aut", "cre", "cph")),
     person(given = "Alexander J.", family = "Lowe", role = "aut"),
-    person(given = "Anderw G.", family = "Flynn", role = "aut"),
+    person(given = "Andrew G.", family = "Flynn", role = "aut"),
     person(given = "Aly", family = "Baumgartner", role = "aut"),
     person(given = "Daniel J.", family = "Peppe", role = "aut"),
     person(given = "Dana L.", family = "Royer", role = "aut")

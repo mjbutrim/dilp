@@ -147,14 +147,14 @@ dilp_parameters <- list(
     MAT.SLR.M = 0.262,
     MAT.SLR.constant = 3.167,
     MAT.SLR.error = 2.0,
-    MAP.MLR.LA = 0.298,
-    MAP.MLR.TC.IP = 0.279,
-    MAP.MLR.PR = -2.717,
-    MAP.MLR.constant = 3.033,
-    MAP.MLR.SE = 0.6,
-    MAP.SLR.LA = 0.283,
-    MAP.SLR.constant = 2.92,
-    MAP.SLR.SE = 0.61
+    MAP.MLR.LA = NA,
+    MAP.MLR.TC.IP = NA,
+    MAP.MLR.PR = NA,
+    MAP.MLR.constant = NA,
+    MAP.MLR.SE = NA,
+    MAP.SLR.LA = NA,
+    MAP.SLR.constant = NA,
+    MAP.SLR.SE = NA
   )
 
 )

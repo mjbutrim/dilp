@@ -22,7 +22,7 @@ Useful links:
 Authors:
 \itemize{
   \item Alexander J. Lowe
-  \item Anderw G. Flynn
+  \item Andrew G. Flynn
   \item Aly Baumgartner
   \item Daniel J. Peppe
   \item Dana L. Royer

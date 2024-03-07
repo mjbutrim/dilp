@@ -41,7 +41,8 @@ of a list of custom parameters (same format as the list below).
 
 Preloaded parameter sets are "global" and "northern_hemisphere" which are calibrated based on
 global and northern hemisphere data respectively. Allen et al. (2020) illustrates a situation
-in which the northern hemisphere parameters may be preferable. Defaults to "global" (Peppe et al. 2011):
+in which the northern hemisphere parameters may be preferable.  The "northern_hemisphere" parameters
+only estimate MAT.  Use "global" for all MAP estimates. Defaults to "global" as follows (Peppe et al. 2011):
 \itemize{
 \item MAT.MLR.M = 0.21,
 \item MAT.MLR.FDR = 42.296,

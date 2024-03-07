@@ -57,7 +57,22 @@ dilp_processing <- function(specimen_data) {
       }
     }
 
+    #Identify 0.5 margin species
+    mixed_margins <- specimen_data %>%
+      dplyr::group_by(.data$site, .data$morphotype) %>%
+      dplyr::filter(1 %in% .data$margin & 0 %in% .data$margin) %>%
+      dplyr::filter(.data$margin == 1) %>%
+      dplyr::select(.data$specimen_number)
+
+    for(i in 1:length(mixed_margins$specimen_number)){
+      specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$length_of_cut_perimeter <- 0
+      specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$no_primary_teeth <- 0
+      specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$no_of_subsidiary_teeth <- 0
+    }
+
+
     ## For specimens where blade area was measured, but there is an NA for petiole area, convert NA to 0 to permit the subsequent addition
+    temp3 <- specimen_data$petiole_area
     specimen_data$petiole_area <- ifelse(specimen_data$blade_area > 0 & is.na(specimen_data$petiole_area), 0, specimen_data$petiole_area)
     # Sum petiole area and blade area
     specimen_data$leaf_area <- specimen_data$blade_area + specimen_data$petiole_area # if petiole area was measured but there is a NA for blade area, this addition will appropriately return a NA for leaf area
@@ -79,16 +94,29 @@ dilp_processing <- function(specimen_data) {
     temp2 <- specimen_data$no_of_subsidiary_teeth
     specimen_data$no_of_subsidiary_teeth[is.na(specimen_data$no_of_subsidiary_teeth)] <- 0 # if it is left as NA then total tooth count will also return NA
     specimen_data$total_tooth_count <- ifelse(specimen_data$margin == 1, NA, specimen_data$no_primary_teeth + specimen_data$no_of_subsidiary_teeth)
+    for(i in 1:length(mixed_margins$specimen_number)){
+      specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$total_tooth_count <- 0
+    }
 
     # Total tooth count : internal perimeter
     specimen_data$tc_ip <- specimen_data$total_tooth_count / specimen_data$internal_raw_blade_perimeter_corrected
+    for(i in 1:length(mixed_margins$specimen_number)){
+      specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$tc_ip <- 0
+    }
+
     # Perimeter ratio
     specimen_data$perimeter_ratio <- specimen_data$raw_blade_perimeter_corrected / specimen_data$internal_raw_blade_perimeter_corrected
+    for(i in 1:length(mixed_margins$specimen_number)){
+      specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$perimeter_ratio <- 1
+    }
 
     #### Apply required natural logs to appropriate variables
     specimen_data$ln_leaf_area <- log(100 * specimen_data$leaf_area) # Leaf area is expressed in mm2 in DiLP MLR and SLR models, so here also converting from cm2 to mm2
     specimen_data$ln_pr <- log(specimen_data$perimeter_ratio)
     specimen_data$ln_tc_ip <- log(specimen_data$tc_ip)
+    for(i in 1:length(mixed_margins$specimen_number)){
+      specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$ln_tc_ip <- 0
+    }
 
     # Petiole metric for reconstructing leaf mass per area
     specimen_data$petiole_metric <- (specimen_data$petiole_width^2) / specimen_data$leaf_area
@@ -100,22 +128,44 @@ dilp_processing <- function(specimen_data) {
     specimen_data$compactness <- (specimen_data$blade_perimeter^2) / specimen_data$blade_area
     # Tooth area
     specimen_data$tooth_area <- specimen_data$raw_blade_area - specimen_data$internal_raw_blade_area
+    for(i in 1:length(mixed_margins$specimen_number)){
+      specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$tooth_area <- 0
+    }
     # Tooth area : perimeter
     specimen_data$ta_p <- specimen_data$tooth_area / specimen_data$raw_blade_perimeter_corrected
+    for(i in 1:length(mixed_margins$specimen_number)){
+      specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$ta_p <- 0
+    }
     # Tooth area : internal perimeter
     specimen_data$ta_ip <- specimen_data$tooth_area / specimen_data$internal_raw_blade_perimeter_corrected
+    for(i in 1:length(mixed_margins$specimen_number)){
+      specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$ta_ip <- 0
+    }
     # Tooth area : blade area
     specimen_data$ta_ba <- specimen_data$tooth_area / specimen_data$raw_blade_area
+    for(i in 1:length(mixed_margins$specimen_number)){
+      specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$ta_ba <- 0
+    }
     # Average primary tooth area
     specimen_data$avg_ta <- specimen_data$tooth_area / specimen_data$no_primary_teeth # double check
+    for(i in 1:length(mixed_margins$specimen_number)){
+      specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$avg_ta <- 0
+    }
     # Tooth count : blade area
     specimen_data$tc_ba <- specimen_data$total_tooth_count / specimen_data$raw_blade_area
+    for(i in 1:length(mixed_margins$specimen_number)){
+      specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$tc_ba <- 0
+    }
     # tooth count : perimeter
     specimen_data$tc_p <- specimen_data$total_tooth_count / specimen_data$raw_blade_perimeter_corrected
+    for(i in 1:length(mixed_margins$specimen_number)){
+      specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$tc_p <- 0
+    }
 
     # Return length of cut perimeter and no subsidiary teeth back to original values to keep averages intact
     specimen_data$length_of_cut_perimeter <- temp1
     specimen_data$no_of_subsidiary_teeth <- temp2
+    specimen_data$petiole_area <- temp3
 
 
 
@@ -260,7 +310,8 @@ dilp_outliers <- function(specimen_data) {
 #'
 #' Preloaded parameter sets are "global" and "northern_hemisphere" which are calibrated based on
 #' global and northern hemisphere data respectively. Allen et al. (2020) illustrates a situation
-#' in which the northern hemisphere parameters may be preferable. Defaults to "global" (Peppe et al. 2011):
+#' in which the northern hemisphere parameters may be preferable.  The "northern_hemisphere" parameters
+#' only estimate MAT.  Use "global" for all MAP estimates. Defaults to "global" as follows (Peppe et al. 2011):
 #'
 #'    * MAT.MLR.M = 0.21,
 #'    * MAT.MLR.FDR = 42.296,
