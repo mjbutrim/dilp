@@ -94,7 +94,8 @@ A good reference for how to put together the data: <code><a href="McAbeeExample.
 of a list of custom parameters (same format as the list below).</p>
 <p>Preloaded parameter sets are "global" and "northern_hemisphere" which are calibrated based on
 global and northern hemisphere data respectively. Allen et al. (2020) illustrates a situation
-in which the northern hemisphere parameters may be preferable. Defaults to "global" (Peppe et al. 2011):</p><ul><li><p>MAT.MLR.M = 0.21,</p></li>
+in which the northern hemisphere parameters may be preferable.  The "northern_hemisphere" parameters
+only estimate MAT.  Use "global" for all MAP estimates. Defaults to "global" as follows (Peppe et al. 2011):</p><ul><li><p>MAT.MLR.M = 0.21,</p></li>
 <li><p>MAT.MLR.FDR = 42.296,</p></li>
 <li><p>MAT.MLR.TC.IP = -2.609,</p></li>
 <li><p>MAT.MLR.constant = -16.004,</p></li>
@@ -142,6 +143,7 @@ regressions.</p></li>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">dilp_results</span> <span class="op">&lt;-</span> <span class="fu">dilp</span><span class="op">(</span><span class="va">McAbeeExample</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Adding missing grouping variables: `site`, `morphotype`</span>
 <span class="r-in"><span><span class="va">dilp_results</span><span class="op">$</span><span class="va">processed_leaf_data</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 192 × 40</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    site      specimen_number morphotype measurer_comments margin petiole_width</span>
@@ -174,8 +176,8 @@ regressions.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> McAb… M13             0        0.069        0.047        7.80             <span style="color: #BB0000;">NaN</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> McAb… M15             0      <span style="color: #BB0000;">NaN</span>          <span style="color: #BB0000;">NaN</span>          <span style="color: #BB0000;">NaN</span>                <span style="color: #BB0000;">NaN</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> McAb… M16             0      <span style="color: #BB0000;">NaN</span>          <span style="color: #BB0000;">NaN</span>          <span style="color: #BB0000;">NaN</span>                <span style="color: #BB0000;">NaN</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> McAb… M18             0        0.11         0.033<span style="text-decoration: underline;">7</span>      14.8              <span style="color: #BB0000;">NaN</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> McAb… M19             0        0.077        0.034<span style="text-decoration: underline;">5</span>      16.0              <span style="color: #BB0000;">NaN</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> McAb… M18             0        0.11         0.101       14.8              <span style="color: #BB0000;">NaN</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> McAb… M19             0        0.077        0.069       16.0              <span style="color: #BB0000;">NaN</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> McAb… M21             1      <span style="color: #BB0000;">NaN</span>          <span style="color: #BB0000;">NaN</span>          <span style="color: #BB0000;">NaN</span>                <span style="color: #BB0000;">NaN</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> McAb… M23             0      <span style="color: #BB0000;">NaN</span>          <span style="color: #BB0000;">NaN</span>          <span style="color: #BB0000;">NaN</span>                <span style="color: #BB0000;">NaN</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 51 more rows</span></span>
@@ -189,8 +191,8 @@ regressions.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 37</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   site      margin petiole_width petiole_area blade_area blade_perimeter feret</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> McAbee H1   32.3        0.071<span style="text-decoration: underline;">0</span>       0.032<span style="text-decoration: underline;">1</span>       11.6             <span style="color: #BB0000;">NaN</span>  5.19</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> McAbee H2   23.3        0.076<span style="text-decoration: underline;">6</span>       0.041<span style="text-decoration: underline;">1</span>       16.4             <span style="color: #BB0000;">NaN</span>  5.92</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> McAbee H1   32.3        0.071<span style="text-decoration: underline;">0</span>       0.070<span style="text-decoration: underline;">9</span>       11.6             <span style="color: #BB0000;">NaN</span>  5.19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> McAbee H2   23.3        0.076<span style="text-decoration: underline;">6</span>       0.089<span style="text-decoration: underline;">4</span>       16.4             <span style="color: #BB0000;">NaN</span>  5.92</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 30 more variables: minimum_feret &lt;dbl&gt;, raw_blade_area &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   raw_blade_perimeter &lt;dbl&gt;, internal_raw_blade_area &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   internal_raw_blade_perimeter &lt;dbl&gt;, length_of_cut_perimeter &lt;dbl&gt;,</span></span>
@@ -233,7 +235,7 @@ regressions.</p></li>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Matthew J. Butrim, Alexander J. Lowe, Anderw G. Flynn, Aly Baumgartner, Daniel J. Peppe, Dana L. Royer.</p>
+  <p></p><p>Developed by Matthew J. Butrim, Alexander J. Lowe, Andrew G. Flynn, Aly Baumgartner, Daniel J. Peppe, Dana L. Royer.</p>
 </div>
 
 <div class="pkgdown-footer-right">
