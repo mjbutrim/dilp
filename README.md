@@ -30,6 +30,12 @@ traits. Key functions included are:
 
 ## Installation
 
+You can install the stable version of dilp from your R session with:
+
+``` r
+install.packages("dilp")
+```
+
 You can install the development version of dilp from
 [GitHub](https://github.com/) with:
 
@@ -46,3 +52,6 @@ vignette](https://mjbutrim.github.io/dilp/articles/dilp.html)
 For ease of use, a template spreadsheet for data collection can be found
 here: [DiLP Data Collection
 Template](https://drive.google.com/file/d/1UYAd0u2fIn2QCLF6aKKzTj6KPaAPv0d1/view?usp=sharing)
+
+If you encounter any problems, or would like to request a feature,
+please create an issue [here](https://github.com/mjbutrim/dilp/issues)

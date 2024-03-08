@@ -115,7 +115,7 @@ calc_lma <- function(data, params, resolution = "species") {
     data$petiole_metric <- (data$petiole_width^2) / data$leaf_area
     data <- dplyr::filter(data, data$petiole_metric > 0)
   } else if ("blade_area" %in% colnames(data) && "petiole_width" %in% colnames(data)) {
-    if("petiole_area" %in% colnames(data)){
+    if ("petiole_area" %in% colnames(data)) {
 
     } else {
       data[["petiole_area"]] <- NA

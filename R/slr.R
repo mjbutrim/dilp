@@ -28,12 +28,12 @@
 #'
 #' @examples
 #' temp_slr(McAbeeExample, regression = "Peppe2011")
-temp_slr <- function(data, regression = "Peppe2018", slope = NULL, constant = NULL, error = NULL){
+temp_slr <- function(data, regression = "Peppe2018", slope = NULL, constant = NULL, error = NULL) {
   colnames(data) <- colnameClean(data) %>%
     stringr::str_replace_all("species", "morphotype")
   required_columns <- c("morphotype", "margin")
   missing_columns <- required_columns[!required_columns %in% colnames(data)]
-  if(length(missing_columns) > 0){
+  if (length(missing_columns) > 0) {
     stop(paste("data is missing required columns:", stringr::str_flatten(missing_columns, collapse = ", ")))
   }
   if (length(unique(data$margin)) > 2) {
@@ -42,16 +42,16 @@ temp_slr <- function(data, regression = "Peppe2018", slope = NULL, constant = NU
       warning("Margin states outside the bounds of [0 - 1] present")
     }
   }
-  if(is.null(c(slope, constant, error))){
+  if (is.null(c(slope, constant, error))) {
     regression <- grab_regression(regression, "temp")
     slope <- regression$slope
     constant <- regression$constant
     error <- regression$error
-  } else if(is.null(slope) | !is.numeric(slope)){
+  } else if (is.null(slope) | !is.numeric(slope)) {
     stop("Attempting to use custom regression but slope not a valid number")
-  } else if(is.null(constant) | !is.numeric(constant)){
+  } else if (is.null(constant) | !is.numeric(constant)) {
     stop("Attempting to use custom regression but constant not a valid number")
-  } else if(is.null(error) | !is.numeric(error)){
+  } else if (is.null(error) | !is.numeric(error)) {
     stop("Attempting to use custom regression but error not a valid number")
   }
 
@@ -66,7 +66,7 @@ temp_slr <- function(data, regression = "Peppe2018", slope = NULL, constant = NU
       stats::na.omit()
 
     num_morph <- nrow(site_subset)
-    value <- slope * (100* sum(site_subset$margin)/num_morph) + constant
+    value <- slope * (100 * sum(site_subset$margin) / num_morph) + constant
     sites$n[i] <- num_morph
     sites$MAT[i] <- value
     sites$lower[i] <- value - error
@@ -103,13 +103,13 @@ temp_slr <- function(data, regression = "Peppe2018", slope = NULL, constant = NU
 #'
 #' @examples
 #' precip_slr(McAbeeExample, regression = "Peppe2011")
-precip_slr <- function(data, regression = "Peppe2018", slope = NULL, constant = NULL, error = NULL){
+precip_slr <- function(data, regression = "Peppe2018", slope = NULL, constant = NULL, error = NULL) {
   colnames(data) <- colnameClean(data)
 
   if ("leaf_area" %in% colnames(data)) {
 
   } else if ("blade_area" %in% colnames(data)) {
-    if("petiole_area" %in% colnames(data)){
+    if ("petiole_area" %in% colnames(data)) {
 
     } else {
       data[["petiole_area"]] <- NA
@@ -120,19 +120,19 @@ precip_slr <- function(data, regression = "Peppe2018", slope = NULL, constant = 
   }
   required_columns <- c("morphotype", "leaf_area", "specimen_number")
   missing_columns <- required_columns[!required_columns %in% colnames(data)]
-  if(length(missing_columns) > 0){
+  if (length(missing_columns) > 0) {
     stop(paste("data is missing required columns:", stringr::str_flatten(missing_columns, collapse = ", ")))
   }
-  if(is.null(c(slope, constant, error))){
+  if (is.null(c(slope, constant, error))) {
     regression <- grab_regression(regression, "precip")
     slope <- regression$slope
     constant <- regression$constant
     error <- regression$error
-  } else if(is.null(slope) | !is.numeric(slope)){
+  } else if (is.null(slope) | !is.numeric(slope)) {
     stop("Attempting to use custom regression but slope not a valid number")
-  } else if(is.null(constant) | !is.numeric(constant)){
+  } else if (is.null(constant) | !is.numeric(constant)) {
     stop("Attempting to use custom regression but constant not a valid number")
-  } else if(is.null(error) | !is.numeric(error)){
+  } else if (is.null(error) | !is.numeric(error)) {
     stop("Attempting to use custom regression but error not a valid number")
   }
 
@@ -155,6 +155,3 @@ precip_slr <- function(data, regression = "Peppe2018", slope = NULL, constant = 
   }
   return(sites)
 }
-
-
-

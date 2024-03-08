@@ -156,14 +156,13 @@ dilp_parameters <- list(
     MAP.SLR.constant = NA,
     MAP.SLR.SE = NA
   )
-
 )
 
 temp_regressions <- list(
-  Peppe2018 = list(slope = 0.194, constant = 5.884, error = 5), #4.54
-  Peppe2011NH = list(slope = 0.262, constant = 3.167, error = 5.0), #2.0
-  Peppe2011 = list(slope = 0.204, constant = 4.6, error = 5), #4.8
-  WingGreenwood = list(slope = 0.306, constant = 1.141, error = 5), #0.80
+  Peppe2018 = list(slope = 0.194, constant = 5.884, error = 5), # 4.54
+  Peppe2011NH = list(slope = 0.262, constant = 3.167, error = 5.0), # 2.0
+  Peppe2011 = list(slope = 0.204, constant = 4.6, error = 5), # 4.8
+  WingGreenwood = list(slope = 0.306, constant = 1.141, error = 5), # 0.80
   Wilf1997 = list(slope = 0.286, constant = 2.24, error = 5),
   Miller2006 = list(slope = 0.290, constant = 1.320, error = 5)
 )

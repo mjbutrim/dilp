@@ -35,36 +35,39 @@
 #' dilp_dataset <- dilp_processing(McAbeeExample)
 #' dilp_dataset
 dilp_processing <- function(specimen_data) {
-
   colnames(specimen_data) <- colnameClean(specimen_data)
 
-  required_columns <- c("site", "specimen_number", "morphotype", "margin", "feret", "blade_area",
-                        "raw_blade_perimeter", "internal_raw_blade_perimeter", "length_of_cut_perimeter",
-                        "no_primary_teeth", "no_of_subsidiary_teeth")
+  required_columns <- c(
+    "site", "specimen_number", "morphotype", "margin", "feret", "blade_area",
+    "raw_blade_perimeter", "internal_raw_blade_perimeter", "length_of_cut_perimeter",
+    "no_primary_teeth", "no_of_subsidiary_teeth"
+  )
 
 
-  recommended_columns <- c("petiole_width", "petiole_area","blade_perimeter",
-                           "minimum_feret", "raw_blade_area", "internal_raw_blade_area")
+  recommended_columns <- c(
+    "petiole_width", "petiole_area", "blade_perimeter",
+    "minimum_feret", "raw_blade_area", "internal_raw_blade_area"
+  )
   missing_columns <- required_columns[!required_columns %in% colnames(specimen_data)]
-  if(length(missing_columns) > 0){
+  if (length(missing_columns) > 0) {
     stop(paste("specimen_data is missing required columns:", stringr::str_flatten(missing_columns, collapse = ", ")))
-  } else{
+  } else {
     other_columns <- recommended_columns[!recommended_columns %in% colnames(specimen_data)]
-    if(length(other_columns) > 0){
+    if (length(other_columns) > 0) {
       warning(paste("specimen_data is missing recommended columns and has filled them with NAs:", stringr::str_flatten(other_columns, collapse = ", ")), call. = FALSE)
-      for(column in other_columns) {
+      for (column in other_columns) {
         specimen_data[[column]] <- NA
       }
     }
 
-    #Identify 0.5 margin species
+    # Identify 0.5 margin species
     mixed_margins <- specimen_data %>%
       dplyr::group_by(.data$site, .data$morphotype) %>%
       dplyr::filter(1 %in% .data$margin & 0 %in% .data$margin) %>%
       dplyr::filter(.data$margin == 1) %>%
       dplyr::select(.data$specimen_number)
 
-    for(i in 1:length(mixed_margins$specimen_number)){
+    for (i in 1:length(mixed_margins$specimen_number)) {
       specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$length_of_cut_perimeter <- 0
       specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$no_primary_teeth <- 0
       specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$no_of_subsidiary_teeth <- 0
@@ -94,19 +97,19 @@ dilp_processing <- function(specimen_data) {
     temp2 <- specimen_data$no_of_subsidiary_teeth
     specimen_data$no_of_subsidiary_teeth[is.na(specimen_data$no_of_subsidiary_teeth)] <- 0 # if it is left as NA then total tooth count will also return NA
     specimen_data$total_tooth_count <- ifelse(specimen_data$margin == 1, NA, specimen_data$no_primary_teeth + specimen_data$no_of_subsidiary_teeth)
-    for(i in 1:length(mixed_margins$specimen_number)){
+    for (i in 1:length(mixed_margins$specimen_number)) {
       specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$total_tooth_count <- 0
     }
 
     # Total tooth count : internal perimeter
     specimen_data$tc_ip <- specimen_data$total_tooth_count / specimen_data$internal_raw_blade_perimeter_corrected
-    for(i in 1:length(mixed_margins$specimen_number)){
+    for (i in 1:length(mixed_margins$specimen_number)) {
       specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$tc_ip <- 0
     }
 
     # Perimeter ratio
     specimen_data$perimeter_ratio <- specimen_data$raw_blade_perimeter_corrected / specimen_data$internal_raw_blade_perimeter_corrected
-    for(i in 1:length(mixed_margins$specimen_number)){
+    for (i in 1:length(mixed_margins$specimen_number)) {
       specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$perimeter_ratio <- 1
     }
 
@@ -114,8 +117,8 @@ dilp_processing <- function(specimen_data) {
     specimen_data$ln_leaf_area <- log(100 * specimen_data$leaf_area) # Leaf area is expressed in mm2 in DiLP MLR and SLR models, so here also converting from cm2 to mm2
     specimen_data$ln_pr <- log(specimen_data$perimeter_ratio)
     specimen_data$ln_tc_ip <- log(specimen_data$tc_ip)
-    for(i in 1:length(mixed_margins$specimen_number)){
-      specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$ln_tc_ip <- 0
+    for (i in 1:length(mixed_margins$specimen_number)) {
+      specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$ln_tc_ip <- NA
     }
 
     # Petiole metric for reconstructing leaf mass per area
@@ -128,37 +131,37 @@ dilp_processing <- function(specimen_data) {
     specimen_data$compactness <- (specimen_data$blade_perimeter^2) / specimen_data$blade_area
     # Tooth area
     specimen_data$tooth_area <- specimen_data$raw_blade_area - specimen_data$internal_raw_blade_area
-    for(i in 1:length(mixed_margins$specimen_number)){
+    for (i in 1:length(mixed_margins$specimen_number)) {
       specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$tooth_area <- 0
     }
     # Tooth area : perimeter
     specimen_data$ta_p <- specimen_data$tooth_area / specimen_data$raw_blade_perimeter_corrected
-    for(i in 1:length(mixed_margins$specimen_number)){
+    for (i in 1:length(mixed_margins$specimen_number)) {
       specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$ta_p <- 0
     }
     # Tooth area : internal perimeter
     specimen_data$ta_ip <- specimen_data$tooth_area / specimen_data$internal_raw_blade_perimeter_corrected
-    for(i in 1:length(mixed_margins$specimen_number)){
+    for (i in 1:length(mixed_margins$specimen_number)) {
       specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$ta_ip <- 0
     }
     # Tooth area : blade area
     specimen_data$ta_ba <- specimen_data$tooth_area / specimen_data$raw_blade_area
-    for(i in 1:length(mixed_margins$specimen_number)){
+    for (i in 1:length(mixed_margins$specimen_number)) {
       specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$ta_ba <- 0
     }
     # Average primary tooth area
     specimen_data$avg_ta <- specimen_data$tooth_area / specimen_data$no_primary_teeth # double check
-    for(i in 1:length(mixed_margins$specimen_number)){
+    for (i in 1:length(mixed_margins$specimen_number)) {
       specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$avg_ta <- 0
     }
     # Tooth count : blade area
     specimen_data$tc_ba <- specimen_data$total_tooth_count / specimen_data$raw_blade_area
-    for(i in 1:length(mixed_margins$specimen_number)){
+    for (i in 1:length(mixed_margins$specimen_number)) {
       specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$tc_ba <- 0
     }
     # tooth count : perimeter
     specimen_data$tc_p <- specimen_data$total_tooth_count / specimen_data$raw_blade_perimeter_corrected
-    for(i in 1:length(mixed_margins$specimen_number)){
+    for (i in 1:length(mixed_margins$specimen_number)) {
       specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$tc_p <- 0
     }
 
@@ -197,13 +200,19 @@ dilp_processing <- function(specimen_data) {
 dilp_errors <- function(specimen_data) {
   ### This data frame will be filled with the results of the following error checks
   errors <- data.frame()
+  mixed_margins <- specimen_data %>%
+    dplyr::group_by(.data$site, .data$morphotype) %>%
+    dplyr::filter(1 %in% .data$margin & 0 %in% .data$margin) %>%
+    dplyr::filter(.data$margin == 1) %>%
+    dplyr::select(.data$specimen_number)
+
   dilp.check.1 <- specimen_data %>%
     dplyr::filter(.data$margin == 1)
-  error <- specimen_data[which(dilp.check.1$total_tooth_count > -1), 2]
+  error <- specimen_data[which(dilp.check.1$total_tooth_count > -1 & !(dilp.check.1$specimen_number %in% mixed_margins$specimen_number)), 2]
   temp1 <- data.frame(Check = "Entire tooth count not NA", t(error))
-  error <- specimen_data[which(dilp.check.1$tc_ip > -1), 2]
+  error <- specimen_data[which(dilp.check.1$tc_ip > -1 & !(dilp.check.1$specimen_number %in% mixed_margins$specimen_number)), 2]
   temp2 <- data.frame(Check = "Entire tooth count : IP not NA", t(error))
-  error <- specimen_data[which(dilp.check.1$perimeter_ratio > -1), 2]
+  error <- specimen_data[which(dilp.check.1$perimeter_ratio > -1 & !(dilp.check.1$specimen_number %in% mixed_margins$specimen_number)), 2]
   temp3 <- data.frame(Check = "Entire perimeter ratio not NA", t(error))
   dilp.check.2 <- tidyr::drop_na(specimen_data, "fdr")
   error <- specimen_data[which(dilp.check.2$fdr < 0 | dilp.check.2$fdr > 1), 2]
@@ -212,10 +221,10 @@ dilp_errors <- function(specimen_data) {
   temp5 <- data.frame(Check = "External perimeter not larger than internal perimeter", t(error))
   error <- specimen_data[which(specimen_data$minimum_feret > specimen_data$feret), 2]
   temp6 <- data.frame(Check = "Feret is not larger than minimum Feret", t(error))
-  error <- as.data.frame(specimen_data[which(specimen_data$perimeter_ratio <= 1), 2])
+  error <- as.data.frame(specimen_data[which(specimen_data$perimeter_ratio <= 1 & !(specimen_data$specimen_number %in% mixed_margins$specimen_number)), 2])
   temp7 <- data.frame(Check = "Perimeter ratio not greater than 1", t(error))
   errors <- dplyr::bind_rows(temp1, temp2, temp3, temp4, temp5, temp6, temp7)
-  if(length(errors) == 1){
+  if (length(errors) == 1) {
     errors$Specimen1 <- "none"
   }
   names(errors) <- gsub(x = names(errors), pattern = "X", replacement = "Specimen")
@@ -264,7 +273,7 @@ dilp_outliers <- function(specimen_data) {
     outliers <- dplyr::bind_rows(outliers, temp.output) # bind to summary table
   }
   # Rename column headers
-  if(length(outliers) == 1){
+  if (length(outliers) == 1) {
     outliers$Outlier1 <- "none"
   }
   names(outliers) <- gsub(x = names(outliers), pattern = "V", replacement = "Outlier")
@@ -370,13 +379,13 @@ dilp <- function(specimen_data, params = "PeppeGlobal", subsite_cols = NULL) {
     stringr::str_trim() %>%
     stringr::str_to_lower() %>%
     stringr::str_replace_all("[.]", " ") %>%
-    stringr::str_replace_all("[ ]","_") %>%
+    stringr::str_replace_all("[ ]", "_") %>%
     stringr::str_replace_all("__", "_")
   colnames(specimen_data) <- colnameClean(specimen_data)
   processed_specimen_data <- dilp_processing(specimen_data)
   errors <- dilp_errors(processed_specimen_data)
   outliers <- dilp_outliers(processed_specimen_data)
-  if(is.list(params)){
+  if (is.list(params)) {
 
   } else {
     params <- grab_regression(params, "dilp")
@@ -446,9 +455,9 @@ dilp <- function(specimen_data, params = "PeppeGlobal", subsite_cols = NULL) {
   }
 
   for (subsite in subsite_cols) {
-    if(is.null(specimen_data[[subsite]])){
+    if (is.null(specimen_data[[subsite]])) {
       stop(paste("Subsite column:", subsite, "not found in specimen_data."))
-    } else{
+    } else {
       subsite_data <- specimen_data %>%
         dplyr::select(-.data$site) %>%
         dplyr::mutate(site = .data[[subsite]])
