@@ -3,7 +3,7 @@ pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   dilp: dilp.html
-last_built: 2024-03-07T21:58Z
+last_built: 2024-03-08T00:14Z
 urls:
   reference: https://mjbutrim.github.io/dilp/reference
   article: https://mjbutrim.github.io/dilp/articles
