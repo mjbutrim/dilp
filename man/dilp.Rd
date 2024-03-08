@@ -4,7 +4,7 @@
 \alias{dilp}
 \title{Generate DiLP results}
 \usage{
-dilp(specimen_data, params = "PeppeGlobal")
+dilp(specimen_data, params = "PeppeGlobal", subsite_cols = NULL)
 }
 \arguments{
 \item{specimen_data}{A data frame containing specimen level leaf physiognomic
@@ -61,6 +61,11 @@ only estimate MAT.  Use "global" for all MAP estimates. Defaults to "global" as 
 \item MAP.SLR.constant = 2.92,
 \item MAP.SLR.SE = 0.61
 }}
+
+\item{subsite_cols}{A vector or list of columns present in \code{specimen_data} to calculate
+paleoclimate estimates for.  A completely optional parameter - allows different groupings of
+specimens to be tested, or comparisons of paleoclimate estimates at different levels of grouping.
+Adds additional estimates to $results.}
 }
 \value{
 A list of tables that includes all pertinent DiLP

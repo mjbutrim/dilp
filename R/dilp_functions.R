@@ -330,6 +330,10 @@ dilp_outliers <- function(specimen_data) {
 #'    * MAP.SLR.constant = 2.92,
 #'    * MAP.SLR.SE = 0.61
 #'
+#' @param subsite_cols A vector or list of columns present in `specimen_data` to calculate
+#' paleoclimate estimates for.  A completely optional parameter - allows different groupings of
+#' specimens to be tested, or comparisons of paleoclimate estimates at different levels of grouping.
+#' Adds additional estimates to $results.
 #'
 #' @return A list of tables that includes all pertinent DiLP
 #' information:
@@ -361,7 +365,14 @@ dilp_outliers <- function(specimen_data) {
 #' dilp_results$errors
 #' dilp_results$outliers
 #' dilp_results$results
-dilp <- function(specimen_data, params = "PeppeGlobal") {
+dilp <- function(specimen_data, params = "PeppeGlobal", subsite_cols = NULL) {
+  subsite_cols <- subsite_cols %>%
+    stringr::str_trim() %>%
+    stringr::str_to_lower() %>%
+    stringr::str_replace_all("[.]", " ") %>%
+    stringr::str_replace_all("[ ]","_") %>%
+    stringr::str_replace_all("__", "_")
+  colnames(specimen_data) <- colnameClean(specimen_data)
   processed_specimen_data <- dilp_processing(specimen_data)
   errors <- dilp_errors(processed_specimen_data)
   outliers <- dilp_outliers(processed_specimen_data)
@@ -432,6 +443,18 @@ dilp <- function(specimen_data, params = "PeppeGlobal") {
       MAP.MLR.error.plus, MAP.MLR.error.minus, MAP.SLR, MAP.SLR.error.plus, MAP.SLR.error.minus
     )
     Results <- rbind(Results, temp_output)
+  }
+
+  for (subsite in subsite_cols) {
+    if(is.null(specimen_data[[subsite]])){
+      stop(paste("Subsite column:", subsite, "not found in specimen_data."))
+    } else{
+      subsite_data <- specimen_data %>%
+        dplyr::select(-.data$site) %>%
+        dplyr::mutate(site = .data[[subsite]])
+      temp <- dilp(subsite_data)
+      Results <- rbind(Results, temp$results)
+    }
   }
 
   return(list(processed_leaf_data = processed_specimen_data, processed_morphotype_data = dilp_morphotype, processed_site_data = dilp_site, errors = errors, outliers = outliers, results = Results))
