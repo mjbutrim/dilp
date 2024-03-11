@@ -1,6 +1,4 @@
 # dilp 1.0.0
-
-# dilp 1.0
 * Initial CRAN submission
 * `dilp()` given new argument `subsite_cols` to allow multiple tiers of specimen/morphotype organization.
 * `dilp()` given new options for regression parameters in `params`.  Choose between "global" and "northern_hemisphere".
