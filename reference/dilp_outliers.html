@@ -92,7 +92,6 @@ and the specimens that are outliers for that parameter.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Check for outliers in the provided McAbeeExample dataset. Each</span></span></span>
 <span class="r-in"><span><span class="co"># of these outliers has been manually re-examined and was found acceptable.</span></span></span>
 <span class="r-in"><span><span class="va">dilp_dataset</span> <span class="op">&lt;-</span> <span class="fu"><a href="dilp_processing.html">dilp_processing</a></span><span class="op">(</span><span class="va">McAbeeExample</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Adding missing grouping variables: `site`, `morphotype`</span>
 <span class="r-in"><span><span class="va">dilp_outliers</span> <span class="op">&lt;-</span> <span class="fu">dilp_outliers</span><span class="op">(</span><span class="va">dilp_dataset</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">dilp_outliers</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Variable     Outlier1     Outlier2     Outlier3    Outlier4</span>

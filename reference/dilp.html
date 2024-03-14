@@ -92,10 +92,10 @@ A good reference for how to put together the data: <code><a href="McAbeeExample.
 <dt>params</dt>
 <dd><p>Either a string referring to one of two preloaded parameter sets
 of a list of custom parameters (same format as the list below).</p>
-<p>Preloaded parameter sets are "global" and "northern_hemisphere" which are calibrated based on
+<p>Preloaded parameter sets are "PeppeGlobal" and "PeppeNH" which are calibrated based on
 global and northern hemisphere data respectively. Allen et al. (2020) illustrates a situation
-in which the northern hemisphere parameters may be preferable.  The "northern_hemisphere" parameters
-only estimate MAT.  Use "global" for all MAP estimates. Defaults to "global" as follows (Peppe et al. 2011):</p><ul><li><p>MAT.MLR.M = 0.21,</p></li>
+in which the northern hemisphere parameters may be preferable.  The "PeppeNH" parameters
+only estimate MAT.  Use "PeppeGlobal" for all MAP estimates. Defaults to "PeppeGlobal" as follows (Peppe et al. 2011):</p><ul><li><p>MAT.MLR.M = 0.21,</p></li>
 <li><p>MAT.MLR.FDR = 42.296,</p></li>
 <li><p>MAT.MLR.TC.IP = -2.609,</p></li>
 <li><p>MAT.MLR.constant = -16.004,</p></li>
@@ -150,8 +150,6 @@ regressions.</p></li>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">dilp_results</span> <span class="op">&lt;-</span> <span class="fu">dilp</span><span class="op">(</span><span class="va">McAbeeExample</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Adding missing grouping variables: `site`, `morphotype`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Adding missing grouping variables: `site`, `morphotype`</span>
 <span class="r-in"><span><span class="va">dilp_results</span><span class="op">$</span><span class="va">processed_leaf_data</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 192 × 40</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    site      specimen_number morphotype measurer_comments margin petiole_width</span>
@@ -175,19 +173,18 @@ regressions.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   no_of_subsidiary_teeth &lt;dbl&gt;, leaf_area &lt;dbl&gt;, feret_diameter &lt;dbl&gt;, …</span></span>
 <span class="r-in"><span><span class="va">dilp_results</span><span class="op">$</span><span class="va">processed_morphotype_data</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 61 × 38</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   site [2]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    site  morphotype margin petiole_width petiole_area blade_area blade_perimeter</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> McAb… M1              0        0.096<span style="text-decoration: underline;">2</span>       0.022<span style="text-decoration: underline;">3</span>       6.14             <span style="color: #BB0000;">NaN</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> McAb… M11             1      <span style="color: #BB0000;">NaN</span>          <span style="color: #BB0000;">NaN</span>          <span style="color: #BB0000;">NaN</span>                <span style="color: #BB0000;">NaN</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> McAb… M12             1        0.038        0.01         1.33             <span style="color: #BB0000;">NaN</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> McAb… M13             0        0.069        0.047        7.80             <span style="color: #BB0000;">NaN</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> McAb… M15             0      <span style="color: #BB0000;">NaN</span>          <span style="color: #BB0000;">NaN</span>          <span style="color: #BB0000;">NaN</span>                <span style="color: #BB0000;">NaN</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> McAb… M16             0      <span style="color: #BB0000;">NaN</span>          <span style="color: #BB0000;">NaN</span>          <span style="color: #BB0000;">NaN</span>                <span style="color: #BB0000;">NaN</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> McAb… M18             0        0.11         0.101       14.8              <span style="color: #BB0000;">NaN</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> McAb… M19             0        0.077        0.069       16.0              <span style="color: #BB0000;">NaN</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> McAb… M21             1      <span style="color: #BB0000;">NaN</span>          <span style="color: #BB0000;">NaN</span>          <span style="color: #BB0000;">NaN</span>                <span style="color: #BB0000;">NaN</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> McAb… M23             0      <span style="color: #BB0000;">NaN</span>          <span style="color: #BB0000;">NaN</span>          <span style="color: #BB0000;">NaN</span>                <span style="color: #BB0000;">NaN</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> McAb… M3              0      <span style="color: #BB0000;">NaN</span>          <span style="color: #BB0000;">NaN</span>          <span style="color: #BB0000;">NaN</span>                <span style="color: #BB0000;">NaN</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> McAb… M5              0        0.114        0.029        9.83             <span style="color: #BB0000;">NaN</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> McAb… M8              0        0.076<span style="text-decoration: underline;">5</span>       0.040<span style="text-decoration: underline;">7</span>       8.79             <span style="color: #BB0000;">NaN</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> McAb… M11             1      <span style="color: #BB0000;">NaN</span>          <span style="color: #BB0000;">NaN</span>          <span style="color: #BB0000;">NaN</span>                <span style="color: #BB0000;">NaN</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> McAb… M12             1        0.038        0.01         1.33             <span style="color: #BB0000;">NaN</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> McAb… M13             0        0.069        0.047        7.80             <span style="color: #BB0000;">NaN</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> McAb… M15             0      <span style="color: #BB0000;">NaN</span>          <span style="color: #BB0000;">NaN</span>          <span style="color: #BB0000;">NaN</span>                <span style="color: #BB0000;">NaN</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> McAb… M16             0      <span style="color: #BB0000;">NaN</span>          <span style="color: #BB0000;">NaN</span>          <span style="color: #BB0000;">NaN</span>                <span style="color: #BB0000;">NaN</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> McAb… M18             0        0.11         0.101       14.8              <span style="color: #BB0000;">NaN</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 51 more rows</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 31 more variables: feret &lt;dbl&gt;, minimum_feret &lt;dbl&gt;, raw_blade_area &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   raw_blade_perimeter &lt;dbl&gt;, internal_raw_blade_area &lt;dbl&gt;,</span></span>
