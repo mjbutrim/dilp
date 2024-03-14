@@ -229,10 +229,10 @@ calc_lma <- function(data, params, resolution = "species") {
 #' results <- lma(McAbeeExample)
 #' results
 lma <- function(specimen_data) {
-  species_lma <- calc_lma(specimen_data, params = royer_species_mean_ma, resolution = "species")
-  royer_site_lma <- calc_lma(species_lma, params = royer_site_mean_ma, resolution = "site")
-  lowe_site_lma <- calc_lma(species_lma, params = lowe_site_mean_ma, resolution = "site")
-  lowe_variance <- calc_lma(species_lma, params = lowe_site_variance_ma, resolution = "site")
+  species_lma <- calc_lma(specimen_data, params = lma_regressions$royer_species_mean_ma, resolution = "species")
+  royer_site_lma <- calc_lma(species_lma, params = lma_regressions$royer_site_mean_ma, resolution = "site")
+  lowe_site_lma <- calc_lma(species_lma, params = lma_regressions$lowe_site_mean_ma, resolution = "site")
+  lowe_variance <- calc_lma(species_lma, params = lma_regressions$lowe_site_variance_ma, resolution = "site")
 
   return(list(
     species_mean_lma = species_lma,

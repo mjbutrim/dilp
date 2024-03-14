@@ -19,6 +19,7 @@ reference:
   - dilp_outliers
   - dilp_processing
   - calc_lma
+  - view_regressions
 
 - title: Built in datasets
   desc:

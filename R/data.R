@@ -71,52 +71,47 @@
 #' * Peppe, D.J., Royer, D.L., Cariglino, B., Oliver, S.Y., Newman, S., Leight, E., Enikolopov, G., Fernandez-Burgos, M., Herrera, F., Adams, J.M., Correa, E., Currano, E.D., Erickson, J.M., Hinojosa, L.F., Hoganson, J.W., Iglesias, A., Jaramillo, C.A., Johnson, K.R., Jordan, G.J., Kraft, N.J.B., Lovelock, E.C., Lusk, C.H., Niinemets, Ü., Peñuelas, J., Rapson, G., Wing, S.L. and Wright, I.J. (2011), Sensitivity of leaf size and shape to climate: global patterns and paleoclimatic applications. New Phytologist, 190: 724-739. https://doi.org/10.1111/j.1469-8137.2010.03615.x
 "physiognomy_calibration_data"
 
-
-royer_species_mean_ma <- list(
-  stat = "mean",
-  regression_slope = 0.382,
-  y_intercept = 3.070,
-  unexplained_mean_square = 0.032237,
-  sample_size_calibration = 667,
-  mean_log_petiole_metric_calibration = -3.011,
-  sum_of_squares_calibration = 182.1,
-  critical_value = 1.964
-)
-
-
-royer_site_mean_ma <- list(
-  stat = "mean",
-  regression_slope = 0.429,
-  y_intercept = 3.214,
-  unexplained_mean_square = 0.005285,
-  sample_size_calibration = 25,
-  mean_log_petiole_metric_calibration = -2.857,
-  sum_of_squares_calibration = 5.331,
-  critical_value = 2.069
-)
-
-
-lowe_site_mean_ma <- list(
-  stat = "mean",
-  regression_slope = 0.345,
-  y_intercept = 2.954,
-  unexplained_mean_square = 0.01212861,
-  sample_size_calibration = 70,
-  mean_log_petiole_metric_calibration = -2.902972,
-  sum_of_squares_calibration = 1.154691,
-  critical_value = 1.995469
-)
-
-
-lowe_site_variance_ma <- list(
-  stat = "variance",
-  regression_slope = 0.302,
-  y_intercept = 5.028,
-  unexplained_mean_square = 0.1713672,
-  sample_size_calibration = 70,
-  mean_log_petiole_metric_calibration = -5.97104,
-  sum_of_squares_calibration = 5.085184,
-  critical_value = 1.995469
+lma_regressions <- list(
+  royer_species_mean_ma = list(
+    stat = "mean",
+    regression_slope = 0.382,
+    y_intercept = 3.070,
+    unexplained_mean_square = 0.032237,
+    sample_size_calibration = 667,
+    mean_log_petiole_metric_calibration = -3.011,
+    sum_of_squares_calibration = 182.1,
+    critical_value = 1.964
+  ),
+  royer_site_mean_ma = list(
+    stat = "mean",
+    regression_slope = 0.429,
+    y_intercept = 3.214,
+    unexplained_mean_square = 0.005285,
+    sample_size_calibration = 25,
+    mean_log_petiole_metric_calibration = -2.857,
+    sum_of_squares_calibration = 5.331,
+    critical_value = 2.069
+  ),
+  lowe_site_mean_ma = list(
+    stat = "mean",
+    regression_slope = 0.345,
+    y_intercept = 2.954,
+    unexplained_mean_square = 0.01212861,
+    sample_size_calibration = 70,
+    mean_log_petiole_metric_calibration = -2.902972,
+    sum_of_squares_calibration = 1.154691,
+    critical_value = 1.995469
+  ),
+  lowe_site_variance_ma = list(
+    stat = "variance",
+    regression_slope = 0.302,
+    y_intercept = 5.028,
+    unexplained_mean_square = 0.1713672,
+    sample_size_calibration = 70,
+    mean_log_petiole_metric_calibration = -5.97104,
+    sum_of_squares_calibration = 5.085184,
+    critical_value = 1.995469
+  )
 )
 
 dilp_parameters <- list(

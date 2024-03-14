@@ -55,3 +55,35 @@ grab_regression <- function(name, type) {
     }
   }
 }
+
+#' View preloaded regressions
+#'
+#' @param type Must be either "dilp", "lma", temp", or "precip".
+#'
+#' @return A data frame containing the parameters for each available regression of the selected type.
+#' @export
+#'
+#' @examples
+#' view_regressions("dilp")
+view_regressions <- function(type){
+  if (type == "temp") {
+    list <- temp_regressions
+  }
+  if (type == "precip") {
+    list <- precip_regressions
+  }
+  if (type == "dilp") {
+    list <- dilp_parameters
+  }
+  if (type == "lma") {
+    list <- lma_regressions
+  }
+  regressions <- data.frame()
+  for (i in list) {
+    regressions <- regressions %>%
+      dplyr::bind_rows(as.data.frame(i))
+  }
+  regressions <- regressions %>%
+    dplyr::mutate("Name" = names(list), .before = 1)
+  return(regressions)
+}

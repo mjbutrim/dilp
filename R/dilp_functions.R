@@ -65,12 +65,15 @@ dilp_processing <- function(specimen_data) {
       dplyr::group_by(.data$site, .data$morphotype) %>%
       dplyr::filter(1 %in% .data$margin & 0 %in% .data$margin) %>%
       dplyr::filter(.data$margin == 1) %>%
-      dplyr::select(.data$specimen_number)
+      dplyr::select("site", "morphotype", "specimen_number")
 
-    for (i in 1:length(mixed_margins$specimen_number)) {
-      specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$length_of_cut_perimeter <- 0
-      specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$no_primary_teeth <- 0
-      specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$no_of_subsidiary_teeth <- 0
+
+    if(length(mixed_margins$specimen_number) > 0){
+      for (i in 1:length(mixed_margins$specimen_number)) {
+        specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$length_of_cut_perimeter <- 0
+        specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$no_primary_teeth <- 0
+        specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$no_of_subsidiary_teeth <- 0
+      }
     }
 
 
@@ -97,28 +100,36 @@ dilp_processing <- function(specimen_data) {
     temp2 <- specimen_data$no_of_subsidiary_teeth
     specimen_data$no_of_subsidiary_teeth[is.na(specimen_data$no_of_subsidiary_teeth)] <- 0 # if it is left as NA then total tooth count will also return NA
     specimen_data$total_tooth_count <- ifelse(specimen_data$margin == 1, NA, specimen_data$no_primary_teeth + specimen_data$no_of_subsidiary_teeth)
-    for (i in 1:length(mixed_margins$specimen_number)) {
-      specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$total_tooth_count <- 0
+    if(length(mixed_margins$specimen_number) > 0){
+      for (i in 1:length(mixed_margins$specimen_number)) {
+        specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$total_tooth_count <- 0
+      }
     }
 
     # Total tooth count : internal perimeter
     specimen_data$tc_ip <- specimen_data$total_tooth_count / specimen_data$internal_raw_blade_perimeter_corrected
-    for (i in 1:length(mixed_margins$specimen_number)) {
-      specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$tc_ip <- 0
+    if(length(mixed_margins$specimen_number) > 0){
+      for (i in 1:length(mixed_margins$specimen_number)) {
+        specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$tc_ip <- 0
+      }
     }
 
     # Perimeter ratio
     specimen_data$perimeter_ratio <- specimen_data$raw_blade_perimeter_corrected / specimen_data$internal_raw_blade_perimeter_corrected
-    for (i in 1:length(mixed_margins$specimen_number)) {
-      specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$perimeter_ratio <- 1
+    if(length(mixed_margins$specimen_number) > 0){
+      for (i in 1:length(mixed_margins$specimen_number)) {
+        specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$perimeter_ratio <- 1
+      }
     }
 
     #### Apply required natural logs to appropriate variables
     specimen_data$ln_leaf_area <- log(100 * specimen_data$leaf_area) # Leaf area is expressed in mm2 in DiLP MLR and SLR models, so here also converting from cm2 to mm2
     specimen_data$ln_pr <- log(specimen_data$perimeter_ratio)
     specimen_data$ln_tc_ip <- log(specimen_data$tc_ip)
-    for (i in 1:length(mixed_margins$specimen_number)) {
-      specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$ln_tc_ip <- NA
+    if(length(mixed_margins$specimen_number) > 0){
+      for (i in 1:length(mixed_margins$specimen_number)) {
+        specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$ln_tc_ip <- NA
+      }
     }
 
     # Petiole metric for reconstructing leaf mass per area
@@ -131,39 +142,60 @@ dilp_processing <- function(specimen_data) {
     specimen_data$compactness <- (specimen_data$blade_perimeter^2) / specimen_data$blade_area
     # Tooth area
     specimen_data$tooth_area <- specimen_data$raw_blade_area - specimen_data$internal_raw_blade_area
-    for (i in 1:length(mixed_margins$specimen_number)) {
-      specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$tooth_area <- 0
+    if(length(mixed_margins$specimen_number) > 0){
+      for (i in 1:length(mixed_margins$specimen_number)) {
+        specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$tooth_area <- 0
+      }
     }
+
     # Tooth area : perimeter
     specimen_data$ta_p <- specimen_data$tooth_area / specimen_data$raw_blade_perimeter_corrected
-    for (i in 1:length(mixed_margins$specimen_number)) {
-      specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$ta_p <- 0
+    if(length(mixed_margins$specimen_number) > 0){
+      for (i in 1:length(mixed_margins$specimen_number)) {
+        specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$ta_p <- 0
+      }
     }
+
     # Tooth area : internal perimeter
     specimen_data$ta_ip <- specimen_data$tooth_area / specimen_data$internal_raw_blade_perimeter_corrected
-    for (i in 1:length(mixed_margins$specimen_number)) {
-      specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$ta_ip <- 0
+    if(length(mixed_margins$specimen_number) > 0){
+      for (i in 1:length(mixed_margins$specimen_number)) {
+        specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$ta_ip <- 0
+      }
     }
+
     # Tooth area : blade area
     specimen_data$ta_ba <- specimen_data$tooth_area / specimen_data$raw_blade_area
-    for (i in 1:length(mixed_margins$specimen_number)) {
-      specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$ta_ba <- 0
+    if(length(mixed_margins$specimen_number) > 0){
+      for (i in 1:length(mixed_margins$specimen_number)) {
+        specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$ta_ba <- 0
+      }
     }
+
     # Average primary tooth area
     specimen_data$avg_ta <- specimen_data$tooth_area / specimen_data$no_primary_teeth # double check
-    for (i in 1:length(mixed_margins$specimen_number)) {
-      specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$avg_ta <- 0
+    if(length(mixed_margins$specimen_number) > 0){
+      for (i in 1:length(mixed_margins$specimen_number)) {
+        specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$avg_ta <- 0
+      }
     }
+
     # Tooth count : blade area
     specimen_data$tc_ba <- specimen_data$total_tooth_count / specimen_data$raw_blade_area
-    for (i in 1:length(mixed_margins$specimen_number)) {
-      specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$tc_ba <- 0
+    if(length(mixed_margins$specimen_number) > 0){
+      for (i in 1:length(mixed_margins$specimen_number)) {
+        specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$tc_ba <- 0
+      }
     }
+
     # tooth count : perimeter
     specimen_data$tc_p <- specimen_data$total_tooth_count / specimen_data$raw_blade_perimeter_corrected
-    for (i in 1:length(mixed_margins$specimen_number)) {
-      specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$tc_p <- 0
+    if(length(mixed_margins$specimen_number) > 0){
+      for (i in 1:length(mixed_margins$specimen_number)) {
+        specimen_data[which(specimen_data$specimen_number == mixed_margins$specimen_number[i]), ]$tc_p <- 0
+      }
     }
+
 
     # Return length of cut perimeter and no subsidiary teeth back to original values to keep averages intact
     specimen_data$length_of_cut_perimeter <- temp1
@@ -204,7 +236,7 @@ dilp_errors <- function(specimen_data) {
     dplyr::group_by(.data$site, .data$morphotype) %>%
     dplyr::filter(1 %in% .data$margin & 0 %in% .data$margin) %>%
     dplyr::filter(.data$margin == 1) %>%
-    dplyr::select(.data$specimen_number)
+    dplyr::select("site", "morphotype", "specimen_number")
 
   dilp.check.1 <- specimen_data %>%
     dplyr::filter(.data$margin == 1)
@@ -317,10 +349,10 @@ dilp_outliers <- function(specimen_data) {
 #' @param params Either a string referring to one of two preloaded parameter sets
 #' of a list of custom parameters (same format as the list below).
 #'
-#' Preloaded parameter sets are "global" and "northern_hemisphere" which are calibrated based on
+#' Preloaded parameter sets are "PeppeGlobal" and "PeppeNH" which are calibrated based on
 #' global and northern hemisphere data respectively. Allen et al. (2020) illustrates a situation
-#' in which the northern hemisphere parameters may be preferable.  The "northern_hemisphere" parameters
-#' only estimate MAT.  Use "global" for all MAP estimates. Defaults to "global" as follows (Peppe et al. 2011):
+#' in which the northern hemisphere parameters may be preferable.  The "PeppeNH" parameters
+#' only estimate MAT.  Use "PeppeGlobal" for all MAP estimates. Defaults to "PeppeGlobal" as follows (Peppe et al. 2011):
 #'
 #'    * MAT.MLR.M = 0.21,
 #'    * MAT.MLR.FDR = 42.296,
@@ -394,8 +426,7 @@ dilp <- function(specimen_data, params = "PeppeGlobal", subsite_cols = NULL) {
   ####### Morphotype average by site
   dilp_morphotype <- processed_specimen_data %>%
     dplyr::select(-"specimen_number") %>%
-    dplyr::group_by(.data$site, .data$morphotype) %>%
-    dplyr::summarize(dplyr::across(dplyr::where(~ !is.character(.)), \(x) mean(x, na.rm = TRUE)))
+    dplyr::summarize(.by = c(.data$site, .data$morphotype), dplyr::across(dplyr::where(~ !is.character(.)), \(x) mean(x, na.rm = TRUE)))
 
   ##### Morphotypes that have variable leaf margin states require a margin state of 0.5
 

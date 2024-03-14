@@ -1,4 +1,7 @@
 # dilp (development version)
+* Added `view_regressions()` to allow users to easily see their options for preloaded regressions in dilp, lma, temp, and precip.
+* Fixed `dilp()` so that the mixed_margins aren't screwing everything up.
+* Fixed `dilp()` documentation to properly reference the correct parameter options.
 
 # dilp 1.0.0
 * Initial CRAN submission
