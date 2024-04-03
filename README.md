@@ -51,7 +51,7 @@ vignette](https://mjbutrim.github.io/dilp/articles/dilp.html)
 
 For ease of use, a template spreadsheet for data collection can be found
 here: [DiLP Data Collection
-Template](https://drive.google.com/file/d/1UYAd0u2fIn2QCLF6aKKzTj6KPaAPv0d1/view?usp=sharing)
+Template](https://drive.google.com/file/d/1AOAftWBAE0RhrUewBZDSL81BIUq0Gmhw/view?usp=sharing)
 
 If you encounter any problems, or would like to request a feature,
 please create an issue [here](https://github.com/mjbutrim/dilp/issues)

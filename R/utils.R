@@ -10,7 +10,7 @@ colnameClean <- function(data) {
   names <- colnameSynonym(names, "petiole_width", c("pw"))
   names <- colnameSynonym(names, "internal_raw_blade_area", c("raw_internal_blade_area"))
   names <- colnameSynonym(names, "internal_raw_blade_perimeter", c("raw_internal_blade_perimeter"))
-  names <- colnameSynonym(names, "no_primary_teeth", c("no_of_primary_teeth", "number_primary_teeth", "number_of_primary_teeth", "#primary_teeth", "#_of_primary_teeth"))
+  names <- colnameSynonym(names, "no_of_primary_teeth", c("no_primary_teeth", "number_primary_teeth", "number_of_primary_teeth", "#primary_teeth", "#_of_primary_teeth"))
   names <- colnameSynonym(names, "no_of_subsidiary_teeth", c(
     "no_subsidiary_teeth", "number_subsidiary_teeth", "number_of_subsidiary_teeth", "#subsidiary_teeth", "#_of_subsidiary_teeth",
     "no_secondary_teeth", "number_secondary_teeth", "number_of_secondary_teeth", "#secondary_teeth", "#_of_secondary_teeth",
@@ -65,7 +65,7 @@ grab_regression <- function(name, type) {
 #'
 #' @examples
 #' view_regressions("dilp")
-view_regressions <- function(type){
+view_regressions <- function(type) {
   if (type == "temp") {
     list <- temp_regressions
   }

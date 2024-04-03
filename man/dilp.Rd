@@ -22,7 +22,7 @@ Required columns:
 \item raw_blade_perimeter
 \item internal_raw_blade_perimeter
 \item length_of_cut_perimeter
-\item no_primary_teeth
+\item no_of_primary_teeth
 \item no_of_subsidiary_teeth
 }
 
