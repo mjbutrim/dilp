@@ -78,7 +78,7 @@ A good reference for how to put together the data: <code><a href="McAbeeExample.
 <li><p>raw_blade_perimeter</p></li>
 <li><p>internal_raw_blade_perimeter</p></li>
 <li><p>length_of_cut_perimeter</p></li>
-<li><p>no_primary_teeth</p></li>
+<li><p>no_of_primary_teeth</p></li>
 <li><p>no_of_subsidiary_teeth</p></li>
 </ul><p>Recommended columns:</p><ul><li><p>petiole_width</p></li>
 <li><p>petiole_area</p></li>
@@ -169,7 +169,7 @@ regressions.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   blade_perimeter &lt;lgl&gt;, feret &lt;dbl&gt;, minimum_feret &lt;lgl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   raw_blade_area &lt;dbl&gt;, raw_blade_perimeter &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   internal_raw_blade_area &lt;dbl&gt;, internal_raw_blade_perimeter &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   length_of_cut_perimeter &lt;dbl&gt;, no_primary_teeth &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   length_of_cut_perimeter &lt;dbl&gt;, no_of_primary_teeth &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   no_of_subsidiary_teeth &lt;dbl&gt;, leaf_area &lt;dbl&gt;, feret_diameter &lt;dbl&gt;, …</span></span>
 <span class="r-in"><span><span class="va">dilp_results</span><span class="op">$</span><span class="va">processed_morphotype_data</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 61 × 38</span></span>
@@ -189,7 +189,7 @@ regressions.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 31 more variables: feret &lt;dbl&gt;, minimum_feret &lt;dbl&gt;, raw_blade_area &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   raw_blade_perimeter &lt;dbl&gt;, internal_raw_blade_area &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   internal_raw_blade_perimeter &lt;dbl&gt;, length_of_cut_perimeter &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   no_primary_teeth &lt;dbl&gt;, no_of_subsidiary_teeth &lt;dbl&gt;, leaf_area &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   no_of_primary_teeth &lt;dbl&gt;, no_of_subsidiary_teeth &lt;dbl&gt;, leaf_area &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   feret_diameter &lt;dbl&gt;, fdr &lt;dbl&gt;, raw_blade_perimeter_corrected &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   internal_raw_blade_perimeter_corrected &lt;dbl&gt;, total_tooth_count &lt;dbl&gt;, …</span></span>
 <span class="r-in"><span><span class="va">dilp_results</span><span class="op">$</span><span class="va">processed_site_data</span></span></span>
@@ -201,7 +201,7 @@ regressions.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 30 more variables: minimum_feret &lt;dbl&gt;, raw_blade_area &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   raw_blade_perimeter &lt;dbl&gt;, internal_raw_blade_area &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   internal_raw_blade_perimeter &lt;dbl&gt;, length_of_cut_perimeter &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   no_primary_teeth &lt;dbl&gt;, no_of_subsidiary_teeth &lt;dbl&gt;, leaf_area &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   no_of_primary_teeth &lt;dbl&gt;, no_of_subsidiary_teeth &lt;dbl&gt;, leaf_area &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   feret_diameter &lt;dbl&gt;, fdr &lt;dbl&gt;, raw_blade_perimeter_corrected &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   internal_raw_blade_perimeter_corrected &lt;dbl&gt;, total_tooth_count &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   tc_ip &lt;dbl&gt;, perimeter_ratio &lt;dbl&gt;, ln_leaf_area &lt;dbl&gt;, ln_pr &lt;dbl&gt;, …</span></span>
@@ -221,18 +221,15 @@ regressions.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3       leaf_area BU-712-2173A BU-712-2105A  BU-712-2124        &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4 perimeter_ratio   M-2015-1-1 BU-712-1073A  BU-712-1165 M-2015-1-62</span>
 <span class="r-in"><span><span class="va">dilp_results</span><span class="op">$</span><span class="va">results</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        Site   Margin       FDR    TC.IP Ln.leaf.area  Ln.TC.IP     Ln.PR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        site   margin       fdr    tc_ip ln_leaf_area  ln_tc_ip     ln_pr</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 McAbee H1 32.25806 0.6965086 2.562487     6.792833 0.6070757 0.2047427</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 McAbee H2 23.33333 0.7012671 2.651242     7.037892 0.6218561 0.1504205</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    MAT.MLR params.MAT.MLR.error  MAT.SLR params.MAT.SLR.error  MAP.MLR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 13.54419                    4 11.18065                  4.8 106.7353</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 11.63970                    4  9.36000                  4.8 133.6330</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   MAP.MLR.error.plus MAP.MLR.error.minus  MAP.SLR MAP.SLR.error.plus</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1           87.74914            48.15775 126.7697           106.5412</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2          109.86219            60.29365 135.8734           114.1923</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   MAP.SLR.error.minus</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1            57.88926</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2            62.04646</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    MAT.MLR MAT.MLR.error  MAT.SLR MAT.SLR.error  MAP.MLR MAP.MLR.error.plus</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 13.54419             4 11.18065           4.8 106.7353           87.74914</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 11.63970             4  9.36000           4.8 133.6330          109.86219</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   MAP.MLR.error.minus  MAP.SLR MAP.SLR.error.plus MAP.SLR.error.minus</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1            48.15775 126.7697           106.5412            57.88926</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2            60.29365 135.8734           114.1923            62.04646</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

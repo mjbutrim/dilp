@@ -52,6 +52,10 @@
 <ul><li>Added <code><a href="../reference/view_regressions.html">view_regressions()</a></code> to allow users to easily see their options for preloaded regressions in dilp, lma, temp, and precip.</li>
 <li>Fixed <code><a href="../reference/dilp.html">dilp()</a></code> so that the mixed_margins aren’t screwing everything up.</li>
 <li>Fixed <code><a href="../reference/dilp.html">dilp()</a></code> documentation to properly reference the correct parameter options.</li>
+<li>Entry field “no_primary_teeth” changed to “no_of_primary_teeth” for consistency</li>
+<li>Updated provided data entry template so that column names match listed expected column names</li>
+<li>Added conditionals to <code><a href="../reference/dilp.html">dilp()</a></code> so that if you enter blanks for raw blade area, and raw blade perimeter, but length of cut perimeter is 0, blade perimeter/blade area are present, and the leaf is toothed, the raw values are automatically filled in with the blade perimeter/blade area values.</li>
+<li>Added conditionals to <code><a href="../reference/dilp.html">dilp()</a></code> site_mean values so that a locality with only untoothed leaves is assigned a site tc_ip of 0 and a site perimeter_ratio of 1, allowing MAT estimates to be formed.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.0" id="dilp-100">dilp 1.0.0<a class="anchor" aria-label="anchor" href="#dilp-100"></a></h2><p class="text-muted">CRAN release: 2024-03-11</p>
