@@ -1,6 +1,6 @@
 Package: dilp
 Title: Reconstruct Paleoclimate and Paleoecology with Leaf Physiognomy
-Version: 1.0.0.9000
+Version: 1.0.1
 Authors@R: c(
     person(given = "Matthew J.", family = "Butrim", email = "mbutrim@uwyo.edu", role = c("aut", "cre", "cph")),
     person(given = "Alexander J.", family = "Lowe", role = "aut"),
