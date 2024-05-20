@@ -4,7 +4,7 @@
 #' `temp_slr()` will produce estimates of mean annual temperature and standard error
 #' using leaf margin analysis.
 #' @param data A data frame that must include the columns "morphotype" and "margin".
-#' Can be species or site level data.
+#' Can be leaf or species level data.
 #' @param regression A string representing one of the following pre-loaded regressions:
 #' * "Peppe2018" - for global temperature estimates
 #' * "Peppe2011" - The Americas, Japan, and Oceania
@@ -82,7 +82,7 @@ temp_slr <- function(data, regression = "Peppe2018", slope = NULL, constant = NU
 #' `precip_slr()` will produce estimates of mean annual precipitation and standard error
 #' using leaf area analysis.
 #' @param data A data frame that must include the columns "morphotype", "leaf_area", and "specimen_number".
-#' Must be species level data.
+#' Must be leaf level data.
 #' @param regression A string representing one of the following pre-loaded regressions:
 #' * "Peppe2018" - for global precipitation estimates
 #' * "Peppe2011" - The Americas, Japan, and Oceania

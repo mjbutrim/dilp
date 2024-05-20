@@ -14,7 +14,7 @@ precip_slr(
 }
 \arguments{
 \item{data}{A data frame that must include the columns "morphotype", "leaf_area", and "specimen_number".
-Must be species level data.}
+Must be leaf level data.}
 
 \item{regression}{A string representing one of the following pre-loaded regressions:
 \itemize{

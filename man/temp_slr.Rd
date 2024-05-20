@@ -14,7 +14,7 @@ temp_slr(
 }
 \arguments{
 \item{data}{A data frame that must include the columns "morphotype" and "margin".
-Can be species or site level data.}
+Can be leaf or species level data.}
 
 \item{regression}{A string representing one of the following pre-loaded regressions:
 \itemize{

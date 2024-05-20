@@ -16,7 +16,6 @@ colnameClean <- function(data) {
     "no_secondary_teeth", "number_secondary_teeth", "number_of_secondary_teeth", "#secondary_teeth", "#_of_secondary_teeth",
     "no_of_secondary_teeth"
   ))
-  names <- colnameSynonym(names, "feret", c("feret_diameter"))
   names <- colnameSynonym(names, "margin", c("Margin (0 - Toothed; 1 - Untoothed)"))
   return(names)
 }
