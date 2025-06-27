@@ -270,6 +270,8 @@ dilp_errors <- function(specimen_data) {
   if (length(errors) > 1){
     warning <- capture.output(print(errors))
     warning(paste("Errors found in dataframe:\n", paste(warning, collapse = "\n")))
+  } else {
+    errors <- "No errors found"
   }
 
   return(errors)
