@@ -168,3 +168,14 @@ precip_regressions <- list(
   Jacobs2002 = list(slope = 0.321, constant = 2.476, error = 0.24),
   Wilf1998 = list(slope = 0.546, constant = 0.786, error = 0.36)
 )
+
+#' Whittaker Biome Data
+#'
+#' Delineations of Whittaker biomes from github.com/valentinitnelav/plotbiomes
+#'
+#' @format ## `Whittaker_biomes`
+#' A data frame with points mapping out Whittaker biome delineations.
+#' @source github.com/valentinitnelav/plotbiomes
+#' @references
+#' *Valentin Ștefan, & Sam Levin. (2018). plotbiomes: R package for plotting Whittaker biomes with ggplot2 (v1.0.0). Zenodo. https://doi.org/10.5281/zenodo.7145245
+"Whittaker_biomes"
