@@ -15,12 +15,14 @@ A 4 by X data frame. Each row represents one of the DiLP parameters,
 and the specimens that are outliers for that parameter.
 }
 \description{
-\code{dilp_outliers()} will typically only be called internally by \code{\link[=dilp]{dilp()}}.
-However, it can be used on its own to locate specimens that may have been
-misreported or measured incorrectly.  \code{dilp_outliers()} returns a data frame
+\code{dilp_outliers()} is called internally by \code{\link[=dilp]{dilp()}}.
+However, it can be used on its own to flag specimens that may have been
+reported, measured, or prepared incorrectly.  \code{dilp_outliers()} returns a data frame
 listing specimens that have unusually high or low values for the four key
-parameters used in DiLP analyses.  If flagged, it may be worth taking a look at the
-raw measurements and evaluating if the specimen should be used.
+parameters used in DiLP analyses. This includes whether a specimen is an outlier
+in the entire dataset, or among other specimens in the same morphotype. If flagged, we suggest looking at the
+raw measurements and prepped specimen and evaluating if the data is in error or is correct. If in error, the specimen will
+need to be reprepared and/or remeasured, and the updated datasheet re-read back into R.
 }
 \examples{
 # Check for outliers in the provided McAbeeExample dataset. Each
