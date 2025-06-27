@@ -248,9 +248,20 @@ dilp_errors <- function(specimen_data) {
 
   dilp.check.1 <- specimen_data %>% dplyr::filter(.data$margin == 1)
 
-  error <- specimen_data[which(dilp.check.1$total_tooth_count > -1 & !(dilp.check.1$specimen_number %in% mixed_margins$specimen_number)), 2] #The mixed margin bit ensures that specimens in a mixed margin morphotype, retain their tooth count and area values of 0
+  #Originally we were checking total tooth count, but it is automatically converted to NA in the processing step in case people put 0's in. Thus here we instead check primary and subsidiary teeth seperate
+  error <- specimen_data[which(dilp.check.1$no_of_primary_teeth > -1 & !(dilp.check.1$specimen_number %in% mixed_margins$specimen_number)), 2] #The mixed margin bit ensures that specimens in a mixed margin morphotype retain their tooth count and area values of 0, and no error is flagged for it
   temp1 <- data.frame(Check = "Entire tooth count not NA", specimen_number = ifelse(nrow(error) != 0, error, "No errors found"))
+  error <- specimen_data[which(dilp.check.1$no_of_subsidiary_teeth > -1 & !(dilp.check.1$specimen_number %in% mixed_margins$specimen_number)), 2] #The mixed margin bit ensures that specimens in a mixed margin morphotype retain their tooth count and area values of 0, and no error is flagged for it
+  temp1.1 <- data.frame(Check = "Entire tooth count not NA", specimen_number = ifelse(nrow(error) != 0, error, "No errors found"))
+
   colnames(temp1) <- c("Check", "specimen_number")
+  colnames(temp1.1) <- c("Check", "specimen_number")
+  temp1 <- rbind(temp1, temp1.1)
+  #If the number of unique values in specimen number is greater than 1, errors were reported
+  #If it was only reported for primary or subsidiary, one of the returns will still say "No errors found", which needs to be deleted
+  if(length(unique(temp1$specimen_number))>1){temp1 <- dplyr::filter(temp1, .data$specimen_number != "No errors found")}
+  #At the end, keep only unique specimen numbers, to ensure either specimen numbers of "No errors found" is not repeated
+  temp1 <- dplyr::distinct(temp1)
 
   error <- specimen_data[which(dilp.check.1$tc_ip > -1 & !(dilp.check.1$specimen_number %in% mixed_margins$specimen_number)), 2]
   temp2 <- data.frame(Check = "Entire tooth count : IP not NA", specimen_number = ifelse(nrow(error) != 0, error, "No errors found"))
