@@ -302,24 +302,37 @@ dilp_outliers <- function(specimen_data) {
   outliers <- data.frame()
   index <- which(colnames(specimen_data) == "specimen_number")
 
+  #####Outliers within entire dataset
   for (i in 1:length(vars)) {
     temp <- specimen_data
-    colnames(temp)[colnames(temp) == vars[i]] <- "trait" # rename variable of focus
+    colnames(temp)[colnames(temp) == vars[i]] <- "trait" # rename variable of focus vars[i]
     temp.outliers <- grDevices::boxplot.stats(temp$trait)$out # check it for outliers
     temp.specimen <- temp[which(temp$trait %in% c(temp.outliers)), index] # determine specimen numbers for any outliers
-    temp.specimen <- as.data.frame(t(temp.specimen))
-    temp.output <- (trait <- vars[i])
-    temp.output <- cbind(temp.output, temp.specimen) # create output table with variable name and any potential rows
-    outliers <- dplyr::bind_rows(outliers, temp.output) # bind to summary table
+    temp.output <- as.data.frame(temp.specimen)
+    if(nrow(temp.output)>0){temp.output$outlier <- vars[i]}
+    if(nrow(temp.output)>0){temp.output$within <- "entire dataset"}
+    outliers <- if(nrow(temp.output)>0){dplyr::bind_rows(outliers, temp.output)} # bind to summary table
   }
-  # Rename column headers
-  if (length(outliers) == 1) {
-    outliers$Outlier1 <- "none"
+
+  #####Outliers within morphotype
+  morphs <- unique(specimen_data$morphotype)
+  for (j in 1:length(morphs)) {
+    temp <- specimen_data
+    temp.morph <- dplyr::filter(temp, .data$morphotype == morphs[j])
+
+    for (i in 1:length(vars)) {
+      temp.morph2 <- temp.morph
+      colnames(temp.morph2)[colnames(temp.morph2) == vars[i]] <- "trait" # rename variable of focus vars[i]
+      temp.outliers <- grDevices::boxplot.stats(temp.morph2$trait)$out # check it for outliers
+      temp.specimen <- temp.morph2[which(temp.morph2$trait %in% c(temp.outliers)), index] # determine specimen numbers for any outliers
+      temp.output <- as.data.frame(temp.specimen)
+      if(nrow(temp.output)>0){temp.output$outlier <- vars[i]}
+      if(nrow(temp.output)>0){temp.output$within <- "morphotype"}
+      if(nrow(temp.output)>0){outliers <- dplyr::bind_rows(outliers, temp.output)} # bind to summary table
+    }
   }
-  names(outliers) <- gsub(x = names(outliers), pattern = "V", replacement = "Outlier")
-  names(outliers) <- gsub(x = names(outliers), pattern = "temp.output", replacement = "Variable")
-  rownames(outliers) <- NULL
-  return(outliers)
+  outliers <- merge(outliers, subset(specimen_data, select=c("specimen_number", "morphotype")), by="specimen_number", all.x=TRUE) #Add morphotype number to outlier output
+
 }
 
 #' Generate DiLP results
