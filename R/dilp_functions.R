@@ -264,11 +264,13 @@ dilp_errors <- function(specimen_data) {
   error <- as.data.frame(specimen_data[which(specimen_data$perimeter_ratio <= 1 & !(specimen_data$specimen_number %in% mixed_margins$specimen_number)), 2])
   temp7 <- data.frame(Check = "Perimeter ratio not greater than 1", t(error))
   errors <- dplyr::bind_rows(temp1, temp2, temp3, temp4, temp5, temp6, temp7)
-  if (length(errors) == 1) {
-    errors$Specimen1 <- "none"
-  }
+
   names(errors) <- gsub(x = names(errors), pattern = "X", replacement = "Specimen")
   rownames(errors) <- NULL
+  if (length(errors) > 1){
+    warning <- capture.output(print(errors))
+    warning(paste("Errors found in dataframe:\n", paste(warning, collapse = "\n")))
+  }
 
   return(errors)
 }
