@@ -1,72 +1,26 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://mjbutrim.github.io/dilp/404.html</loc>
-  </url>
-  <url>
-    <loc>https://mjbutrim.github.io/dilp/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://mjbutrim.github.io/dilp/articles/dilp.html</loc>
-  </url>
-  <url>
-    <loc>https://mjbutrim.github.io/dilp/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://mjbutrim.github.io/dilp/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://mjbutrim.github.io/dilp/index.html</loc>
-  </url>
-  <url>
-    <loc>https://mjbutrim.github.io/dilp/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://mjbutrim.github.io/dilp/reference/McAbeeExample.html</loc>
-  </url>
-  <url>
-    <loc>https://mjbutrim.github.io/dilp/reference/calc_lma.html</loc>
-  </url>
-  <url>
-    <loc>https://mjbutrim.github.io/dilp/reference/climate_calibration_data.html</loc>
-  </url>
-  <url>
-    <loc>https://mjbutrim.github.io/dilp/reference/dilp-package.html</loc>
-  </url>
-  <url>
-    <loc>https://mjbutrim.github.io/dilp/reference/dilp.html</loc>
-  </url>
-  <url>
-    <loc>https://mjbutrim.github.io/dilp/reference/dilp_cca.html</loc>
-  </url>
-  <url>
-    <loc>https://mjbutrim.github.io/dilp/reference/dilp_errors.html</loc>
-  </url>
-  <url>
-    <loc>https://mjbutrim.github.io/dilp/reference/dilp_outliers.html</loc>
-  </url>
-  <url>
-    <loc>https://mjbutrim.github.io/dilp/reference/dilp_processing.html</loc>
-  </url>
-  <url>
-    <loc>https://mjbutrim.github.io/dilp/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://mjbutrim.github.io/dilp/reference/lma.html</loc>
-  </url>
-  <url>
-    <loc>https://mjbutrim.github.io/dilp/reference/physiognomy_calibration_data.html</loc>
-  </url>
-  <url>
-    <loc>https://mjbutrim.github.io/dilp/reference/pipe.html</loc>
-  </url>
-  <url>
-    <loc>https://mjbutrim.github.io/dilp/reference/precip_slr.html</loc>
-  </url>
-  <url>
-    <loc>https://mjbutrim.github.io/dilp/reference/temp_slr.html</loc>
-  </url>
-  <url>
-    <loc>https://mjbutrim.github.io/dilp/reference/view_regressions.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://mjbutrim.github.io/dilp/404.html</loc></url>
+<url><loc>https://mjbutrim.github.io/dilp/LICENSE.html</loc></url>
+<url><loc>https://mjbutrim.github.io/dilp/articles/dilp.html</loc></url>
+<url><loc>https://mjbutrim.github.io/dilp/articles/index.html</loc></url>
+<url><loc>https://mjbutrim.github.io/dilp/authors.html</loc></url>
+<url><loc>https://mjbutrim.github.io/dilp/index.html</loc></url>
+<url><loc>https://mjbutrim.github.io/dilp/news/index.html</loc></url>
+<url><loc>https://mjbutrim.github.io/dilp/reference/McAbeeExample.html</loc></url>
+<url><loc>https://mjbutrim.github.io/dilp/reference/calc_lma.html</loc></url>
+<url><loc>https://mjbutrim.github.io/dilp/reference/climate_calibration_data.html</loc></url>
+<url><loc>https://mjbutrim.github.io/dilp/reference/dilp-package.html</loc></url>
+<url><loc>https://mjbutrim.github.io/dilp/reference/dilp.html</loc></url>
+<url><loc>https://mjbutrim.github.io/dilp/reference/dilp_cca.html</loc></url>
+<url><loc>https://mjbutrim.github.io/dilp/reference/dilp_errors.html</loc></url>
+<url><loc>https://mjbutrim.github.io/dilp/reference/dilp_outliers.html</loc></url>
+<url><loc>https://mjbutrim.github.io/dilp/reference/dilp_processing.html</loc></url>
+<url><loc>https://mjbutrim.github.io/dilp/reference/index.html</loc></url>
+<url><loc>https://mjbutrim.github.io/dilp/reference/lma.html</loc></url>
+<url><loc>https://mjbutrim.github.io/dilp/reference/physiognomy_calibration_data.html</loc></url>
+<url><loc>https://mjbutrim.github.io/dilp/reference/pipe.html</loc></url>
+<url><loc>https://mjbutrim.github.io/dilp/reference/precip_slr.html</loc></url>
+<url><loc>https://mjbutrim.github.io/dilp/reference/temp_slr.html</loc></url>
+<url><loc>https://mjbutrim.github.io/dilp/reference/view_regressions.html</loc></url>
 </urlset>
+
