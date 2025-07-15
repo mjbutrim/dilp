@@ -35,6 +35,7 @@
 #' dilp_dataset <- dilp_processing(McAbeeExample)
 #' dilp_dataset
 dilp_processing <- function(specimen_data) {
+  specimen_data <- dplyr::as_tibble(specimen_data)
   colnames(specimen_data) <- colnameClean(specimen_data)
 
   required_columns <- c(
