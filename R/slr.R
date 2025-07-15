@@ -2,7 +2,25 @@
 #'
 #' @description
 #' `temp_slr()` will produce estimates of mean annual temperature and standard error
-#' using leaf margin analysis.
+#' using leaf margin analysis. There are different ways to represent error. The most simple is using the standard error of the regression.
+#' These are listed in the table below. However, this is not the only source of uncertainty and is too simplistic a measure of error.
+#' This function instead uses the method outlined in Miller et al. 2006, and reported in Peppe et al 2018 (eq. 4), which also accounts
+#' for binomial sampling error and overdispersion, offering what we consider a best practice approach. The standard error of the regression provides a minimum error value.
+#' Note, Peppe et al. 2018 suggests that a conservative minimum uncertainty for all leaf margin analysis results is probably +/- 5 degrees Celsius.
+#'
+#' Standard error of regression:
+#'
+#' | Regression      | SE |
+#' | --------------- | --- |
+#' | Peppe2018       | 4.5 |
+#' | Peppe2011       | 4.8 |
+#' | Peppe2011NH     | 3.4 |
+#' | Miller2006      |  -  |
+#' | WingGreenwood   | 0.8 |
+#' | Wilf1997        | 2.0 |
+#' | KowalskiDilcher | 3.6 |
+#' @md
+#'
 #' @param data A data frame that must include the columns "morphotype" and "margin".
 #' Can be leaf or species level data.
 #' @param regression A string representing one of the following pre-loaded regressions:
@@ -12,6 +30,7 @@
 #' * "Miller2006" - North and Central America
 #' * "WingGreenwood" - East Asia - original leaf margin analysis regression
 #' * "Wilf1997" - The Americas
+#' * "KowalskiDilcher" - North America
 #'
 #' @param slope Slope, if using a custom regression
 #' @param constant Constant, if using a custom regression
@@ -19,11 +38,13 @@
 #'
 #' @return A table with MAT estimates for each site
 #' @references
+#' * Kowalski, E.A. & Dilcher, D.L. (2003). Warmer paleotemperatures for terrestrial ecosystems. Proceedings of the National Academy of Sciences, 100, 167–170.
 #' * Miller, I. M., Brandon, M. T., & Hickey, L. J. (2006). Using leaf margin analysis to estimate mid-Cretaceous (Albian) paleolatitude of the Baja BC block. Earth and Planetary Science Letters, 245, 95–114.
 #' * Peppe, D. J., Baumgartner, A., Flynn, A., & Blonder, B. (2018). Reconstructing paleoclimate and paleoecology using fossil leaves. Methods in paleoecology: Reconstructing Cenozoic terrestrial environments and ecological communities, 289-317.
 #' * Peppe, D.J., Royer, D.L., Cariglino, B., Oliver, S.Y., Newman, S., Leight, E., Enikolopov, G., Fernandez-Burgos, M., Herrera, F., Adams, J.M., Correa, E., Currano, E.D., Erickson, J.M., Hinojosa, L.F., Hoganson, J.W., Iglesias, A., Jaramillo, C.A., Johnson, K.R., Jordan, G.J., Kraft, N.J.B., Lovelock, E.C., Lusk, C.H., Niinemets, Ü., Peñuelas, J., Rapson, G., Wing, S.L. and Wright, I.J. (2011), Sensitivity of leaf size and shape to climate: global patterns and paleoclimatic applications. New Phytologist, 190: 724-739. https://doi.org/10.1111/j.1469-8137.2010.03615.x
 #' * Wing, S., & Greenwood, D. R. (1993). Fossils and fossil climate: the case for equable continental interiors in the Eocene. Philosophical Transactions of the Royal Society of London Series B, 341, 243–252.
 #' * Wilf, P. (1997). When are leaves good thermometers? A new case for leaf margin analysis. Paleobiology, 23, 373–390.
+#'
 #' @export
 #'
 #' @examples
@@ -66,13 +87,26 @@ temp_slr <- function(data, regression = "Peppe2018", slope = NULL, constant = NU
       stats::na.omit()
 
     num_morph <- nrow(site_subset)
-    value <- slope * (100 * sum(site_subset$margin) / num_morph) + constant
+    margin_p <- (100 * sum(site_subset$margin) / num_morph)
+    miller_error <- miller_error(slope, num_morph, margin_p)
+
+    if(miller_error > error){
+      error <- miller_error
+    }
+
+    value <- slope * margin_p + constant
     sites$n[i] <- num_morph
     sites$MAT[i] <- value
     sites$lower[i] <- value - error
     sites$upper[i] <- value + error
   }
   return(sites)
+}
+
+miller_error <- function(slope, num_morph, margin_p) {
+  margin_p <- margin_p / 100
+  error <- (100*slope)*(sqrt((1+0.052*(num_morph-1)*margin_p*(1-margin_p))*((margin_p*(1-margin_p))/num_morph)))
+  return(error)
 }
 
 

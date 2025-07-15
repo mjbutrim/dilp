@@ -154,12 +154,13 @@ dilp_parameters <- list(
 )
 
 temp_regressions <- list(
-  Peppe2018 = list(slope = 0.194, constant = 5.884, error = 5), # 4.54
-  Peppe2011NH = list(slope = 0.262, constant = 3.167, error = 5.0), # 2.0
-  Peppe2011 = list(slope = 0.204, constant = 4.6, error = 5), # 4.8
-  WingGreenwood = list(slope = 0.306, constant = 1.141, error = 5), # 0.80
-  Wilf1997 = list(slope = 0.286, constant = 2.24, error = 5),
-  Miller2006 = list(slope = 0.290, constant = 1.320, error = 5)
+  Peppe2018 = list(slope = 0.194, constant = 5.884, error = 4.54), # 4.54
+  Peppe2011NH = list(slope = 0.262, constant = 3.167, error = 3.4), # 2.0
+  Peppe2011 = list(slope = 0.204, constant = 4.6, error = 4.8), # 4.8
+  WingGreenwood = list(slope = 0.306, constant = 1.141, error = .8), # 0.80
+  Wilf1997 = list(slope = 0.286, constant = 2.24, error = 2.0),
+  Miller2006 = list(slope = 0.290, constant = 1.320, error = 2),
+  KowalskiDilcher = list(slope = 0.363, constant = 2.223, error = 3.6)
 )
 
 precip_regressions <- list(
@@ -168,3 +169,14 @@ precip_regressions <- list(
   Jacobs2002 = list(slope = 0.321, constant = 2.476, error = 0.24),
   Wilf1998 = list(slope = 0.546, constant = 0.786, error = 0.36)
 )
+
+#' Whittaker Biome Data
+#'
+#' Delineations of Whittaker biomes from github.com/valentinitnelav/plotbiomes
+#'
+#' @format ## `Whittaker_biomes`
+#' A data frame with points mapping out Whittaker biome delineations.
+#' @source github.com/valentinitnelav/plotbiomes
+#' @references
+#' *Valentin Ștefan, & Sam Levin. (2018). plotbiomes: R package for plotting Whittaker biomes with ggplot2 (v1.0.0). Zenodo. https://doi.org/10.5281/zenodo.7145245
+"Whittaker_biomes"

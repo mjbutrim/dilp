@@ -35,6 +35,7 @@
 #' dilp_dataset <- dilp_processing(McAbeeExample)
 #' dilp_dataset
 dilp_processing <- function(specimen_data) {
+  specimen_data <- dplyr::as_tibble(specimen_data)
   colnames(specimen_data) <- colnameClean(specimen_data)
 
   required_columns <- c(
@@ -246,42 +247,70 @@ dilp_errors <- function(specimen_data) {
     dplyr::filter(.data$margin == 1) %>%
     dplyr::select("site", "morphotype", "specimen_number")
 
-  dilp.check.1 <- specimen_data %>%
-    dplyr::filter(.data$margin == 1)
-  error <- specimen_data[which(dilp.check.1$total_tooth_count > -1 & !(dilp.check.1$specimen_number %in% mixed_margins$specimen_number)), 2]
-  temp1 <- data.frame(Check = "Entire tooth count not NA", t(error))
+  dilp.check.1 <- specimen_data %>% dplyr::filter(.data$margin == 1)
+
+  #Originally we were checking total tooth count, but it is automatically converted to NA in the processing step in case people put 0's in. Thus here we instead check primary and subsidiary teeth seperate
+  error <- specimen_data[which(dilp.check.1$no_of_primary_teeth > -1 & !(dilp.check.1$specimen_number %in% mixed_margins$specimen_number)), 2] #The mixed margin bit ensures that specimens in a mixed margin morphotype retain their tooth count and area values of 0, and no error is flagged for it
+  temp1 <- data.frame(Check = "Entire tooth count not NA", specimen_number = ifelse(nrow(error) != 0, error, "No errors found"))
+  error <- specimen_data[which(dilp.check.1$no_of_subsidiary_teeth > -1 & !(dilp.check.1$specimen_number %in% mixed_margins$specimen_number)), 2] #The mixed margin bit ensures that specimens in a mixed margin morphotype retain their tooth count and area values of 0, and no error is flagged for it
+  temp1.1 <- data.frame(Check = "Entire tooth count not NA", specimen_number = ifelse(nrow(error) != 0, error, "No errors found"))
+
+  colnames(temp1) <- c("Check", "specimen_number")
+  colnames(temp1.1) <- c("Check", "specimen_number")
+  temp1 <- rbind(temp1, temp1.1)
+  #If the number of unique values in specimen number is greater than 1, errors were reported
+  #If it was only reported for primary or subsidiary, one of the returns will still say "No errors found", which needs to be deleted
+  if(length(unique(temp1$specimen_number))>1){temp1 <- dplyr::filter(temp1, .data$specimen_number != "No errors found")}
+  #At the end, keep only unique specimen numbers, to ensure either specimen numbers of "No errors found" is not repeated
+  temp1 <- dplyr::distinct(temp1)
+
   error <- specimen_data[which(dilp.check.1$tc_ip > -1 & !(dilp.check.1$specimen_number %in% mixed_margins$specimen_number)), 2]
-  temp2 <- data.frame(Check = "Entire tooth count : IP not NA", t(error))
+  temp2 <- data.frame(Check = "Entire tooth count : IP not NA", specimen_number = ifelse(nrow(error) != 0, error, "No errors found"))
+  colnames(temp2) <- c("Check", "specimen_number")
+
   error <- specimen_data[which(dilp.check.1$perimeter_ratio > -1 & !(dilp.check.1$specimen_number %in% mixed_margins$specimen_number)), 2]
-  temp3 <- data.frame(Check = "Entire perimeter ratio not NA", t(error))
+  temp3 <- data.frame(Check = "Entire perimeter ratio not NA", specimen_number = ifelse(nrow(error) != 0, error, "No errors found"))
+  colnames(temp3) <- c("Check", "specimen_number")
+
   dilp.check.2 <- tidyr::drop_na(specimen_data, "fdr")
+
   error <- specimen_data[which(dilp.check.2$fdr < 0 | dilp.check.2$fdr > 1), 2]
-  temp4 <- data.frame(Check = "FDR not between 0-1", t(error))
+  temp4 <- data.frame(Check = "FDR not between 0-1", specimen_number = ifelse(nrow(error) != 0, error, "No errors found"))
+  colnames(temp4) <- c("Check", "specimen_number")
+
   error <- specimen_data[which(specimen_data$internal_raw_blade_perimeter_corrected > specimen_data$raw_blade_perimeter_corrected), 2]
-  temp5 <- data.frame(Check = "External perimeter not larger than internal perimeter", t(error))
+  temp5 <- data.frame(Check = "External perimeter not larger than internal perimeter", specimen_number = ifelse(nrow(error) != 0, error, "No errors found"))
+  colnames(temp5) <- c("Check", "specimen_number")
+
   error <- specimen_data[which(specimen_data$minimum_feret > specimen_data$feret), 2]
-  temp6 <- data.frame(Check = "Feret is not larger than minimum Feret", t(error))
+  temp6 <- data.frame(Check = "Feret is not larger than minimum Feret", specimen_number = ifelse(nrow(error) != 0, error, "No errors found"))
+  colnames(temp6) <- c("Check", "specimen_number")
+
   error <- as.data.frame(specimen_data[which(specimen_data$perimeter_ratio <= 1 & !(specimen_data$specimen_number %in% mixed_margins$specimen_number)), 2])
-  temp7 <- data.frame(Check = "Perimeter ratio not greater than 1", t(error))
+  temp7 <- data.frame(Check = "Perimeter ratio not greater than 1", specimen_number = ifelse(nrow(error) != 0, error, "No errors found"))
+  colnames(temp7) <- c("Check", "specimen_number")
+
   errors <- dplyr::bind_rows(temp1, temp2, temp3, temp4, temp5, temp6, temp7)
-  if (length(errors) == 1) {
-    errors$Specimen1 <- "none"
-  }
-  names(errors) <- gsub(x = names(errors), pattern = "X", replacement = "Specimen")
   rownames(errors) <- NULL
 
+  if (length(unique(errors$specimen_number)) > 1){
+    warning <- capture.output(print(errors))
+    warning(paste("Errors found in dataframe:\n", paste(warning, collapse = "\n")))
+  }
   return(errors)
 }
 
 #' Identify outlier specimens
 #'
 #' @description
-#' `dilp_outliers()` will typically only be called internally by [dilp()].
-#' However, it can be used on its own to locate specimens that may have been
-#' misreported or measured incorrectly.  `dilp_outliers()` returns a data frame
+#' `dilp_outliers()` is called internally by [dilp()].
+#' However, it can be used on its own to flag specimens that may have been
+#' reported, measured, or prepared incorrectly.  `dilp_outliers()` returns a data frame
 #' listing specimens that have unusually high or low values for the four key
-#' parameters used in DiLP analyses.  If flagged, it may be worth taking a look at the
-#' raw measurements and evaluating if the specimen should be used.
+#' parameters used in DiLP analyses. This includes whether a specimen is an outlier
+#' in the entire dataset, or among other specimens in the same morphotype. If flagged, we suggest looking at the
+#' raw measurements and prepped specimen and evaluating if the data is in error or is correct. If in error, the specimen will
+#' need to be reprepared and/or remeasured, and the updated datasheet re-read back into R.
 #'
 #'
 #' @param specimen_data Processed specimen level leaf physiognomic data.  The
@@ -302,24 +331,41 @@ dilp_outliers <- function(specimen_data) {
   outliers <- data.frame()
   index <- which(colnames(specimen_data) == "specimen_number")
 
+  #####Outliers within entire dataset
   for (i in 1:length(vars)) {
     temp <- specimen_data
-    colnames(temp)[colnames(temp) == vars[i]] <- "trait" # rename variable of focus
+    colnames(temp)[colnames(temp) == vars[i]] <- "trait" # rename variable of focus vars[i]
     temp.outliers <- grDevices::boxplot.stats(temp$trait)$out # check it for outliers
     temp.specimen <- temp[which(temp$trait %in% c(temp.outliers)), index] # determine specimen numbers for any outliers
-    temp.specimen <- as.data.frame(t(temp.specimen))
-    temp.output <- (trait <- vars[i])
-    temp.output <- cbind(temp.output, temp.specimen) # create output table with variable name and any potential rows
-    outliers <- dplyr::bind_rows(outliers, temp.output) # bind to summary table
+    temp.output <- as.data.frame(temp.specimen)
+    if(nrow(temp.output)>0){temp.output$outlier <- vars[i]}
+    if(nrow(temp.output)>0){temp.output$within <- "entire dataset"}
+    outliers <- if(nrow(temp.output)>0){dplyr::bind_rows(outliers, temp.output)} # bind to summary table
   }
-  # Rename column headers
-  if (length(outliers) == 1) {
-    outliers$Outlier1 <- "none"
+
+  #####Outliers within morphotype
+  morphs <- unique(specimen_data$morphotype)
+  for (j in 1:length(morphs)) {
+    temp <- specimen_data
+    temp.morph <- dplyr::filter(temp, .data$morphotype == morphs[j])
+
+    for (i in 1:length(vars)) {
+      temp.morph2 <- temp.morph
+      colnames(temp.morph2)[colnames(temp.morph2) == vars[i]] <- "trait" # rename variable of focus vars[i]
+      temp.outliers <- grDevices::boxplot.stats(temp.morph2$trait)$out # check it for outliers
+      temp.specimen <- temp.morph2[which(temp.morph2$trait %in% c(temp.outliers)), index] # determine specimen numbers for any outliers
+      temp.output <- as.data.frame(temp.specimen)
+      if(nrow(temp.output)>0){temp.output$outlier <- vars[i]}
+      if(nrow(temp.output)>0){temp.output$within <- "morphotype"}
+      if(nrow(temp.output)>0){outliers <- dplyr::bind_rows(outliers, temp.output)} # bind to summary table
+    }
   }
-  names(outliers) <- gsub(x = names(outliers), pattern = "V", replacement = "Outlier")
-  names(outliers) <- gsub(x = names(outliers), pattern = "temp.output", replacement = "Variable")
-  rownames(outliers) <- NULL
+  outliers <- merge(outliers, subset(specimen_data, select=c("specimen_number", "morphotype")), by="specimen_number", all.x=TRUE) #Add morphotype number to outlier output
+  if(length(outliers) != 0) {
+    warning("Outliers found. Please evaluate $outliers for possible wrong measurements")
+  }
   return(outliers)
+
 }
 
 #' Generate DiLP results
@@ -403,7 +449,7 @@ dilp_outliers <- function(specimen_data) {
 #' @references
 #' * Allen, S. E., Lowe, A. J., Peppe, D. J., & Meyer, H. W. (2020). Paleoclimate and paleoecology of the latest Eocene Florissant flora of central Colorado, USA. Palaeogeography, Palaeoclimatology, Palaeoecology, 551, 109678.
 #' * Peppe, D.J., Royer, D.L., Cariglino, B., Oliver, S.Y., Newman, S., Leight, E., Enikolopov, G., Fernandez-Burgos, M., Herrera, F., Adams, J.M., Correa, E., Currano, E.D., Erickson, J.M., Hinojosa, L.F., Hoganson, J.W., Iglesias, A., Jaramillo, C.A., Johnson, K.R., Jordan, G.J., Kraft, N.J.B., Lovelock, E.C., Lusk, C.H., Niinemets, Ü., Peñuelas, J., Rapson, G., Wing, S.L. and Wright, I.J. (2011), Sensitivity of leaf size and shape to climate: global patterns and paleoclimatic applications. New Phytologist, 190: 724-739. https://doi.org/10.1111/j.1469-8137.2010.03615.x
-#' * Lowe. A.J., Flynn, A.G., Butrim, M.J., Baumgartner, A., Peppe, D.J., and Royer, D.L. (2024), Reconstructing terrestrial paleoclimate and paleoecology with fossil leaves using Digital Leaf Physiognomy and leaf mass per area.  JoVE.
+#' * Lowe. A.J., Flynn, A.G., Butrim, M.J., Baumgartner, A., Peppe, D.J., and Royer, D.L. (2024), Reconstructing terrestrial paleoclimate and paleoecology with fossil leaves using Digital Leaf Physiognomy and leaf mass per area.  J. Vis. Exp. (212), e66838, doi:10.3791/66838 (2024).
 #' @export
 #'
 #' @examples

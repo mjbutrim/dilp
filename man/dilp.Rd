@@ -103,6 +103,6 @@ dilp_results$results
 \itemize{
 \item Allen, S. E., Lowe, A. J., Peppe, D. J., & Meyer, H. W. (2020). Paleoclimate and paleoecology of the latest Eocene Florissant flora of central Colorado, USA. Palaeogeography, Palaeoclimatology, Palaeoecology, 551, 109678.
 \item Peppe, D.J., Royer, D.L., Cariglino, B., Oliver, S.Y., Newman, S., Leight, E., Enikolopov, G., Fernandez-Burgos, M., Herrera, F., Adams, J.M., Correa, E., Currano, E.D., Erickson, J.M., Hinojosa, L.F., Hoganson, J.W., Iglesias, A., Jaramillo, C.A., Johnson, K.R., Jordan, G.J., Kraft, N.J.B., Lovelock, E.C., Lusk, C.H., Niinemets, Ü., Peñuelas, J., Rapson, G., Wing, S.L. and Wright, I.J. (2011), Sensitivity of leaf size and shape to climate: global patterns and paleoclimatic applications. New Phytologist, 190: 724-739. https://doi.org/10.1111/j.1469-8137.2010.03615.x
-\item Lowe. A.J., Flynn, A.G., Butrim, M.J., Baumgartner, A., Peppe, D.J., and Royer, D.L. (2024), Reconstructing terrestrial paleoclimate and paleoecology with fossil leaves using Digital Leaf Physiognomy and leaf mass per area.  JoVE.
+\item Lowe. A.J., Flynn, A.G., Butrim, M.J., Baumgartner, A., Peppe, D.J., and Royer, D.L. (2024), Reconstructing terrestrial paleoclimate and paleoecology with fossil leaves using Digital Leaf Physiognomy and leaf mass per area.  J. Vis. Exp. (212), e66838, doi:10.3791/66838 (2024).
 }
 }

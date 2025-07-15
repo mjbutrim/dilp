@@ -24,6 +24,7 @@ Can be leaf or species level data.}
 \item "Miller2006" - North and Central America
 \item "WingGreenwood" - East Asia - original leaf margin analysis regression
 \item "Wilf1997" - The Americas
+\item "KowalskiDilcher" - North America
 }}
 
 \item{slope}{Slope, if using a custom regression}
@@ -37,13 +38,29 @@ A table with MAT estimates for each site
 }
 \description{
 \code{temp_slr()} will produce estimates of mean annual temperature and standard error
-using leaf margin analysis.
+using leaf margin analysis. There are different ways to represent error. The most simple is using the standard error of the regression.
+These are listed in the table below. However, this is not the only source of uncertainty and is too simplistic a measure of error.
+This function instead uses the method outlined in Miller et al. 2006, and reported in Peppe et al 2018 (eq. 4), which also accounts
+for binomial sampling error and overdispersion, offering what we consider a best practice approach. The standard error of the regression provides a minimum error value.
+Note, Peppe et al. 2018 suggests that a conservative minimum uncertainty for all leaf margin analysis results is probably +/- 5 degrees Celsius.
+
+Standard error of regression:\tabular{ll}{
+   Regression \tab SE \cr
+   Peppe2018 \tab 4.5 \cr
+   Peppe2011 \tab 4.8 \cr
+   Peppe2011NH \tab 3.4 \cr
+   Miller2006 \tab - \cr
+   WingGreenwood \tab 0.8 \cr
+   Wilf1997 \tab 2.0 \cr
+   KowalskiDilcher \tab 3.6 \cr
+}
 }
 \examples{
 temp_slr(McAbeeExample, regression = "Peppe2011")
 }
 \references{
 \itemize{
+\item Kowalski, E.A. & Dilcher, D.L. (2003). Warmer paleotemperatures for terrestrial ecosystems. Proceedings of the National Academy of Sciences, 100, 167–170.
 \item Miller, I. M., Brandon, M. T., & Hickey, L. J. (2006). Using leaf margin analysis to estimate mid-Cretaceous (Albian) paleolatitude of the Baja BC block. Earth and Planetary Science Letters, 245, 95–114.
 \item Peppe, D. J., Baumgartner, A., Flynn, A., & Blonder, B. (2018). Reconstructing paleoclimate and paleoecology using fossil leaves. Methods in paleoecology: Reconstructing Cenozoic terrestrial environments and ecological communities, 289-317.
 \item Peppe, D.J., Royer, D.L., Cariglino, B., Oliver, S.Y., Newman, S., Leight, E., Enikolopov, G., Fernandez-Burgos, M., Herrera, F., Adams, J.M., Correa, E., Currano, E.D., Erickson, J.M., Hinojosa, L.F., Hoganson, J.W., Iglesias, A., Jaramillo, C.A., Johnson, K.R., Jordan, G.J., Kraft, N.J.B., Lovelock, E.C., Lusk, C.H., Niinemets, Ü., Peñuelas, J., Rapson, G., Wing, S.L. and Wright, I.J. (2011), Sensitivity of leaf size and shape to climate: global patterns and paleoclimatic applications. New Phytologist, 190: 724-739. https://doi.org/10.1111/j.1469-8137.2010.03615.x
