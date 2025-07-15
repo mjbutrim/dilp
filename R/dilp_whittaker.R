@@ -31,7 +31,7 @@ base_whittaker <- function(){
 #' @description
 #' `dilp_whittaker()` plots `dilp()` outputs onto a Whittaker Biome plot.  Base
 #' Whittaker Plot from the [plotbiomes](https://github.com/valentinitnelav/plotbiomes)
-#' package by Stefan Valentin and Sam Levin.
+#' package by Ștefan Valentin and Sam Levin.
 #'
 #' @param climate_data A data frame containing either the direct output of a `dilp()`
 #' call, or the $results tab from that output.
