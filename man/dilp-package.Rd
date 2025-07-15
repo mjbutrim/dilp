@@ -5,7 +5,7 @@
 \alias{dilp-package}
 \title{dilp: Reconstruct Paleoclimate and Paleoecology with Leaf Physiognomy}
 \description{
-Use leaf physiognomic methods to reconstruct mean annual temperature (MAT), mean annual precipitation (MAP), and leaf dry mass per area (Ma), along with other useful quantitative leaf traits. Methods in this package described in Lowe et al. (in review).
+Use leaf physiognomic methods to reconstruct mean annual temperature (MAT), mean annual precipitation (MAP), and leaf dry mass per area (Ma), along with other useful quantitative leaf traits. Methods in this package described in Lowe et al. (2024).
 }
 \seealso{
 Useful links:

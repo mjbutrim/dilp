@@ -1,3 +1,9 @@
+# dilp 1.2.0
+* Added Miller(2006) error calculations to `temp_slr()`
+* Added KowalskiDilcher (2003) regression to `temp_slr()`
+* Added `dilp_whittaker()` function for plotting localities to biome.
+* Makeover for error and outlier reporting from `dilp()`
+
 # dilp 1.1.0
 * Added `view_regressions()` to allow users to easily see their options for preloaded regressions in dilp, lma, temp, and precip.
 * Fixed `dilp()` so that the mixed_margins aren't screwing everything up.
