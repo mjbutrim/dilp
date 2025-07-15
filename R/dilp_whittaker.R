@@ -28,9 +28,14 @@ base_whittaker <- function(){
 }
 
 #' Plot climate reconstructions on a Whittaker Biome plot
+#' @description
+#' `dilp_whittaker()` plots `dilp()` outputs onto a Whittaker Biome plot.  Base
+#' Whittaker Plot from the [plotbiomes](https://github.com/valentinitnelav/plotbiomes)
+#' package by Stefan Valentin and Sam Levin.
 #'
-#' @param climate_data A data frame containing the cliamte results from a `dilp()` call, or
-#' the base output of `dilp()`.  Can also be a data frame with the following columns:
+#' @param climate_data A data frame containing either the direct output of a `dilp()`
+#' call, or the $results tab from that output.
+#' Can also be a data frame with the following required columns:
 #' * site
 #' * MAT.MLR
 #' * MAT.MLR.error
@@ -39,7 +44,12 @@ base_whittaker <- function(){
 #' * MAP.MLR.error.plus
 #'
 #'
-#' @returns A ggplot with dilp climate-reconstructed sites plotted onto a Whittaker diagram.
+#' @returns A modifiable ggplot with dilp climate-reconstructed sites plotted
+#' onto a Whittaker diagram.
+#'
+#' @references
+#' Valentin Ștefan, & Sam Levin. (2018). plotbiomes: R package for plotting Whittaker biomes with ggplot2 (v1.0.0). Zenodo. https://doi.org/10.5281/zenodo.7145245
+#'
 #' @export
 #'
 #' @examples
@@ -53,13 +63,15 @@ dilp_whittaker <- function(climate_data){
     }
   }
   base_plot <- base_whittaker()
-  labels <- 1:nrow(climate_data)
-
-  label_caption <- paste0(labels, ": ", climate_data$site)
-  caption_text <- paste(label_caption, collapse = ", ")
-
 
   final_plot <- base_plot +
+    ggrepel::geom_label_repel(data = climate_data,
+                              ggplot2::aes(x = .data$MAT.MLR, y = .data$MAP.MLR, label = .data$site),
+                              box.padding = 0.35, point.padding = 0.5, segment.color = "grey50", max.overlaps = 50
+    ) +
+    ggplot2::geom_point(data = climate_data,
+                        ggplot2::aes(x = .data$MAT.MLR, y = .data$MAP.MLR),
+                        size = 3) +
     ggplot2::geom_errorbar(data = climate_data,
                            ggplot2::aes(xmin = .data$MAT.MLR - .data$MAT.MLR.error,
                                         xmax = .data$MAT.MLR + .data$MAT.MLR.error,
@@ -67,12 +79,7 @@ dilp_whittaker <- function(climate_data){
     ggplot2::geom_errorbar(data = climate_data,
                             ggplot2::aes(ymin = .data$MAP.MLR - .data$MAP.MLR.error.minus,
                                          ymax = .data$MAP.MLR + .data$MAP.MLR.error.plus,
-                                         x = .data$MAT.MLR)) +
-    ggplot2::geom_label(data = climate_data,
-                        ggplot2::aes(x = .data$MAT.MLR, y = .data$MAP.MLR, group = .data$site, label = labels),
-                        size = 5) +
-    ggplot2::labs(title = caption_text) +
-    ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5, size = 12))
+                                         x = .data$MAT.MLR))
 
   return(final_plot)
 

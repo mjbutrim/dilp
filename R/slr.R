@@ -66,7 +66,14 @@ temp_slr <- function(data, regression = "Peppe2018", slope = NULL, constant = NU
       stats::na.omit()
 
     num_morph <- nrow(site_subset)
-    value <- slope * (100 * sum(site_subset$margin) / num_morph) + constant
+    margin_p <- (100 * sum(site_subset$margin) / num_morph)
+    miller_error <- miller_error(slope, num_morph, margin_p)
+
+    if(miller_error > error){
+      error <- miller_error
+    }
+
+    value <- slope * margin_p + constant
     sites$n[i] <- num_morph
     sites$MAT[i] <- value
     sites$lower[i] <- value - error
@@ -75,6 +82,11 @@ temp_slr <- function(data, regression = "Peppe2018", slope = NULL, constant = NU
   return(sites)
 }
 
+miller_error <- function(slope, num_morph, margin_p) {
+  margin_p <- margin_p / 100
+  error <- (100*slope)*(sqrt((1+0.052*(num_morph-1)*margin_p*(1-margin_p))*((margin_p*(1-margin_p))/num_morph)))
+  return(error)
+}
 
 #' Estimate precipitation with simple linear regression
 #'

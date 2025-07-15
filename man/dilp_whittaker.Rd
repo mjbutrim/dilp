@@ -7,8 +7,9 @@
 dilp_whittaker(climate_data)
 }
 \arguments{
-\item{climate_data}{A data frame containing the cliamte results from a \code{dilp()} call, or
-the base output of \code{dilp()}.  Can also be a data frame with the following columns:
+\item{climate_data}{A data frame containing either the direct output of a \code{dilp()}
+call, or the $results tab from that output.
+Can also be a data frame with the following required columns:
 \itemize{
 \item site
 \item MAT.MLR
@@ -19,13 +20,19 @@ the base output of \code{dilp()}.  Can also be a data frame with the following c
 }}
 }
 \value{
-A ggplot with dilp climate-reconstructed sites plotted onto a Whittaker diagram.
+A modifiable ggplot with dilp climate-reconstructed sites plotted
+onto a Whittaker diagram.
 }
 \description{
-Plot climate reconstructions on a Whittaker Biome plot
+\code{dilp_whittaker()} plots \code{dilp()} outputs onto a Whittaker Biome plot.  Base
+Whittaker Plot from the \href{https://github.com/valentinitnelav/plotbiomes}{plotbiomes}
+package by Ștefan Valentin and Sam Levin.
 }
 \examples{
 results <- dilp(McAbeeExample)
 dilp_whittaker(results)
 
+}
+\references{
+Valentin Ștefan, & Sam Levin. (2018). plotbiomes: R package for plotting Whittaker biomes with ggplot2 (v1.0.0). Zenodo. https://doi.org/10.5281/zenodo.7145245
 }

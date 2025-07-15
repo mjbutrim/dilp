@@ -360,6 +360,10 @@ dilp_outliers <- function(specimen_data) {
     }
   }
   outliers <- merge(outliers, subset(specimen_data, select=c("specimen_number", "morphotype")), by="specimen_number", all.x=TRUE) #Add morphotype number to outlier output
+  if(length(outliers) != 0) {
+    warning("Outliers found. Please evaluate $outliers for possible wrong measurements")
+  }
+  return(outliers)
 
 }
 
