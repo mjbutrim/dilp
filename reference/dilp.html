@@ -11,7 +11,7 @@ errors or outliers, and paleoclimate reconstructions."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">dilp</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -130,12 +130,13 @@ regressions.</p></li>
 
 <ul><li><p>Allen, S. E., Lowe, A. J., Peppe, D. J., &amp; Meyer, H. W. (2020). Paleoclimate and paleoecology of the latest Eocene Florissant flora of central Colorado, USA. Palaeogeography, Palaeoclimatology, Palaeoecology, 551, 109678.</p></li>
 <li><p>Peppe, D.J., Royer, D.L., Cariglino, B., Oliver, S.Y., Newman, S., Leight, E., Enikolopov, G., Fernandez-Burgos, M., Herrera, F., Adams, J.M., Correa, E., Currano, E.D., Erickson, J.M., Hinojosa, L.F., Hoganson, J.W., Iglesias, A., Jaramillo, C.A., Johnson, K.R., Jordan, G.J., Kraft, N.J.B., Lovelock, E.C., Lusk, C.H., Niinemets, Ü., Peñuelas, J., Rapson, G., Wing, S.L. and Wright, I.J. (2011), Sensitivity of leaf size and shape to climate: global patterns and paleoclimatic applications. New Phytologist, 190: 724-739. https://doi.org/10.1111/j.1469-8137.2010.03615.x</p></li>
-<li><p>Lowe. A.J., Flynn, A.G., Butrim, M.J., Baumgartner, A., Peppe, D.J., and Royer, D.L. (2024), Reconstructing terrestrial paleoclimate and paleoecology with fossil leaves using Digital Leaf Physiognomy and leaf mass per area.  JoVE.</p></li>
+<li><p>Lowe. A.J., Flynn, A.G., Butrim, M.J., Baumgartner, A., Peppe, D.J., and Royer, D.L. (2024), Reconstructing terrestrial paleoclimate and paleoecology with fossil leaves using Digital Leaf Physiognomy and leaf mass per area.  J. Vis. Exp. (212), e66838, doi:10.3791/66838 (2024).</p></li>
 </ul></div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">dilp_results</span> <span class="op">&lt;-</span> <span class="fu">dilp</span><span class="op">(</span><span class="va">McAbeeExample</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Outliers found. Please evaluate $outliers for possible wrong measurements</span>
 <span class="r-in"><span><span class="va">dilp_results</span><span class="op">$</span><span class="va">processed_leaf_data</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 192 × 40</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    site      specimen_number morphotype measurer_comments margin petiole_width</span>
@@ -192,20 +193,43 @@ regressions.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   internal_raw_blade_perimeter_corrected &lt;dbl&gt;, total_tooth_count &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   tc_ip &lt;dbl&gt;, perimeter_ratio &lt;dbl&gt;, ln_leaf_area &lt;dbl&gt;, ln_pr &lt;dbl&gt;, …</span></span>
 <span class="r-in"><span><span class="va">dilp_results</span><span class="op">$</span><span class="va">errors</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                   Check Specimen1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                             Entire tooth count not NA      none</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                        Entire tooth count : IP not NA      none</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                         Entire perimeter ratio not NA      none</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                   FDR not between 0-1      none</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 External perimeter not larger than internal perimeter      none</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6                Feret is not larger than minimum Feret      none</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7                    Perimeter ratio not greater than 1      none</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                   Check specimen_number</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                             Entire tooth count not NA No errors found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                        Entire tooth count : IP not NA No errors found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                         Entire perimeter ratio not NA No errors found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                   FDR not between 0-1 No errors found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 External perimeter not larger than internal perimeter No errors found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                Feret is not larger than minimum Feret No errors found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7                    Perimeter ratio not greater than 1 No errors found</span>
 <span class="r-in"><span><span class="va">dilp_results</span><span class="op">$</span><span class="va">outliers</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          Variable     Outlier1     Outlier2     Outlier3    Outlier4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1             fdr         &lt;NA&gt;         &lt;NA&gt;         &lt;NA&gt;        &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2           tc_ip  BU-712-1117 BU-712-1169A BU-712-1176A        &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       leaf_area BU-712-2173A BU-712-2105A  BU-712-2124        &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 perimeter_ratio   M-2015-1-1 BU-712-1073A  BU-712-1165 M-2015-1-62</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    specimen_number         outlier         within morphotype</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     BU-712-1073A perimeter_ratio entire dataset        M28</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2      BU-712-1117           tc_ip entire dataset         M8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3      BU-712-1117           tc_ip     morphotype         M8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4      BU-712-1165 perimeter_ratio entire dataset        M28</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5     BU-712-1169A           tc_ip entire dataset         M8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6     BU-712-1169A           tc_ip     morphotype         M8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7     BU-712-1176A           tc_ip entire dataset         M8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8     BU-712-1176A           tc_ip     morphotype         M8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9     BU-712-1182A           tc_ip     morphotype         M5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10    BU-712-1182A perimeter_ratio     morphotype         M5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11    BU-712-2105A       leaf_area entire dataset        M47</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12     BU-712-2124       leaf_area entire dataset        M94</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13    BU-712-2173A       leaf_area entire dataset        M18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14     BU-712-2197 perimeter_ratio     morphotype        M19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15      M-2015-1-1 perimeter_ratio entire dataset        M24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16      M-2015-1-1 perimeter_ratio     morphotype        M24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17    M-2015-1-122 perimeter_ratio     morphotype         M5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18     M-2015-1-17 perimeter_ratio     morphotype        M28</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19      M-2015-1-3           tc_ip     morphotype         M5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20      M-2015-1-3 perimeter_ratio     morphotype         M5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21     M-2015-1-40 perimeter_ratio     morphotype         M5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22     M-2015-1-62 perimeter_ratio entire dataset        M28</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23     M-2015-1-62 perimeter_ratio     morphotype        M28</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24     M-2015-1-69 perimeter_ratio     morphotype         M8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25      M-2015-1-7           tc_ip     morphotype        M19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26     M-2015-2-15           tc_ip     morphotype        M19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27     M-2015-2-84           tc_ip     morphotype        M19</span>
 <span class="r-in"><span><span class="va">dilp_results</span><span class="op">$</span><span class="va">results</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        site   margin       fdr    tc_ip ln_leaf_area  ln_tc_ip     ln_pr</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 McAbee H1 32.25806 0.6965086 2.562487     6.792833 0.6070757 0.2047427</span>

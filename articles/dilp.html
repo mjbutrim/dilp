@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">dilp</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -92,6 +92,8 @@ page.</a></p>
 <code class="sourceCode R"><span><span class="co"># If the dataset is in good shape, this is all you need to do</span></span>
 <span></span>
 <span><span class="va">dilp_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dilp.html">dilp</a></span><span class="op">(</span><span class="va">McAbeeExample</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in dilp_outliers(processed_specimen_data): Outliers found. Please</span></span>
+<span><span class="co">#&gt; evaluate $outliers for possible wrong measurements</span></span>
 <span><span class="va">lma_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lma.html">lma</a></span><span class="op">(</span><span class="va">McAbeeExample</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># This just grabs the key data points from the results</span></span>
@@ -147,14 +149,14 @@ there were, this table would identify the specimens in the original
 dataset that triggered the errors.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dilp_results</span><span class="op">$</span><span class="va">errors</span></span>
-<span><span class="co">#&gt;                                                   Check Specimen1</span></span>
-<span><span class="co">#&gt; 1                             Entire tooth count not NA      none</span></span>
-<span><span class="co">#&gt; 2                        Entire tooth count : IP not NA      none</span></span>
-<span><span class="co">#&gt; 3                         Entire perimeter ratio not NA      none</span></span>
-<span><span class="co">#&gt; 4                                   FDR not between 0-1      none</span></span>
-<span><span class="co">#&gt; 5 External perimeter not larger than internal perimeter      none</span></span>
-<span><span class="co">#&gt; 6                Feret is not larger than minimum Feret      none</span></span>
-<span><span class="co">#&gt; 7                    Perimeter ratio not greater than 1      none</span></span></code></pre></div>
+<span><span class="co">#&gt;                                                   Check specimen_number</span></span>
+<span><span class="co">#&gt; 1                             Entire tooth count not NA No errors found</span></span>
+<span><span class="co">#&gt; 2                        Entire tooth count : IP not NA No errors found</span></span>
+<span><span class="co">#&gt; 3                         Entire perimeter ratio not NA No errors found</span></span>
+<span><span class="co">#&gt; 4                                   FDR not between 0-1 No errors found</span></span>
+<span><span class="co">#&gt; 5 External perimeter not larger than internal perimeter No errors found</span></span>
+<span><span class="co">#&gt; 6                Feret is not larger than minimum Feret No errors found</span></span>
+<span><span class="co">#&gt; 7                    Perimeter ratio not greater than 1 No errors found</span></span></code></pre></div>
 <p>Similarly, check if there are any outlier datapoints. These aren’t
 necessarily errors, but it may be worth double checking the original
 measurements.</p>
@@ -165,11 +167,34 @@ perimeter ratio. In this case, each of these were re-examined and found
 to be acceptable outliers.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dilp_results</span><span class="op">$</span><span class="va">outliers</span></span>
-<span><span class="co">#&gt;          Variable     Outlier1     Outlier2     Outlier3    Outlier4</span></span>
-<span><span class="co">#&gt; 1             fdr         &lt;NA&gt;         &lt;NA&gt;         &lt;NA&gt;        &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 2           tc_ip  BU-712-1117 BU-712-1169A BU-712-1176A        &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 3       leaf_area BU-712-2173A BU-712-2105A  BU-712-2124        &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 4 perimeter_ratio   M-2015-1-1 BU-712-1073A  BU-712-1165 M-2015-1-62</span></span></code></pre></div>
+<span><span class="co">#&gt;    specimen_number         outlier         within morphotype</span></span>
+<span><span class="co">#&gt; 1     BU-712-1073A perimeter_ratio entire dataset        M28</span></span>
+<span><span class="co">#&gt; 2      BU-712-1117           tc_ip entire dataset         M8</span></span>
+<span><span class="co">#&gt; 3      BU-712-1117           tc_ip     morphotype         M8</span></span>
+<span><span class="co">#&gt; 4      BU-712-1165 perimeter_ratio entire dataset        M28</span></span>
+<span><span class="co">#&gt; 5     BU-712-1169A           tc_ip entire dataset         M8</span></span>
+<span><span class="co">#&gt; 6     BU-712-1169A           tc_ip     morphotype         M8</span></span>
+<span><span class="co">#&gt; 7     BU-712-1176A           tc_ip entire dataset         M8</span></span>
+<span><span class="co">#&gt; 8     BU-712-1176A           tc_ip     morphotype         M8</span></span>
+<span><span class="co">#&gt; 9     BU-712-1182A           tc_ip     morphotype         M5</span></span>
+<span><span class="co">#&gt; 10    BU-712-1182A perimeter_ratio     morphotype         M5</span></span>
+<span><span class="co">#&gt; 11    BU-712-2105A       leaf_area entire dataset        M47</span></span>
+<span><span class="co">#&gt; 12     BU-712-2124       leaf_area entire dataset        M94</span></span>
+<span><span class="co">#&gt; 13    BU-712-2173A       leaf_area entire dataset        M18</span></span>
+<span><span class="co">#&gt; 14     BU-712-2197 perimeter_ratio     morphotype        M19</span></span>
+<span><span class="co">#&gt; 15      M-2015-1-1 perimeter_ratio entire dataset        M24</span></span>
+<span><span class="co">#&gt; 16      M-2015-1-1 perimeter_ratio     morphotype        M24</span></span>
+<span><span class="co">#&gt; 17    M-2015-1-122 perimeter_ratio     morphotype         M5</span></span>
+<span><span class="co">#&gt; 18     M-2015-1-17 perimeter_ratio     morphotype        M28</span></span>
+<span><span class="co">#&gt; 19      M-2015-1-3           tc_ip     morphotype         M5</span></span>
+<span><span class="co">#&gt; 20      M-2015-1-3 perimeter_ratio     morphotype         M5</span></span>
+<span><span class="co">#&gt; 21     M-2015-1-40 perimeter_ratio     morphotype         M5</span></span>
+<span><span class="co">#&gt; 22     M-2015-1-62 perimeter_ratio entire dataset        M28</span></span>
+<span><span class="co">#&gt; 23     M-2015-1-62 perimeter_ratio     morphotype        M28</span></span>
+<span><span class="co">#&gt; 24     M-2015-1-69 perimeter_ratio     morphotype         M8</span></span>
+<span><span class="co">#&gt; 25      M-2015-1-7           tc_ip     morphotype        M19</span></span>
+<span><span class="co">#&gt; 26     M-2015-2-15           tc_ip     morphotype        M19</span></span>
+<span><span class="co">#&gt; 27     M-2015-2-84           tc_ip     morphotype        M19</span></span></code></pre></div>
 <p>Now, let’s take a look at the results. Paleoclimate reconstructions
 will be generated for each unique site found within the dataset.</p>
 <p>The Margin, FDR, TC.IP, Ln.leaf.area, Ln.TC.IP, and Ln.PR columns
@@ -190,17 +215,23 @@ are reported as well.</p>
 <span><span class="co">#&gt;   MAP.MLR.error.minus  MAP.SLR MAP.SLR.error.plus MAP.SLR.error.minus</span></span>
 <span><span class="co">#&gt; 1            48.15775 126.7697           106.5412            57.88926</span></span>
 <span><span class="co">#&gt; 2            60.29365 135.8734           114.1923            62.04646</span></span></code></pre></div>
-<p>Finally, <code><a href="../reference/dilp_cca.html">dilp_cca()</a></code> can be called to make sure that your
+<p>Next, <code><a href="../reference/dilp_cca.html">dilp_cca()</a></code> can be called to make sure that your
 sites fit within the physiognomic space encompassed by the calibration
 data.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/dilp_cca.html">dilp_cca</a></span><span class="op">(</span><span class="va">dilp_results</span><span class="op">)</span></span></code></pre></div>
-<p><img src="dilp_files/figure-html/Check%20CCA-1.png" width="700"></p>
+<p><img src="dilp_files/figure-html/Check%20CCA-1.png" width="672"></p>
 <p>If a site you are testing falls outside the bounds of the calibration
 data, the DiLP regressions may not be able to accurately reconstruct the
 paleoclimate of that site.</p>
 <p>In this case, both McAbee localities do fall within the bounds of the
 calibration data; thus, the use of DiLP is appropriate here.</p>
+<p>Finally, <code><a href="../reference/dilp_whittaker.html">dilp_whittaker()</a></code> can be called to visualize the
+Whittaker Biome placement of each site as well as the errorbars for
+paleoclimate reconstructions.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/dilp_whittaker.html">dilp_whittaker</a></span><span class="op">(</span><span class="va">dilp_results</span><span class="op">)</span></span></code></pre></div>
+<p><img src="dilp_files/figure-html/Plot%20Whittaker%20Biome-1.png" width="672"></p>
 </div>
 <div class="section level4">
 <h4 id="leaf-mass-per-area-reconstructions-in-depth">Leaf Mass per Area Reconstructions in Depth<a class="anchor" aria-label="anchor" href="#leaf-mass-per-area-reconstructions-in-depth"></a>
@@ -211,7 +242,7 @@ estimates. All you really need is leaf area and petiole width.</p>
 <p>The standard suite of DiLP traits already includes leaf area and
 petiole width, so here we will just continue using the included
 <code>McAbeeExample</code> dataset.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lma_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lma.html">lma</a></span><span class="op">(</span><span class="va">McAbeeExample</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"lma_results$"</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">lma_results</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "lma_results$species_mean_lma"       "lma_results$royer_site_mean_lma"   </span></span>
@@ -220,7 +251,7 @@ petiole width, so here we will just continue using the included
 within a list. lma_results$species_mean_lma includes the reconstructed
 mean LMA for every species-site pair in the dataset. Upper and lower
 prediction intervals are calculated as well.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lma_results</span><span class="op">$</span><span class="va">species_mean_lma</span></span>
 <span><span class="co">#&gt;         site morphotype  n petiole_metric    lower     value     upper</span></span>
 <span><span class="co">#&gt; 1  McAbee H1         M1 10   0.0018166221 81.37167 105.44818 136.64852</span></span>
@@ -255,19 +286,19 @@ prediction intervals are calculated as well.</p>
 regressions to show the average LMA of all species at a site.</p>
 <p>lowe_site_variance_lma shows the variance of species-mean LMA values
 at a site.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Royer Site Mean LMA</span></span>
 <span><span class="va">lma_results</span><span class="op">$</span><span class="va">royer_site_mean_lma</span></span>
 <span><span class="co">#&gt;        site  n    lower    value    upper</span></span>
 <span><span class="co">#&gt; 1 McAbee H1 14 64.42873 72.90997 82.50765</span></span>
 <span><span class="co">#&gt; 2 McAbee H2 13 57.33929 65.48619 74.79063</span></span></code></pre></div>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Lowe Site Mean LMA</span></span>
 <span><span class="va">lma_results</span><span class="op">$</span><span class="va">lowe_site_mean_lma</span></span>
 <span><span class="co">#&gt;        site  n    lower    value    upper</span></span>
 <span><span class="co">#&gt; 1 McAbee H1 14 61.03750 73.68178 88.94539</span></span>
 <span><span class="co">#&gt; 2 McAbee H2 13 53.87969 67.58568 84.77822</span></span></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Lowe Site Variance LMA</span></span>
 <span><span class="va">lma_results</span><span class="op">$</span><span class="va">lowe_site_variance_lma</span></span>
 <span><span class="co">#&gt;        site  n    lower     value    upper</span></span>
@@ -286,12 +317,12 @@ area data, respectively.</p>
 different regressions that are preloaded into the functions. In this
 case, we’ll use the Peppe2018 regression for MAT and the Wilf1998
 regression for MAP.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/temp_slr.html">temp_slr</a></span><span class="op">(</span><span class="va">McAbeeExample</span>, regression <span class="op">=</span> <span class="st">"Peppe2018"</span><span class="op">)</span></span>
 <span><span class="co">#&gt;        site  n    lower      MAT    upper</span></span>
-<span><span class="co">#&gt; 1 McAbee H1 31 7.142065 12.14206 17.14206</span></span>
-<span><span class="co">#&gt; 2 McAbee H2 30 5.410667 10.41067 15.41067</span></span></code></pre></div>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<span><span class="co">#&gt; 1 McAbee H1 31 7.602065 12.14206 16.68206</span></span>
+<span><span class="co">#&gt; 2 McAbee H2 30 5.870667 10.41067 14.95067</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/precip_slr.html">precip_slr</a></span><span class="op">(</span><span class="va">McAbeeExample</span>, regression <span class="op">=</span> <span class="st">"Wilf1998"</span><span class="op">)</span></span>
 <span><span class="co">#&gt;        site  n    lower       MAP    upper</span></span>
 <span><span class="co">#&gt; 1 McAbee H1 17 27.07551  89.55803 217.9242</span></span>
@@ -299,7 +330,7 @@ regression for MAP.</p>
 <p>You can also use your own regressions for both of these functions as
 long as you provide the slope, the constant, and the standard error
 .</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/temp_slr.html">temp_slr</a></span><span class="op">(</span><span class="va">McAbeeExample</span>, slope <span class="op">=</span> <span class="fl">0.290</span>, constant <span class="op">=</span> <span class="fl">1.320</span>, error <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="co">#&gt;        site  n    lower       MAT    upper</span></span>
 <span><span class="co">#&gt; 1 McAbee H1 31 5.674839 10.674839 15.67484</span></span>
