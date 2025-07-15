@@ -20,6 +20,7 @@ reference:
   - dilp_processing
   - calc_lma
   - view_regressions
+  - dilp_whittaker
 
 - title: Built in datasets
   desc:
@@ -27,3 +28,4 @@ reference:
   - McAbeeExample
   - climate_calibration_data
   - physiognomy_calibration_data
+  - Whittaker_biomes
