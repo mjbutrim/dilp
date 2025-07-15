@@ -154,12 +154,13 @@ dilp_parameters <- list(
 )
 
 temp_regressions <- list(
-  Peppe2018 = list(slope = 0.194, constant = 5.884, error = 4.5), # 4.54
+  Peppe2018 = list(slope = 0.194, constant = 5.884, error = 4.54), # 4.54
   Peppe2011NH = list(slope = 0.262, constant = 3.167, error = 3.4), # 2.0
   Peppe2011 = list(slope = 0.204, constant = 4.6, error = 4.8), # 4.8
-  WingGreenwood = list(slope = 0.306, constant = 1.141, error = 0.8), # 0.80
+  WingGreenwood = list(slope = 0.306, constant = 1.141, error = .8), # 0.80
   Wilf1997 = list(slope = 0.286, constant = 2.24, error = 2.0),
-  Miller2006 = list(slope = 0.290, constant = 1.320, error = 2.0)
+  Miller2006 = list(slope = 0.290, constant = 1.320, error = 2),
+  KowalskiDilcher = list(slope = 0.363, constant = 2.223, error = 3.6)
 )
 
 precip_regressions <- list(

@@ -98,15 +98,22 @@ The Margin, FDR, TC.IP, Ln.leaf.area, Ln.TC.IP, and Ln.PR columns simply report 
 dilp_results$results
 ```
 
-Finally, `dilp_cca()` can be called to make sure that your sites fit within the physiognomic space encompassed by the calibration data.
+Next, `dilp_cca()` can be called to make sure that your sites fit within the physiognomic space encompassed by the calibration data.
 
-```{r Check CCA}
+```{r Check CCA, fig.width = 7, fig.height=5}
 dilp_cca(dilp_results)
 ```
 
 If a site you are testing falls outside the bounds of the calibration data, the DiLP regressions may not be able to accurately reconstruct the paleoclimate of that site.
 
 In this case, both McAbee localities do fall within the bounds of the calibration data; thus, the use of DiLP is appropriate here.
+
+Finally, `dilp_whittaker()` can be called to visualize the Whittaker Biome placement of each site as well as the errorbars for paleoclimate reconstructions.
+
+```{r Plot Whittaker Biome, fig.width=7, fig.height=5}
+dilp_whittaker(dilp_results)
+```
+
 
 #### Leaf Mass per Area Reconstructions in Depth
 
