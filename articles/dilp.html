@@ -167,34 +167,34 @@ perimeter ratio. In this case, each of these were re-examined and found
 to be acceptable outliers.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dilp_results</span><span class="op">$</span><span class="va">outliers</span></span>
-<span><span class="co">#&gt;    specimen_number         outlier         within morphotype</span></span>
-<span><span class="co">#&gt; 1     BU-712-1073A perimeter_ratio entire dataset        M28</span></span>
-<span><span class="co">#&gt; 2      BU-712-1117           tc_ip entire dataset         M8</span></span>
-<span><span class="co">#&gt; 3      BU-712-1117           tc_ip     morphotype         M8</span></span>
-<span><span class="co">#&gt; 4      BU-712-1165 perimeter_ratio entire dataset        M28</span></span>
-<span><span class="co">#&gt; 5     BU-712-1169A           tc_ip entire dataset         M8</span></span>
-<span><span class="co">#&gt; 6     BU-712-1169A           tc_ip     morphotype         M8</span></span>
-<span><span class="co">#&gt; 7     BU-712-1176A           tc_ip entire dataset         M8</span></span>
-<span><span class="co">#&gt; 8     BU-712-1176A           tc_ip     morphotype         M8</span></span>
-<span><span class="co">#&gt; 9     BU-712-1182A           tc_ip     morphotype         M5</span></span>
-<span><span class="co">#&gt; 10    BU-712-1182A perimeter_ratio     morphotype         M5</span></span>
-<span><span class="co">#&gt; 11    BU-712-2105A       leaf_area entire dataset        M47</span></span>
-<span><span class="co">#&gt; 12     BU-712-2124       leaf_area entire dataset        M94</span></span>
-<span><span class="co">#&gt; 13    BU-712-2173A       leaf_area entire dataset        M18</span></span>
-<span><span class="co">#&gt; 14     BU-712-2197 perimeter_ratio     morphotype        M19</span></span>
-<span><span class="co">#&gt; 15      M-2015-1-1 perimeter_ratio entire dataset        M24</span></span>
-<span><span class="co">#&gt; 16      M-2015-1-1 perimeter_ratio     morphotype        M24</span></span>
-<span><span class="co">#&gt; 17    M-2015-1-122 perimeter_ratio     morphotype         M5</span></span>
-<span><span class="co">#&gt; 18     M-2015-1-17 perimeter_ratio     morphotype        M28</span></span>
-<span><span class="co">#&gt; 19      M-2015-1-3           tc_ip     morphotype         M5</span></span>
-<span><span class="co">#&gt; 20      M-2015-1-3 perimeter_ratio     morphotype         M5</span></span>
-<span><span class="co">#&gt; 21     M-2015-1-40 perimeter_ratio     morphotype         M5</span></span>
-<span><span class="co">#&gt; 22     M-2015-1-62 perimeter_ratio entire dataset        M28</span></span>
-<span><span class="co">#&gt; 23     M-2015-1-62 perimeter_ratio     morphotype        M28</span></span>
-<span><span class="co">#&gt; 24     M-2015-1-69 perimeter_ratio     morphotype         M8</span></span>
-<span><span class="co">#&gt; 25      M-2015-1-7           tc_ip     morphotype        M19</span></span>
-<span><span class="co">#&gt; 26     M-2015-2-15           tc_ip     morphotype        M19</span></span>
-<span><span class="co">#&gt; 27     M-2015-2-84           tc_ip     morphotype        M19</span></span></code></pre></div>
+<span><span class="co">#&gt;         site specimen_number morphotype         outlier         within</span></span>
+<span><span class="co">#&gt; 1  McAbee H1     BU-712-1117         M8           tc_ip entire dataset</span></span>
+<span><span class="co">#&gt; 2  McAbee H1    BU-712-1169A         M8           tc_ip entire dataset</span></span>
+<span><span class="co">#&gt; 3  McAbee H1    BU-712-1176A         M8           tc_ip entire dataset</span></span>
+<span><span class="co">#&gt; 4  McAbee H2    BU-712-2173A        M18       leaf_area entire dataset</span></span>
+<span><span class="co">#&gt; 5  McAbee H2    BU-712-2105A        M47       leaf_area entire dataset</span></span>
+<span><span class="co">#&gt; 6  McAbee H2     BU-712-2124        M94       leaf_area entire dataset</span></span>
+<span><span class="co">#&gt; 7  McAbee H1      M-2015-1-1        M24 perimeter_ratio entire dataset</span></span>
+<span><span class="co">#&gt; 8  McAbee H1    BU-712-1073A        M28 perimeter_ratio entire dataset</span></span>
+<span><span class="co">#&gt; 9  McAbee H1     BU-712-1165        M28 perimeter_ratio entire dataset</span></span>
+<span><span class="co">#&gt; 10 McAbee H1     M-2015-1-62        M28 perimeter_ratio entire dataset</span></span>
+<span><span class="co">#&gt; 11 McAbee H1    BU-712-1182A         M5           tc_ip     morphotype</span></span>
+<span><span class="co">#&gt; 12 McAbee H1      M-2015-1-3         M5           tc_ip     morphotype</span></span>
+<span><span class="co">#&gt; 13 McAbee H1    BU-712-1182A         M5 perimeter_ratio     morphotype</span></span>
+<span><span class="co">#&gt; 14 McAbee H1    M-2015-1-122         M5 perimeter_ratio     morphotype</span></span>
+<span><span class="co">#&gt; 15 McAbee H1      M-2015-1-3         M5 perimeter_ratio     morphotype</span></span>
+<span><span class="co">#&gt; 16 McAbee H1     M-2015-1-40         M5 perimeter_ratio     morphotype</span></span>
+<span><span class="co">#&gt; 17 McAbee H1     BU-712-1117         M8           tc_ip     morphotype</span></span>
+<span><span class="co">#&gt; 18 McAbee H1    BU-712-1169A         M8           tc_ip     morphotype</span></span>
+<span><span class="co">#&gt; 19 McAbee H1    BU-712-1176A         M8           tc_ip     morphotype</span></span>
+<span><span class="co">#&gt; 20 McAbee H1     M-2015-1-69         M8 perimeter_ratio     morphotype</span></span>
+<span><span class="co">#&gt; 21 McAbee H1      M-2015-1-7        M19           tc_ip     morphotype</span></span>
+<span><span class="co">#&gt; 22 McAbee H2     M-2015-2-15        M19           tc_ip     morphotype</span></span>
+<span><span class="co">#&gt; 23 McAbee H2     M-2015-2-84        M19           tc_ip     morphotype</span></span>
+<span><span class="co">#&gt; 24 McAbee H2     BU-712-2197        M19 perimeter_ratio     morphotype</span></span>
+<span><span class="co">#&gt; 25 McAbee H1      M-2015-1-1        M24 perimeter_ratio     morphotype</span></span>
+<span><span class="co">#&gt; 26 McAbee H1     M-2015-1-17        M28 perimeter_ratio     morphotype</span></span>
+<span><span class="co">#&gt; 27 McAbee H1     M-2015-1-62        M28 perimeter_ratio     morphotype</span></span></code></pre></div>
 <p>Now, let’s take a look at the results. Paleoclimate reconstructions
 will be generated for each unique site found within the dataset.</p>
 <p>The Margin, FDR, TC.IP, Ln.leaf.area, Ln.TC.IP, and Ln.PR columns
