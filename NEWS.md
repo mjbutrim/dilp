@@ -1,3 +1,7 @@
+# dilp 1.2.1
+* Fixed Outliers merge so there aren't thousands of outliers.
+* Adjusted Errors so that it pulls by column header rather than index
+
 # dilp 1.2.0
 * Added Miller(2006) error calculations to `temp_slr()`
 * Added KowalskiDilcher (2003) regression to `temp_slr()`

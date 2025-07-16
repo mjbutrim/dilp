@@ -247,13 +247,13 @@ dilp_errors <- function(specimen_data) {
     dplyr::filter(.data$margin == 1) %>%
     dplyr::select("site", "morphotype", "specimen_number")
 
-  dilp.check.1 <- specimen_data %>% dplyr::filter(.data$margin == 1)
+  check1 <- specimen_data %>% dplyr::filter(.data$margin == 1)
 
-  #Originally we were checking total tooth count, but it is automatically converted to NA in the processing step in case people put 0's in. Thus here we instead check primary and subsidiary teeth seperate
-  error <- specimen_data[which(dilp.check.1$no_of_primary_teeth > -1 & !(dilp.check.1$specimen_number %in% mixed_margins$specimen_number)), 2] #The mixed margin bit ensures that specimens in a mixed margin morphotype retain their tooth count and area values of 0, and no error is flagged for it
-  temp1 <- data.frame(Check = "Entire tooth count not NA", specimen_number = ifelse(nrow(error) != 0, error, "No errors found"))
-  error <- specimen_data[which(dilp.check.1$no_of_subsidiary_teeth > -1 & !(dilp.check.1$specimen_number %in% mixed_margins$specimen_number)), 2] #The mixed margin bit ensures that specimens in a mixed margin morphotype retain their tooth count and area values of 0, and no error is flagged for it
-  temp1.1 <- data.frame(Check = "Entire tooth count not NA", specimen_number = ifelse(nrow(error) != 0, error, "No errors found"))
+  #Originally we were checking total tooth count, but it is automatically converted to NA in the processing step in case people put 0's in. Thus here we instead check primary and subsidiary teeth separately.
+  error <- specimen_data[which(check1$no_of_primary_teeth > -1 & !(check1$specimen_number %in% mixed_margins$specimen_number)), "specimen_number"] #The mixed margin bit ensures that specimens in a mixed margin morphotype retain their tooth count and area values of 0, and no error is flagged for it
+  temp1 <- data.frame(Check = "Entire tooth count not NA", specimen_number = ifelse(nrow(error) != 0, as.character(error), "No errors found"))
+  error <- specimen_data[which(check1$no_of_subsidiary_teeth > -1 & !(check1$specimen_number %in% mixed_margins$specimen_number)), "specimen_number"] #The mixed margin bit ensures that specimens in a mixed margin morphotype retain their tooth count and area values of 0, and no error is flagged for it
+  temp1.1 <- data.frame(Check = "Entire tooth count not NA", specimen_number = ifelse(nrow(error) != 0, as.character(error), "No errors found"))
 
   colnames(temp1) <- c("Check", "specimen_number")
   colnames(temp1.1) <- c("Check", "specimen_number")
@@ -264,38 +264,37 @@ dilp_errors <- function(specimen_data) {
   #At the end, keep only unique specimen numbers, to ensure either specimen numbers of "No errors found" is not repeated
   temp1 <- dplyr::distinct(temp1)
 
-  error <- specimen_data[which(dilp.check.1$tc_ip > -1 & !(dilp.check.1$specimen_number %in% mixed_margins$specimen_number)), 2]
-  temp2 <- data.frame(Check = "Entire tooth count : IP not NA", specimen_number = ifelse(nrow(error) != 0, error, "No errors found"))
+  error <- specimen_data[which(check1$tc_ip > -1 & !(check1$specimen_number %in% mixed_margins$specimen_number)), "specimen_number"]
+  temp2 <- data.frame(Check = "Entire tooth count : IP not NA", specimen_number = ifelse(nrow(error) != 0, as.character(error), "No errors found"))
   colnames(temp2) <- c("Check", "specimen_number")
 
-  error <- specimen_data[which(dilp.check.1$perimeter_ratio > -1 & !(dilp.check.1$specimen_number %in% mixed_margins$specimen_number)), 2]
-  temp3 <- data.frame(Check = "Entire perimeter ratio not NA", specimen_number = ifelse(nrow(error) != 0, error, "No errors found"))
+  error <- specimen_data[which(check1$perimeter_ratio > -1 & !(check1$specimen_number %in% mixed_margins$specimen_number)), "specimen_number"]
+  temp3 <- data.frame(Check = "Entire perimeter ratio not NA", specimen_number = ifelse(nrow(error) != 0, as.character(error), "No errors found"))
   colnames(temp3) <- c("Check", "specimen_number")
 
-  dilp.check.2 <- tidyr::drop_na(specimen_data, "fdr")
+  check2 <- tidyr::drop_na(specimen_data, "fdr")
 
-  error <- specimen_data[which(dilp.check.2$fdr < 0 | dilp.check.2$fdr > 1), 2]
-  temp4 <- data.frame(Check = "FDR not between 0-1", specimen_number = ifelse(nrow(error) != 0, error, "No errors found"))
+  error <- specimen_data[which(check2$fdr < 0 | check2$fdr > 1), "specimen_number"]
+  temp4 <- data.frame(Check = "FDR not between 0-1", specimen_number = ifelse(nrow(error) != 0, as.character(error), "No errors found"))
   colnames(temp4) <- c("Check", "specimen_number")
 
-  error <- specimen_data[which(specimen_data$internal_raw_blade_perimeter_corrected > specimen_data$raw_blade_perimeter_corrected), 2]
-  temp5 <- data.frame(Check = "External perimeter not larger than internal perimeter", specimen_number = ifelse(nrow(error) != 0, error, "No errors found"))
+  error <- specimen_data[which(specimen_data$internal_raw_blade_perimeter_corrected > specimen_data$raw_blade_perimeter_corrected), "specimen_number"]
+  temp5 <- data.frame(Check = "External perimeter not larger than internal perimeter", specimen_number = ifelse(nrow(error) != 0, as.character(error), "No errors found"))
   colnames(temp5) <- c("Check", "specimen_number")
 
-  error <- specimen_data[which(specimen_data$minimum_feret > specimen_data$feret), 2]
-  temp6 <- data.frame(Check = "Feret is not larger than minimum Feret", specimen_number = ifelse(nrow(error) != 0, error, "No errors found"))
+  error <- specimen_data[which(specimen_data$minimum_feret > specimen_data$feret), "specimen_number"]
+  temp6 <- data.frame(Check = "Feret is not larger than minimum Feret", specimen_number = ifelse(nrow(error) != 0, as.character(error), "No errors found"))
   colnames(temp6) <- c("Check", "specimen_number")
 
-  error <- as.data.frame(specimen_data[which(specimen_data$perimeter_ratio <= 1 & !(specimen_data$specimen_number %in% mixed_margins$specimen_number)), 2])
-  temp7 <- data.frame(Check = "Perimeter ratio not greater than 1", specimen_number = ifelse(nrow(error) != 0, error, "No errors found"))
+  error <- as.data.frame(specimen_data[which(specimen_data$perimeter_ratio <= 1 & !(specimen_data$specimen_number %in% mixed_margins$specimen_number)), "specimen_number"])
+  temp7 <- data.frame(Check = "Perimeter ratio not greater than 1", specimen_number = ifelse(nrow(error) != 0, as.character(error), "No errors found"))
   colnames(temp7) <- c("Check", "specimen_number")
 
   errors <- dplyr::bind_rows(temp1, temp2, temp3, temp4, temp5, temp6, temp7)
   rownames(errors) <- NULL
 
   if (length(unique(errors$specimen_number)) > 1){
-    warning <- capture.output(print(errors))
-    warning(paste("Errors found in dataframe:\n", paste(warning, collapse = "\n")))
+    warning("Errors found in dataset. Check $errors for list.")
   }
   return(errors)
 }
@@ -329,14 +328,13 @@ dilp_errors <- function(specimen_data) {
 dilp_outliers <- function(specimen_data) {
   vars <- c("fdr", "tc_ip", "leaf_area", "perimeter_ratio") # DiLP variables
   outliers <- data.frame()
-  index <- which(colnames(specimen_data) == "specimen_number")
 
   #####Outliers within entire dataset
   for (i in 1:length(vars)) {
     temp <- specimen_data
     colnames(temp)[colnames(temp) == vars[i]] <- "trait" # rename variable of focus vars[i]
     temp.outliers <- grDevices::boxplot.stats(temp$trait)$out # check it for outliers
-    temp.specimen <- temp[which(temp$trait %in% c(temp.outliers)), index] # determine specimen numbers for any outliers
+    temp.specimen <- temp[which(temp$trait %in% c(temp.outliers)), c("site", "specimen_number", "morphotype")] # determine specimen numbers for any outliers
     temp.output <- as.data.frame(temp.specimen)
     if(nrow(temp.output)>0){temp.output$outlier <- vars[i]}
     if(nrow(temp.output)>0){temp.output$within <- "entire dataset"}
@@ -353,14 +351,13 @@ dilp_outliers <- function(specimen_data) {
       temp.morph2 <- temp.morph
       colnames(temp.morph2)[colnames(temp.morph2) == vars[i]] <- "trait" # rename variable of focus vars[i]
       temp.outliers <- grDevices::boxplot.stats(temp.morph2$trait)$out # check it for outliers
-      temp.specimen <- temp.morph2[which(temp.morph2$trait %in% c(temp.outliers)), index] # determine specimen numbers for any outliers
+      temp.specimen <- temp.morph2[which(temp.morph2$trait %in% c(temp.outliers)), c("site", "specimen_number", "morphotype")] # determine specimen numbers for any outliers
       temp.output <- as.data.frame(temp.specimen)
       if(nrow(temp.output)>0){temp.output$outlier <- vars[i]}
       if(nrow(temp.output)>0){temp.output$within <- "morphotype"}
       if(nrow(temp.output)>0){outliers <- dplyr::bind_rows(outliers, temp.output)} # bind to summary table
     }
   }
-  outliers <- merge(outliers, subset(specimen_data, select=c("specimen_number", "morphotype")), by="specimen_number", all.x=TRUE) #Add morphotype number to outlier output
   if(length(outliers) != 0) {
     warning("Outliers found. Please evaluate $outliers for possible wrong measurements")
   }
