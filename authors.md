@@ -17,7 +17,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/mjbutrim/dilp/blob/v1.3.0/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/mjbutrim/dilp/blob/master/DESCRIPTION)
 
 Butrim M, Lowe A, Flynn A, Baumgartner A, Peppe D, Royer D (2026).
 *dilp: Reconstruct Paleoclimate and Paleoecology with Leaf Physiognomy*.
