@@ -1,0 +1,53 @@
+# dilp
+
+The goal of dilp is to help with analysis of quantitative fossil leaf
+traits. Key functions included are:
+
+- Digital Leaf Physiognomy -
+  [`dilp()`](https://mjbutrim.github.io/dilp/reference/dilp.md)
+
+  - Estimate mean annual temperature and mean annual precipitation using
+    multiple linear regressions.
+
+- Fossil Leaf Mass per Area -
+  [`lma()`](https://mjbutrim.github.io/dilp/reference/lma.md)
+
+  - Reconstruct leaf mass per area using leaf area and petiole width
+
+- Leaf Margin Analysis -
+  [`temp_slr()`](https://mjbutrim.github.io/dilp/reference/temp_slr.md)
+
+  - Estimate mean annual temperature using leaf margin analysis
+
+- Leaf Area Analysis -
+  [`precip_slr()`](https://mjbutrim.github.io/dilp/reference/precip_slr.md)
+
+  - Estimate mean annual precipitation using leaf area analysis
+
+## Installation
+
+You can install the stable version of dilp from your R session with:
+
+``` r
+install.packages("dilp")
+```
+
+You can install the development version of dilp from
+[GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("mjbutrim/dilp")
+```
+
+## Example
+
+Find a basic example of running a DiLP and LMA analysis [in this
+vignette](https://mjbutrim.github.io/dilp/articles/dilp.html)
+
+For ease of use, a template spreadsheet for data collection can be found
+here: [DiLP Data Collection
+Template](https://drive.google.com/file/d/1AOAftWBAE0RhrUewBZDSL81BIUq0Gmhw/view?usp=sharing)
+
+If you encounter any problems, or would like to request a feature,
+please create an issue [here](https://github.com/mjbutrim/dilp/issues)
