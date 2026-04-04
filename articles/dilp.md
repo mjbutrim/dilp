@@ -34,7 +34,7 @@ dataset.
 
 For ease of use, a template spreadsheet for data collection can be found
 here: [DiLP Data Collection
-Template](https://drive.google.com/file/d/1UYAd0u2fIn2QCLF6aKKzTj6KPaAPv0d1/view?usp=sharing).
+Template](https://drive.google.com/file/d/1AOAftWBAE0RhrUewBZDSL81BIUq0Gmhw/view?usp=sharing).
 
 If you encounter any problems, or would like to request a feature,
 please create an issue [on the github
@@ -44,6 +44,8 @@ page.](https://github.com/mjbutrim/dilp/issues)
 # If the dataset is in good shape, this is all you need to do
 
 dilp_results <- dilp(McAbeeExample)
+#> Warning in dilp_outliers(processed_specimen_data): Outliers found. Please
+#> evaluate $outliers for possible wrong measurements
 lma_results <- lma(McAbeeExample)
 
 # This just grabs the key data points from the results
@@ -116,14 +118,14 @@ triggered the errors.
 
 ``` r
 dilp_results$errors
-#>                                                   Check Specimen1
-#> 1                             Entire tooth count not NA      none
-#> 2                        Entire tooth count : IP not NA      none
-#> 3                         Entire perimeter ratio not NA      none
-#> 4                                   FDR not between 0-1      none
-#> 5 External perimeter not larger than internal perimeter      none
-#> 6                Feret is not larger than minimum Feret      none
-#> 7                    Perimeter ratio not greater than 1      none
+#>                                                   Check specimen_number
+#> 1                             Entire tooth count not NA No errors found
+#> 2                        Entire tooth count : IP not NA No errors found
+#> 3                         Entire perimeter ratio not NA No errors found
+#> 4                                   FDR not between 0-1 No errors found
+#> 5 External perimeter not larger than internal perimeter No errors found
+#> 6                Feret is not larger than minimum Feret No errors found
+#> 7                           Perimeter ratio less than 1 No errors found
 ```
 
 Similarly, check if there are any outlier datapoints. These aren’t
@@ -138,11 +140,52 @@ acceptable outliers.
 
 ``` r
 dilp_results$outliers
-#>          Variable     Outlier1     Outlier2     Outlier3    Outlier4
-#> 1             fdr         <NA>         <NA>         <NA>        <NA>
-#> 2           tc_ip  BU-712-1117 BU-712-1169A BU-712-1176A        <NA>
-#> 3       leaf_area BU-712-2173A BU-712-2105A  BU-712-2124        <NA>
-#> 4 perimeter_ratio   M-2015-1-1 BU-712-1073A  BU-712-1165 M-2015-1-62
+#>         site specimen_number morphotype outlier.entire.dataset
+#> 1  McAbee H1    BU-712-1073A        M28        perimeter_ratio
+#> 2  McAbee H1     BU-712-1117         M8                  tc_ip
+#> 3  McAbee H1     BU-712-1165        M28        perimeter_ratio
+#> 4  McAbee H1    BU-712-1169A         M8                  tc_ip
+#> 5  McAbee H1    BU-712-1176A         M8                  tc_ip
+#> 6  McAbee H1    BU-712-1182A         M5            No outliers
+#> 7  McAbee H1    BU-712-1182A         M5            No outliers
+#> 8  McAbee H1      M-2015-1-1        M24        perimeter_ratio
+#> 9  McAbee H1    M-2015-1-122         M5            No outliers
+#> 10 McAbee H1     M-2015-1-17        M28            No outliers
+#> 11 McAbee H1      M-2015-1-3         M5            No outliers
+#> 12 McAbee H1      M-2015-1-3         M5            No outliers
+#> 13 McAbee H1     M-2015-1-40         M5            No outliers
+#> 14 McAbee H1     M-2015-1-62        M28        perimeter_ratio
+#> 15 McAbee H1     M-2015-1-69         M8            No outliers
+#> 16 McAbee H1      M-2015-1-7        M19            No outliers
+#> 17 McAbee H2    BU-712-2105A        M47              leaf_area
+#> 18 McAbee H2     BU-712-2124        M94              leaf_area
+#> 19 McAbee H2    BU-712-2173A        M18              leaf_area
+#> 20 McAbee H2     BU-712-2197        M19            No outliers
+#> 21 McAbee H2     M-2015-2-15        M19            No outliers
+#> 22 McAbee H2     M-2015-2-84        M19            No outliers
+#>    outlier.morphotype
+#> 1         No outliers
+#> 2               tc_ip
+#> 3         No outliers
+#> 4               tc_ip
+#> 5               tc_ip
+#> 6               tc_ip
+#> 7     perimeter_ratio
+#> 8     perimeter_ratio
+#> 9     perimeter_ratio
+#> 10    perimeter_ratio
+#> 11              tc_ip
+#> 12    perimeter_ratio
+#> 13    perimeter_ratio
+#> 14    perimeter_ratio
+#> 15    perimeter_ratio
+#> 16              tc_ip
+#> 17        No outliers
+#> 18        No outliers
+#> 19        No outliers
+#> 20    perimeter_ratio
+#> 21              tc_ip
+#> 22              tc_ip
 ```
 
 Now, let’s take a look at the results. Paleoclimate reconstructions will
@@ -169,7 +212,7 @@ dilp_results$results
 #> 2            60.29365 135.8734           114.1923            62.04646
 ```
 
-Finally,
+Next,
 [`dilp_cca()`](https://mjbutrim.github.io/dilp/reference/dilp_cca.md)
 can be called to make sure that your sites fit within the physiognomic
 space encompassed by the calibration data.
@@ -186,6 +229,17 @@ paleoclimate of that site.
 
 In this case, both McAbee localities do fall within the bounds of the
 calibration data; thus, the use of DiLP is appropriate here.
+
+Finally,
+[`dilp_whittaker()`](https://mjbutrim.github.io/dilp/reference/dilp_whittaker.md)
+can be called to visualize the Whittaker Biome placement of each site as
+well as the errorbars for paleoclimate reconstructions.
+
+``` r
+dilp_whittaker(dilp_results)
+```
+
+![](dilp_files/figure-html/Plot%20Whittaker%20Biome-1.png)
 
 #### Leaf Mass per Area Reconstructions in Depth
 
@@ -292,8 +346,8 @@ MAP.
 ``` r
 temp_slr(McAbeeExample, regression = "Peppe2018")
 #>        site  n    lower      MAT    upper
-#> 1 McAbee H1 31 7.142065 12.14206 17.14206
-#> 2 McAbee H2 30 5.410667 10.41067 15.41067
+#> 1 McAbee H1 31 7.602065 12.14206 16.68206
+#> 2 McAbee H2 30 5.870667 10.41067 14.95067
 ```
 
 ``` r
