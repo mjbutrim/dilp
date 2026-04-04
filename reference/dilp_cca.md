@@ -12,9 +12,8 @@ treated with caution.
 ``` r
 dilp_cca(
   dilp_table,
-  physiognomy_calibration = physiognomy_calibration_data,
-  climate_calibration = climate_calibration_data,
-  colorby = "data"
+  physiognomy_calibration = physiognomyCalibration,
+  climate_calibration = climateCalibration
 )
 ```
 
@@ -34,12 +33,6 @@ dilp_cca(
 
   A climate calibration dataset. Defaults to an internal version of
   [`climate_calibration_data`](https://mjbutrim.github.io/dilp/reference/climate_calibration_data.md).
-
-- colorby:
-
-  One of "data", "koppen", "whittaker". Defaults to data, which colors
-  points by whether they are from the calibration data or not. Koppen
-  and Whittaker are works in progress.
 
 ## Value
 
@@ -61,7 +54,6 @@ A ggplot2 plot
 
 ``` r
 results <- dilp(McAbeeExample)
-#> Warning: Outliers found. Please evaluate $outliers for possible wrong measurements
 dilp_cca(results)
 
 ```

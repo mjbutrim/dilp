@@ -13,7 +13,7 @@ climate_calibration_data
 
 ### `climate_calibration_data`
 
-A data frame with 92 rows and 5 columns:
+A data frame with 92 rows and 3 columns:
 
 - Site:
 
@@ -26,14 +26,6 @@ A data frame with 92 rows and 5 columns:
 - MAP:
 
   Mean Annual Precipitation (mm)
-
-- Koppen:
-
-  Koppen climate classifcations
-
-- Whittaker:
-
-  Whittaker climate classifications
 
 ## Source
 

@@ -156,14 +156,12 @@ A list of tables that includes all pertinent DiLP information:
 - Lowe. A.J., Flynn, A.G., Butrim, M.J., Baumgartner, A., Peppe, D.J.,
   and Royer, D.L. (2024), Reconstructing terrestrial paleoclimate and
   paleoecology with fossil leaves using Digital Leaf Physiognomy and
-  leaf mass per area. J. Vis. Exp. (212), e66838, doi:10.3791/66838
-  (2024).
+  leaf mass per area. JoVE.
 
 ## Examples
 
 ``` r
 dilp_results <- dilp(McAbeeExample)
-#> Warning: Outliers found. Please evaluate $outliers for possible wrong measurements
 dilp_results$processed_leaf_data
 #> # A tibble: 192 × 40
 #>    site      specimen_number morphotype measurer_comments margin petiole_width
@@ -220,61 +218,20 @@ dilp_results$processed_site_data
 #> #   internal_raw_blade_perimeter_corrected <dbl>, total_tooth_count <dbl>,
 #> #   tc_ip <dbl>, perimeter_ratio <dbl>, ln_leaf_area <dbl>, ln_pr <dbl>, …
 dilp_results$errors
-#>                                                   Check specimen_number
-#> 1                             Entire tooth count not NA No errors found
-#> 2                        Entire tooth count : IP not NA No errors found
-#> 3                         Entire perimeter ratio not NA No errors found
-#> 4                                   FDR not between 0-1 No errors found
-#> 5 External perimeter not larger than internal perimeter No errors found
-#> 6                Feret is not larger than minimum Feret No errors found
-#> 7                           Perimeter ratio less than 1 No errors found
+#>                                                   Check Specimen1
+#> 1                             Entire tooth count not NA      none
+#> 2                        Entire tooth count : IP not NA      none
+#> 3                         Entire perimeter ratio not NA      none
+#> 4                                   FDR not between 0-1      none
+#> 5 External perimeter not larger than internal perimeter      none
+#> 6                Feret is not larger than minimum Feret      none
+#> 7                    Perimeter ratio not greater than 1      none
 dilp_results$outliers
-#>         site specimen_number morphotype outlier.entire.dataset
-#> 1  McAbee H1    BU-712-1073A        M28        perimeter_ratio
-#> 2  McAbee H1     BU-712-1117         M8                  tc_ip
-#> 3  McAbee H1     BU-712-1165        M28        perimeter_ratio
-#> 4  McAbee H1    BU-712-1169A         M8                  tc_ip
-#> 5  McAbee H1    BU-712-1176A         M8                  tc_ip
-#> 6  McAbee H1    BU-712-1182A         M5            No outliers
-#> 7  McAbee H1    BU-712-1182A         M5            No outliers
-#> 8  McAbee H1      M-2015-1-1        M24        perimeter_ratio
-#> 9  McAbee H1    M-2015-1-122         M5            No outliers
-#> 10 McAbee H1     M-2015-1-17        M28            No outliers
-#> 11 McAbee H1      M-2015-1-3         M5            No outliers
-#> 12 McAbee H1      M-2015-1-3         M5            No outliers
-#> 13 McAbee H1     M-2015-1-40         M5            No outliers
-#> 14 McAbee H1     M-2015-1-62        M28        perimeter_ratio
-#> 15 McAbee H1     M-2015-1-69         M8            No outliers
-#> 16 McAbee H1      M-2015-1-7        M19            No outliers
-#> 17 McAbee H2    BU-712-2105A        M47              leaf_area
-#> 18 McAbee H2     BU-712-2124        M94              leaf_area
-#> 19 McAbee H2    BU-712-2173A        M18              leaf_area
-#> 20 McAbee H2     BU-712-2197        M19            No outliers
-#> 21 McAbee H2     M-2015-2-15        M19            No outliers
-#> 22 McAbee H2     M-2015-2-84        M19            No outliers
-#>    outlier.morphotype
-#> 1         No outliers
-#> 2               tc_ip
-#> 3         No outliers
-#> 4               tc_ip
-#> 5               tc_ip
-#> 6               tc_ip
-#> 7     perimeter_ratio
-#> 8     perimeter_ratio
-#> 9     perimeter_ratio
-#> 10    perimeter_ratio
-#> 11              tc_ip
-#> 12    perimeter_ratio
-#> 13    perimeter_ratio
-#> 14    perimeter_ratio
-#> 15    perimeter_ratio
-#> 16              tc_ip
-#> 17        No outliers
-#> 18        No outliers
-#> 19        No outliers
-#> 20    perimeter_ratio
-#> 21              tc_ip
-#> 22              tc_ip
+#>          Variable     Outlier1     Outlier2     Outlier3    Outlier4
+#> 1             fdr         <NA>         <NA>         <NA>        <NA>
+#> 2           tc_ip  BU-712-1117 BU-712-1169A BU-712-1176A        <NA>
+#> 3       leaf_area BU-712-2173A BU-712-2105A  BU-712-2124        <NA>
+#> 4 perimeter_ratio   M-2015-1-1 BU-712-1073A  BU-712-1165 M-2015-1-62
 dilp_results$results
 #>        site   margin       fdr    tc_ip ln_leaf_area  ln_tc_ip     ln_pr
 #> 1 McAbee H1 32.25806 0.6965086 2.562487     6.792833 0.6070757 0.2047427

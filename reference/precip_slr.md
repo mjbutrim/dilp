@@ -20,7 +20,7 @@ precip_slr(
 - data:
 
   A data frame that must include the columns "morphotype", "leaf_area",
-  and "specimen_number". Must be leaf level data.
+  and "specimen_number". Must be species level data.
 
 - regression:
 

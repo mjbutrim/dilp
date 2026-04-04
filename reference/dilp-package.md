@@ -3,7 +3,7 @@
 Use leaf physiognomic methods to reconstruct mean annual temperature
 (MAT), mean annual precipitation (MAP), and leaf dry mass per area (Ma),
 along with other useful quantitative leaf traits. Methods in this
-package described in Lowe et al. (2024).
+package described in Lowe et al. (in review).
 
 ## See also
 

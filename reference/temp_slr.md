@@ -1,30 +1,7 @@
 # Estimate temperature with simple linear regression
 
 `temp_slr()` will produce estimates of mean annual temperature and
-standard error using leaf margin analysis. There are different ways to
-represent error. The most simple is using the standard error of the
-regression. These are listed in the table below. However, this is not
-the only source of uncertainty and is too simplistic a measure of error.
-This function instead uses the method outlined in Miller et al. 2006,
-and reported in Peppe et al 2018 (eq. 4), which also accounts for
-binomial sampling error and overdispersion, offering what we consider a
-best practice approach. The standard error of the regression provides a
-minimum error value. Note, Peppe et al. 2018 suggests that a
-conservative minimum uncertainty for all leaf margin analysis results is
-probably +/- 5 degrees Celsius.
-
-Standard error of regression:
-
-|                 |     |
-|-----------------|-----|
-| Regression      | SE  |
-| Peppe2018       | 4.5 |
-| Peppe2011       | 4.8 |
-| Peppe2011NH     | 3.4 |
-| Miller2006      | \-  |
-| WingGreenwood   | 0.8 |
-| Wilf1997        | 2.0 |
-| KowalskiDilcher | 3.6 |
+standard error using leaf margin analysis.
 
 ## Usage
 
@@ -43,7 +20,7 @@ temp_slr(
 - data:
 
   A data frame that must include the columns "morphotype" and "margin".
-  Can be leaf or species level data.
+  Can be species or site level data.
 
 - regression:
 
@@ -62,8 +39,6 @@ temp_slr(
 
   - "Wilf1997" - The Americas
 
-  - "KowalskiDilcher" - North America
-
 - slope:
 
   Slope, if using a custom regression
@@ -81,10 +56,6 @@ temp_slr(
 A table with MAT estimates for each site
 
 ## References
-
-- Kowalski, E.A. & Dilcher, D.L. (2003). Warmer paleotemperatures for
-  terrestrial ecosystems. Proceedings of the National Academy of
-  Sciences, 100, 167–170.
 
 - Miller, I. M., Brandon, M. T., & Hickey, L. J. (2006). Using leaf
   margin analysis to estimate mid-Cretaceous (Albian) paleolatitude of
@@ -117,6 +88,6 @@ A table with MAT estimates for each site
 ``` r
 temp_slr(McAbeeExample, regression = "Peppe2011")
 #>        site  n    lower      MAT    upper
-#> 1 McAbee H1 31 6.380645 11.18065 15.98065
-#> 2 McAbee H2 30 4.560000  9.36000 14.16000
+#> 1 McAbee H1 31 6.180645 11.18065 16.18065
+#> 2 McAbee H2 30 4.360000  9.36000 14.36000
 ```

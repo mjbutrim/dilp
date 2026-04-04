@@ -26,8 +26,6 @@
   : Generate leaf mass per area results
 - [`view_regressions()`](https://mjbutrim.github.io/dilp/reference/view_regressions.md)
   : View preloaded regressions
-- [`dilp_whittaker()`](https://mjbutrim.github.io/dilp/reference/dilp_whittaker.md)
-  : Plot climate reconstructions on a Whittaker Biome plot
 
 ## Built in datasets
 
@@ -37,5 +35,3 @@
   : Climate Calibration Data
 - [`physiognomy_calibration_data`](https://mjbutrim.github.io/dilp/reference/physiognomy_calibration_data.md)
   : Physiognomy Calibration Data
-- [`Whittaker_biomes`](https://mjbutrim.github.io/dilp/reference/Whittaker_biomes.md)
-  : Whittaker Biome Data

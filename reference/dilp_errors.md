@@ -34,12 +34,12 @@ from the input dataset are tripping it.
 dilp_dataset <- dilp_processing(McAbeeExample)
 dilp_errors <- dilp_errors(dilp_dataset)
 dilp_errors
-#>                                                   Check specimen_number
-#> 1                             Entire tooth count not NA No errors found
-#> 2                        Entire tooth count : IP not NA No errors found
-#> 3                         Entire perimeter ratio not NA No errors found
-#> 4                                   FDR not between 0-1 No errors found
-#> 5 External perimeter not larger than internal perimeter No errors found
-#> 6                Feret is not larger than minimum Feret No errors found
-#> 7                           Perimeter ratio less than 1 No errors found
+#>                                                   Check Specimen1
+#> 1                             Entire tooth count not NA      none
+#> 2                        Entire tooth count : IP not NA      none
+#> 3                         Entire perimeter ratio not NA      none
+#> 4                                   FDR not between 0-1      none
+#> 5 External perimeter not larger than internal perimeter      none
+#> 6                Feret is not larger than minimum Feret      none
+#> 7                    Perimeter ratio not greater than 1      none
 ```
